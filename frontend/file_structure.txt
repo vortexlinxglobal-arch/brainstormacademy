@@ -1,0 +1,137 @@
+# Recommended File Structure for Authentication
+
+```
+src/
+├── pages/
+│   ├── auth/                      # Authentication pages folder
+│   │   ├── Login/
+│   │   │   ├── Login.jsx
+│   │   │   └── Login.module.css
+│   │   ├── Signup/
+│   │   │   ├── Signup.jsx
+│   │   │   └── Signup.module.css
+│   │   ├── ForgotPassword/
+│   │   │   ├── ForgotPassword.jsx
+│   │   │   └── ForgotPassword.module.css
+│   │   └── ResetPassword/
+│   │       ├── ResetPassword.jsx
+│   │       └── ResetPassword.module.css
+│   │
+│   ├── Home.jsx
+│   ├── About/
+│   ├── Contact/
+│   ├── Blog/
+│   └── course/
+│
+├── components/
+│   ├── common/                    # Shared components
+│   │   ├── Navbar/
+│   │   │   ├── Navbar.jsx
+│   │   │   └── Navbar.module.css
+│   │   ├── Footer/
+│   │   │   ├── Footer.jsx
+│   │   │   └── Footer.module.css
+│   │   └── Button/
+│   │       ├── Button.jsx
+│   │       └── Button.module.css
+│   │
+│   └── auth/                      # Auth-specific components
+│       ├── AuthLayout/            # Shared layout for auth pages
+│       │   ├── AuthLayout.jsx
+│       │   └── AuthLayout.module.css
+│       ├── SocialLogin/           # Social signin buttons
+│       │   ├── SocialLogin.jsx
+│       │   └── SocialLogin.module.css
+│       └── PasswordStrength/      # Password strength indicator
+│           ├── PasswordStrength.jsx
+│           └── PasswordStrength.module.css
+│
+├── layouts/
+│   ├── HomeLayout.jsx             # Main layout with navbar/footer
+│   └── AuthLayout.jsx             # Auth layout without navbar/footer (optional)
+│
+├── utils/
+│   ├── validation.js              # Form validation utilities
+│   ├── auth.js                    # Authentication utilities
+│   └── constants.js               # Constants (API endpoints, etc.)
+│
+├── hooks/
+│   ├── useAuth.js                 # Custom auth hook
+│   └── useForm.js                 # Custom form hook
+│
+└── styles/
+    ├── index.css                  # Global styles
+    └── variables.css              # CSS variables (colors, spacing)
+```
+
+## Benefits of This Structure:
+
+### 1. **Scalability**
+- Easy to add new auth pages (verify email, 2FA, etc.)
+- Shared components reduce code duplication
+- Clear separation of concerns
+
+### 2. **Maintainability**
+- Related files are grouped together
+- Easy to find and update specific features
+- Consistent naming conventions
+
+### 3. **Reusability**
+- Shared auth components (AuthLayout, SocialLogin)
+- Custom hooks for common functionality
+- Utility functions for validation and auth
+
+### 4. **Organization**
+- `/pages/auth/` - All authentication pages
+- `/components/auth/` - Auth-specific reusable components
+- `/components/common/` - Site-wide reusable components
+- `/utils/` - Helper functions and utilities
+- `/hooks/` - Custom React hooks
+
+## Migration Path:
+
+### Current:
+```
+src/pages/Login.jsx
+src/pages/Login.module.css
+```
+
+### Recommended:
+```
+src/pages/auth/Login/Login.jsx
+src/pages/auth/Login/Login.module.css
+src/pages/auth/Signup/Signup.jsx
+src/pages/auth/Signup/Signup.module.css
+```
+
+### Update imports in App.jsx:
+```javascript
+// Old
+import Login from "./pages/Login";
+
+// New
+import Login from "./pages/auth/Login/Login";
+import Signup from "./pages/auth/Signup/Signup";
+```
+
+## Alternative (Simpler) Structure:
+
+If you want to keep it simpler for now:
+
+```
+src/
+├── pages/
+│   ├── auth/
+│   │   ├── Login.jsx
+│   │   ├── Login.module.css
+│   │   ├── Signup.jsx
+│   │   ├── Signup.module.css
+│   │   ├── ForgotPassword.jsx
+│   │   └── ForgotPassword.module.css
+│   │
+│   ├── Home.jsx
+│   ├── About/
+│   └── ... other pages
+```
+
+This keeps related files together while maintaining simplicity.

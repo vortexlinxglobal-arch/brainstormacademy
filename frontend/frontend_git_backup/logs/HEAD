@@ -1,0 +1,33 @@
+0000000000000000000000000000000000000000 64d72aff5d5b2963968e3222901ead5f6c32b255 luklinx <lukvlgsl@gmail.com> 1758557659 +0100	commit (initial): Initialize project using Create React App
+64d72aff5d5b2963968e3222901ead5f6c32b255 75d4f6412825490ebbd9654f05aee95188fc4247 luklinx <lukvlgsl@gmail.com> 1758982044 +0100	commit: First commit
+75d4f6412825490ebbd9654f05aee95188fc4247 e8c441c99c55b725b72e481abe51dcf33ca8f6ef luklinx <lukvlgsl@gmail.com> 1759057748 +0100	commit: First Commit of Brainstorm Skills Learning Center
+e8c441c99c55b725b72e481abe51dcf33ca8f6ef 38be214a75917a6de3301f975ec748e06621ba34 luklinx <lukvlgsl@gmail.com> 1759096448 +0100	commit: Cours list styles completed
+38be214a75917a6de3301f975ec748e06621ba34 5225b150435ecf2ac89966f70aea4d8044ad9920 luklinx <lukvlgsl@gmail.com> 1759132079 +0100	commit: Course Description and Contact edited and published.
+5225b150435ecf2ac89966f70aea4d8044ad9920 5f3f99d6ff4d3f9abb2385684163e0cd092aa37d luklinx <lukvlgsl@gmail.com> 1759146267 +0100	commit: Updates on Navigation, Course Description, and Course List.
+5f3f99d6ff4d3f9abb2385684163e0cd092aa37d ab89e330f8a2709cc807248cf7a33f0c3599c0b3 luklinx <lukvlgsl@gmail.com> 1759165461 +0100	commit: Bunch of updates
+ab89e330f8a2709cc807248cf7a33f0c3599c0b3 ef271897062f5752331a1d39aa94e290a6e13105 luklinx <lukvlgsl@gmail.com> 1759333093 +0100	commit: logo, Hero background, CelebrityQuotes all updated.
+ef271897062f5752331a1d39aa94e290a6e13105 84b0db70f89cf6ee80d651510a22513e9b6c5b7a luklinx <lukvlgsl@gmail.com> 1759334479 +0100	commit: Footer updates.
+84b0db70f89cf6ee80d651510a22513e9b6c5b7a fb50c042aff2b8096be7bd994dbc4ae0f830531d luklinx <lukvlgsl@gmail.com> 1759666635 +0100	commit: Homepage updated
+fb50c042aff2b8096be7bd994dbc4ae0f830531d f4339adc4c1ea81a7c2dfcebc9a247ca63689d6c luklinx <lukvlgsl@gmail.com> 1760843868 +0100	commit: A whole bunch of formatting done here!
+f4339adc4c1ea81a7c2dfcebc9a247ca63689d6c c83b0cda35d822a9f3bd37cecf5f0818c56ad257 luklinx <lukvlgsl@gmail.com> 1760843911 +0100	commit: General overhauling done!
+c83b0cda35d822a9f3bd37cecf5f0818c56ad257 65baa82ac565da3bf25f379a7b855edffff8f137 luklinx <lukvlgsl@gmail.com> 1760897166 +0100	commit: FeaturedCourses, WhyUs styles changed.
+65baa82ac565da3bf25f379a7b855edffff8f137 0906c5e77177193ec252808bb17a820b3d56cefd luklinx <lukvlgsl@gmail.com> 1760948509 +0100	commit: About page redesigned with the company's theme
+0906c5e77177193ec252808bb17a820b3d56cefd f5d9e785c8235247645ca2e95894092499e742a1 luklinx <lukvlgsl@gmail.com> 1760971217 +0100	commit: Blog implemented half way
+f5d9e785c8235247645ca2e95894092499e742a1 e0f5ca640a20a8464d748216bf46bc1e98db92ba luklinx <lukvlgsl@gmail.com> 1761001640 +0100	commit: Blog posts implemented but text contents not
+e0f5ca640a20a8464d748216bf46bc1e98db92ba 0419d395469ddb61b876a967b2b4982bb6e2d463 luklinx <lukvlgsl@gmail.com> 1761190991 +0100	commit: Theme updates across various components and pages
+0419d395469ddb61b876a967b2b4982bb6e2d463 a362b53c40b0bd9a3cb7f2f27e45f8ed0e00446f luklinx <lukvlgsl@gmail.com> 1761192257 +0100	commit: CelebrityQuotes theme updates
+a362b53c40b0bd9a3cb7f2f27e45f8ed0e00446f 4e9a658958843269a2fa10f7703ec202e24cf5bf luklinx <lukvlgsl@gmail.com> 1761242346 +0100	commit: Improve images in the assets thumbnails
+4e9a658958843269a2fa10f7703ec202e24cf5bf bb92f9ea3161df539a398b1fbf7a43604e0e74b0 luklinx <lukvlgsl@gmail.com> 1761242550 +0100	commit: Images improvements
+bb92f9ea3161df539a398b1fbf7a43604e0e74b0 07733af246bf48323bf506c5f7fd296261adc475 luklinx <lukvlgsl@gmail.com> 1761290586 +0100	commit: Course List images updated
+07733af246bf48323bf506c5f7fd296261adc475 9e38524b3d58fd2c9527db17d1059745fffc9599 luklinx <lukvlgsl@gmail.com> 1761502860 +0100	commit: Homepag Mobile veiew optimized
+9e38524b3d58fd2c9527db17d1059745fffc9599 d3c8df045c67f6cea1ed2a775e97467a46264971 luklinx <lukvlgsl@gmail.com> 1761915252 +0100	commit: Login ui fully implemented.
+d3c8df045c67f6cea1ed2a775e97467a46264971 1dd62274c943f7143637f232f039a515bf8b97c8 luklinx <lukvlgsl@gmail.com> 1761915897 +0100	commit: Hero Mobile flex reversed
+1dd62274c943f7143637f232f039a515bf8b97c8 b985a5ea3e61290381413a26aaf54e9d669ff511 luklinx <lukvlgsl@gmail.com> 1761916084 +0100	commit: Mobile hero padding reduced.
+b985a5ea3e61290381413a26aaf54e9d669ff511 ff1209d3b63d4f3f91467fb00a198524298bdc8d luklinx <lukvlgsl@gmail.com> 1761950569 +0100	commit: Awarding bodies images optimized
+ff1209d3b63d4f3f91467fb00a198524298bdc8d a6b48dfd0afdf4a56a17d7a3d9ee28be54e959c8 luklinx <lukvlgsl@gmail.com> 1762012482 +0100	commit: Signin and Signup linked
+a6b48dfd0afdf4a56a17d7a3d9ee28be54e959c8 0d48cb43d2169a6348f6346de011b8ed91f17a35 luklinx <lukvlgsl@gmail.com> 1762116177 +0100	commit: course CourseList
+0d48cb43d2169a6348f6346de011b8ed91f17a35 0dd091aafb69a415101e3fc70361c31eea0f52d8 luklinx <lukvlgsl@gmail.com> 1762173427 +0100	commit: Hero section border on mobile veiw addressed
+0dd091aafb69a415101e3fc70361c31eea0f52d8 c1dfc8e11874eef2cde72465b10034400471c153 luklinx <lukvlgsl@gmail.com> 1763393161 +0100	commit: Mobile view all courses not showing correction.
+c1dfc8e11874eef2cde72465b10034400471c153 fc6baaedd927c543b56f6cb31a08d5c1123229f5 luklinx <lukvlgsl@gmail.com> 1763393729 +0100	commit: Facilitators updated
+fc6baaedd927c543b56f6cb31a08d5c1123229f5 7037c38d50b73a1d86bdc6b4d1ca2c8cf81d5746 luklinx <lukvlgsl@gmail.com> 1763398361 +0100	commit: Hero buttons updated
+7037c38d50b73a1d86bdc6b4d1ca2c8cf81d5746 ded1825e319d38a7ff573ba7dc74a64b9ed18a22 luklinx <lukvlgsl@gmail.com> 1763655439 +0100	commit: Blog and About pages optimized

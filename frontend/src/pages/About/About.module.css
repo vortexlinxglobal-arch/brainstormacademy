@@ -1,0 +1,940 @@
+/* Main Page Styles */
+.aboutPage {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(76, 175, 80, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+.heroOverlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.heroContent {
+  text-align: center;
+  color: white;
+  animation: heroFadeIn 1s ease-out;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: clamp(9px, 1.2vw, 12px);
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badgeIcon {
+  font-size: clamp(12px, 1.5vw, 16px);
+}
+
+.heroTitle {
+  font-size: clamp(28px, 6vw, 64px);
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.heroSubtitle {
+  font-size: clamp(14px, 2.2vw, 22px);
+  margin-bottom: 40px;
+  opacity: 0.95;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.heroStats {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 24px);
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.statItem {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: clamp(12px, 2vw, 20px) clamp(10px, 1.5vw, 16px);
+  border-radius: 8px;
+  min-width: 100px;
+}
+
+.statNumber {
+  display: block;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.statLabel {
+  font-size: clamp(9px, 1vw, 12px);
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Section Styles */
+.section {
+  padding: clamp(40px, 8vw, 80px) 0;
+  position: relative;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 20px);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: clamp(32px, 5vw, 48px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.sectionHeader.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section .badge {
+  color: #2e7d32;
+  background: rgba(46, 125, 50, 0.1);
+  border-color: rgba(46, 125, 50, 0.2);
+}
+
+.sectionTitle {
+  font-size: clamp(24px, 4.5vw, 40px);
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.sectionSubtitle {
+  font-size: clamp(13px, 1.8vw, 16px);
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Profile Section */
+.profile {
+  background: #f8fafc;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.content.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.textBlock {
+  background: white;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.leadText {
+  font-size: clamp(15px, 2.2vw, 18px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+}
+
+.textBlock p {
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-size: clamp(12px, 1.5vw, 14px);
+}
+
+.textBlock p:last-child {
+  margin-bottom: 0;
+}
+
+.locationCard {
+  background: white;
+  padding: clamp(18px, 2.5vw, 24px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  position: sticky;
+  top: 100px;
+}
+
+.locationHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.locationIcon {
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+.locationCard h3 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.locationCard p {
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-size: clamp(11px, 1.3vw, 13px);
+}
+
+.locationNote {
+  background: rgba(46, 125, 50, 0.05);
+  padding: 12px;
+  border-radius: 4px;
+  border-left: 3px solid #2e7d32;
+  font-size: clamp(10px, 1.2vw, 12px);
+  margin-bottom: 0 !important;
+}
+
+/* Mission Section */
+.mission {
+  background: #ffffff;
+}
+
+.missionContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 24px);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.missionContent.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.missionCard,
+.visionCard {
+  background: white;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.missionCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2e7d32;
+}
+
+.visionCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #6d4023;
+}
+
+.cardIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.missionCard h3,
+.visionCard h3 {
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.missionCard p,
+.visionCard p {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: clamp(12px, 1.5vw, 14px);
+}
+
+.achievement {
+  background: rgba(46, 125, 50, 0.05);
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: 6px;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 16px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.achievement.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.achievementIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  flex-shrink: 0;
+}
+
+.achievementText h4 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.achievementText p {
+  color: #1b5e20;
+  line-height: 1.6;
+  font-size: clamp(11px, 1.3vw, 13px);
+}
+
+/* Courses Section */
+.courses {
+  background: #f8fafc;
+}
+
+.coursesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(16px, 2.5vw, 20px);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.coursesGrid.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.courseCard {
+  background: white;
+  padding: clamp(16px, 2.5vw, 20px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.courseCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2e7d32;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.courseCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  border-color: #2e7d32;
+}
+
+.courseCard:hover::before {
+  opacity: 1;
+}
+
+.courseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.courseCategory {
+  background: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: clamp(9px, 1.1vw, 10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.courseDuration {
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: clamp(9px, 1.1vw, 10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.courseTitle {
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+}
+
+.courseFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.courseLevel {
+  font-size: clamp(9px, 1.1vw, 11px);
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.courseArrow {
+  font-size: clamp(16px, 2vw, 18px);
+  color: #2e7d32;
+  transition: transform 0.3s ease;
+}
+
+.courseCard:hover .courseArrow {
+  transform: translateX(4px);
+}
+
+.guarantee {
+  background: rgba(46, 125, 50, 0.05);
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: 6px;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 16px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.guarantee.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.guaranteeIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  flex-shrink: 0;
+}
+
+.guaranteeText h4 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.guaranteeText p {
+  color: #1b5e20;
+  line-height: 1.6;
+  font-size: clamp(11px, 1.3vw, 13px);
+}
+
+/* Curriculum Section */
+.curriculum {
+  background: #ffffff;
+}
+
+.curriculumContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.curriculumContent.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.goalCard {
+  background: white;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.goalCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  border-color: #2e7d32;
+}
+
+.goalIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.goalCard h3 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.goalCard p {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: clamp(12px, 1.5vw, 13px);
+}
+
+.partnership {
+  background: rgba(109, 64, 35, 0.05);
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: 6px;
+  border: 1px solid rgba(109, 64, 35, 0.2);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 16px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.partnership.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.partnershipIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  flex-shrink: 0;
+}
+
+.partnershipText h4 {
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 700;
+  color: #6d4023;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.partnershipText p {
+  color: #4a2511;
+  line-height: 1.6;
+  font-size: clamp(11px, 1.3vw, 13px);
+}
+
+/* Facilities Section */
+.facilities {
+  background: #f8fafc;
+}
+
+.facilitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.facilitiesGrid.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.facilityCard {
+  background: white;
+  padding: clamp(18px, 2.5vw, 24px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.facilityCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  border-color: #2e7d32;
+}
+
+.facilityIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.facilityTitle {
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.facilityDescription {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: clamp(11px, 1.3vw, 13px);
+}
+
+/* Gender Policy Section */
+.genderPolicy {
+  background: #ffffff;
+}
+
+.policyContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 3vw, 24px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.policyContent.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.policyCard,
+.alignmentCard {
+  background: white;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.policyCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #2e7d32;
+}
+
+.alignmentCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #6d4023;
+}
+
+.policyIcon,
+.alignmentIcon {
+  font-size: clamp(28px, 3.5vw, 36px);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.policyCard h3,
+.alignmentCard h3 {
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.policyCard p,
+.alignmentCard p {
+  color: #64748b;
+  line-height: 1.7;
+  font-size: clamp(12px, 1.5vw, 14px);
+}
+
+/* CTA Banner */
+.ctaBanner {
+  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  padding: clamp(50px, 8vw, 80px) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaBanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(76, 175, 80, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 50%
+    );
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+}
+
+.ctaIcon {
+  font-size: clamp(36px, 5vw, 48px);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.ctaTitle {
+  font-size: clamp(24px, 4.5vw, 44px);
+  font-weight: 800;
+  margin-bottom: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.ctaText {
+  font-size: clamp(13px, 1.8vw, 16px);
+  margin-bottom: 32px;
+  opacity: 0.95;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #238636;
+  color: white;
+  padding: clamp(12px, 1.5vw, 14px) clamp(20px, 3vw, 28px);
+  border-radius: 6px;
+  font-size: clamp(12px, 1.5vw, 14px);
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ctaButton:hover {
+  background: #2ea043;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(46, 160, 67, 0.4);
+}
+
+.ctaArrow {
+  font-size: clamp(16px, 2vw, 18px);
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translateX(4px);
+}
+
+/* Animations */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content,
+  .missionContent,
+  .policyContent {
+    grid-template-columns: 1fr;
+  }
+
+  .locationCard {
+    position: static;
+  }
+
+  .heroStats {
+    gap: clamp(12px, 2vw, 16px);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: clamp(40px, 6vw, 60px) 0;
+  }
+
+  .heroStats {
+    gap: clamp(10px, 1.5vw, 12px);
+  }
+
+  .statItem {
+    min-width: 90px;
+    padding: clamp(12px, 1.8vw, 16px) clamp(8px, 1.2vw, 12px);
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement,
+  .guarantee,
+  .partnership {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .achievementIcon,
+  .guaranteeIcon,
+  .partnershipIcon {
+    font-size: clamp(24px, 3vw, 32px);
+  }
+
+  .facilitiesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: clamp(12px, 2vw, 16px);
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: clamp(22px, 5vw, 28px);
+  }
+
+  .heroSubtitle {
+    font-size: clamp(12px, 1.8vw, 14px);
+  }
+
+  .sectionTitle {
+    font-size: clamp(20px, 4vw, 24px);
+  }
+
+  .textBlock,
+  .locationCard,
+  .missionCard,
+  .visionCard,
+  .goalCard,
+  .facilityCard,
+  .policyCard,
+  .alignmentCard {
+    padding: clamp(14px, 2vw, 20px);
+  }
+
+  .courseCard {
+    padding: clamp(12px, 2vw, 16px);
+  }
+
+  .courseTitle {
+    font-size: clamp(12px, 1.6vw, 14px);
+  }
+
+  .content,
+  .missionContent,
+  .policyContent {
+    gap: clamp(16px, 3vw, 24px);
+  }
+}

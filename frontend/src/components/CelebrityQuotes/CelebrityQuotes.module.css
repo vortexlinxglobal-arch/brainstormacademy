@@ -1,0 +1,827 @@
+/* Section */
+.section {
+  padding: 60px 0 50px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #e2e8f0 50%,
+    transparent 100%
+  );
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(46, 125, 50, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+  color: #2e7d32;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: clamp(28px, 5vw, 56px);
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 12px;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #64748b;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Quote Wrapper */
+.quoteWrapper {
+  position: relative;
+  height: 500px;
+  margin-bottom: 32px;
+  touch-action: pan-y;
+}
+
+/* Quote Slide */
+.quoteSlide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quoteSlide.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* Quote Card */
+.quoteCard {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 48px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.quoteCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2e7d32 0%, #6d4023 100%);
+}
+
+.quoteCard::after {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(46, 125, 50, 0.05) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Quote Icon */
+.quoteIcon {
+  color: rgba(46, 125, 50, 0.2);
+  margin-bottom: 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Quote */
+.quote {
+  margin: 0 0 32px 0;
+}
+
+.quoteText {
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+  font-style: italic;
+  position: relative;
+  z-index: 2;
+}
+
+.quoteText::before {
+  content: '"';
+  position: absolute;
+  left: -20px;
+  top: -10px;
+  font-size: 60px;
+  color: rgba(46, 125, 50, 0.15);
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.quoteText::after {
+  content: '"';
+  position: relative;
+  margin-left: 4px;
+  font-size: 60px;
+  color: rgba(46, 125, 50, 0.15);
+  font-family: Georgia, serif;
+  line-height: 0;
+  vertical-align: bottom;
+}
+
+/* Author */
+.author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 2px solid #f1f5f9;
+  position: relative;
+  z-index: 2;
+}
+
+.authorImage {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 3px solid white;
+  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+}
+
+.authorImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageFallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.authorInfo {
+  flex: 1;
+}
+
+.authorName {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.authorTitle {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.navButton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.navButton:hover {
+  border-color: #2e7d32;
+  color: #2e7d32;
+  background: rgba(46, 125, 50, 0.05);
+  transform: scale(1.05);
+}
+
+.navButton:active {
+  transform: scale(0.95);
+}
+
+.navButton svg {
+  transition: transform 0.3s ease;
+}
+
+.navButton:hover svg {
+  transform: scale(1.1);
+}
+
+/* Dots */
+.dots {
+  display: flex;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+}
+
+.dot:hover {
+  background: #cbd5e1;
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #2e7d32;
+  width: 28px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+}
+
+/* Mobile-First Responsive Design */
+@media (max-width: 1024px) {
+  .section {
+    padding: 50px 0 40px;
+  }
+
+  .quoteCard {
+    padding: 40px;
+  }
+
+  .quoteWrapper {
+    height: 480px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 0 35px;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .label {
+    font-size: 10px;
+    padding: 5px 12px;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .quoteWrapper {
+    height: 440px;
+    margin-bottom: 28px;
+  }
+
+  .quoteCard {
+    padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .quoteCard::before {
+    height: 2.5px;
+  }
+
+  .quoteIcon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 16px;
+  }
+
+  .quote {
+    margin: 0 0 24px 0;
+  }
+
+  .quoteText {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .quoteText::before,
+  .quoteText::after {
+    font-size: 44px;
+  }
+
+  .quoteText::before {
+    left: -10px;
+    top: -8px;
+  }
+
+  .author {
+    gap: 14px;
+    padding-top: 20px;
+  }
+
+  .authorImage {
+    width: 56px;
+    height: 56px;
+    border: 2.5px solid white;
+  }
+
+  .imageFallback {
+    font-size: 18px;
+  }
+
+  .authorName {
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  .authorTitle {
+    font-size: 12px;
+  }
+
+  .navigation {
+    gap: 16px;
+  }
+
+  .navButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navButton svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dots {
+    gap: 8px;
+  }
+
+  .dot {
+    width: 9px;
+    height: 9px;
+  }
+
+  .dot.active {
+    width: 26px;
+  }
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 35px 0 30px;
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .header {
+    margin-bottom: 28px;
+  }
+
+  .label {
+    font-size: 9px;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .quoteWrapper {
+    height: 420px;
+    margin-bottom: 24px;
+  }
+
+  .quoteCard {
+    padding: 28px 20px;
+    border-radius: 14px;
+  }
+
+  .quoteIcon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 14px;
+  }
+
+  .quote {
+    margin: 0 0 20px 0;
+  }
+
+  .quoteText {
+    font-size: 16px;
+    line-height: 1.48;
+  }
+
+  .quoteText::before,
+  .quoteText::after {
+    font-size: 38px;
+  }
+
+  .quoteText::before {
+    left: -8px;
+    top: -6px;
+  }
+
+  .author {
+    gap: 12px;
+    padding-top: 18px;
+  }
+
+  .authorImage {
+    width: 52px;
+    height: 52px;
+  }
+
+  .imageFallback {
+    font-size: 17px;
+  }
+
+  .authorName {
+    font-size: 15px;
+  }
+
+  .authorTitle {
+    font-size: 11.5px;
+  }
+
+  .navigation {
+    gap: 14px;
+  }
+
+  .navButton {
+    width: 38px;
+    height: 38px;
+  }
+
+  .navButton svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .dots {
+    gap: 7px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dot.active {
+    width: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 30px 0 25px;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .label {
+    font-size: 8.5px;
+    padding: 4px 9px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 7px;
+  }
+
+  .subtitle {
+    font-size: 12.5px;
+  }
+
+  .quoteWrapper {
+    height: 400px;
+    margin-bottom: 20px;
+  }
+
+  .quoteCard {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .quoteIcon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 12px;
+  }
+
+  .quote {
+    margin: 0 0 18px 0;
+  }
+
+  .quoteText {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .quoteText::before,
+  .quoteText::after {
+    font-size: 34px;
+  }
+
+  .quoteText::before {
+    left: -6px;
+    top: -5px;
+  }
+
+  .author {
+    gap: 10px;
+    padding-top: 16px;
+  }
+
+  .authorImage {
+    width: 48px;
+    height: 48px;
+    border: 2px solid white;
+  }
+
+  .imageFallback {
+    font-size: 16px;
+  }
+
+  .authorName {
+    font-size: 14px;
+  }
+
+  .authorTitle {
+    font-size: 11px;
+  }
+
+  .navigation {
+    gap: 12px;
+  }
+
+  .navButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .navButton svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dots {
+    gap: 6px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .dot.active {
+    width: 22px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .section {
+    padding: 25px 0 20px;
+  }
+
+  .container {
+    padding: 0 8px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .quoteWrapper {
+    height: 380px;
+    margin-bottom: 18px;
+  }
+
+  .quoteCard {
+    padding: 20px 14px;
+  }
+
+  .quoteText {
+    font-size: 14px;
+  }
+
+  .authorImage {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Touch Interaction Feedback */
+@media (hover: none) and (pointer: coarse) {
+  .navButton:active {
+    background: rgba(46, 125, 50, 0.1);
+  }
+
+  .dot:active {
+    transform: scale(0.9);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .quoteSlide,
+  .quoteCard,
+  .quoteIcon,
+  .navButton,
+  .dot {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .header.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quoteSlide.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Focus States */
+.navButton:focus-visible,
+.dot:focus-visible {
+  outline: 3px solid #2e7d32;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .section {
+    background: white;
+    padding: 30px 0;
+  }
+
+  .quoteCard {
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+  }
+
+  .navigation {
+    display: none;
+  }
+
+  .quoteWrapper {
+    height: auto;
+  }
+
+  .quoteSlide {
+    position: static;
+    opacity: 1;
+    transform: scale(1);
+    page-break-inside: avoid;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .quoteCard {
+    border: 2px solid #000;
+  }
+
+  .quoteText {
+    color: #000;
+  }
+
+  .authorName {
+    color: #000;
+  }
+
+  .navButton {
+    border: 2px solid #000;
+    color: #000;
+  }
+
+  .navButton:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  .dot.active {
+    background: #000;
+  }
+}

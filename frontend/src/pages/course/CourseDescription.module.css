@@ -1,0 +1,695 @@
+/* =================================================================
+   COURSE DESCRIPTION PAGE - FILECR MODERN STYLE
+   Green & Brown Theme with Clean Design
+   ================================================================= */
+
+/* =================================================================
+   BASE STYLES
+   ================================================================= */
+.page {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+  color: #2b373a;
+  background: #f5f5f5;
+}
+
+/* =================================================================
+   HERO SECTION
+   ================================================================= */
+.hero {
+  background: linear-gradient(135deg, #00856f 0%, #7bd6b2 100%);
+  color: white;
+  padding: clamp(6rem, 12vw, 10rem) 0 clamp(4rem, 8vw, 6rem);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M30 30c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20zm0 0c0 11.046 8.954 20 20 20s20-8.954 20-20-8.954-20-20-20-20 8.954-20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  position: relative;
+  z-index: 1;
+}
+
+.heroText {
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroText.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.separator {
+  opacity: 0.6;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.heroSubtitle {
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  font-weight: 400;
+}
+
+.heroMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metaLabel {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metaValue {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* =================================================================
+   MAIN SECTION
+   ================================================================= */
+.section {
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+/* =================================================================
+   BACK BUTTON
+   ================================================================= */
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #00856f;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  letter-spacing: -0.01em;
+}
+
+.backButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 133, 111, 0.15);
+  background: #f8faf9;
+}
+
+/* .backButton.floating {
+  position: fixed;
+  top: 80px;
+  left: 2rem;
+  z-index: 100;
+  animation: slideInLeft 0.3s ease;
+} */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* =================================================================
+   COURSE CONTENT
+   ================================================================= */
+.courseContent {
+  margin-top: 2rem;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: #2b373a;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: 1.125rem;
+  color: #666;
+  margin: 0;
+  font-weight: 400;
+}
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* =================================================================
+   COURSE MEDIA
+   ================================================================= */
+.courseMedia {
+  position: sticky;
+  top: 100px;
+}
+
+.thumbnailWrapper {
+  margin-bottom: 2rem;
+}
+
+.thumbnailPlaceholder {
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.thumbnailPlaceholder:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.playIcon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #00856f, #7bd6b2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 133, 111, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.playIcon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(0, 133, 111, 0.4);
+}
+
+.courseStats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.statCard:hover {
+  border-color: #00856f;
+  box-shadow: 0 4px 16px rgba(0, 133, 111, 0.1);
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statNumber {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #2b373a;
+  letter-spacing: -0.01em;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* =================================================================
+   COURSE INFORMATION
+   ================================================================= */
+.courseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.infoSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.infoSection:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.infoTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2b373a;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.infoText {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.skillsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.skillTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 133, 111, 0.08),
+    rgba(123, 214, 178, 0.08)
+  );
+  color: #00856f;
+  border: 1px solid rgba(0, 133, 111, 0.2);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+}
+
+.skillTag:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 133, 111, 0.15),
+    rgba(123, 214, 178, 0.15)
+  );
+  border-color: rgba(0, 133, 111, 0.4);
+  transform: translateY(-2px);
+}
+
+.enrollSection {
+  margin-top: 1rem;
+}
+
+.enrollButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #00856f, #7bd6b2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 133, 111, 0.3);
+  letter-spacing: -0.01em;
+}
+
+.enrollButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 133, 111, 0.4);
+}
+
+.enrollButton:active {
+  transform: translateY(-1px);
+}
+
+/* =================================================================
+   FACILITIES SECTION
+   ================================================================= */
+.facilitiesSection {
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  background: linear-gradient(135deg, #f8faf9 0%, #ffffff 100%);
+}
+
+.facilitiesContent {
+  text-align: center;
+}
+
+.facilitiesTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: #2b373a;
+  margin: 0 0 3rem 0;
+  letter-spacing: -0.02em;
+}
+
+.facilitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.facilityCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+}
+
+.facilityCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 133, 111, 0.15);
+  border-color: #00856f;
+}
+
+.facilityIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.facilityTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2b373a;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.01em;
+}
+
+.facilityDescription {
+  font-size: 0.9375rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.facilitiesNote {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  background: rgba(0, 133, 111, 0.05);
+  border-left: 4px solid #00856f;
+  border-radius: 8px;
+}
+
+/* =================================================================
+   CTA BANNER
+   ================================================================= */
+.ctaBanner {
+  background: linear-gradient(135deg, #00856f 0%, #7bd6b2 100%);
+  color: white;
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaBanner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10zm0 0c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10-10 4.477-10 10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 1;
+}
+
+.ctaTitle {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+}
+
+.ctaSubtitle {
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: white;
+  color: #00856f;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.01em;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* =================================================================
+   RESPONSIVE DESIGN
+   ================================================================= */
+
+/* Large Desktop */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+/* Desktop/Tablet */
+@media (max-width: 1024px) {
+  .courseGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .courseMedia {
+    position: static;
+  }
+
+  .backButton.floating {
+    left: 1rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .hero {
+    padding: clamp(5rem, 10vw, 8rem) 0 clamp(3rem, 6vw, 4rem);
+  }
+
+  .section,
+  .facilitiesSection,
+  .ctaBanner {
+    padding: clamp(3rem, 6vw, 4rem) 0;
+  }
+
+  .heroMeta {
+    gap: 1.5rem;
+  }
+
+  .facilitiesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .backButton.floating {
+    position: static;
+    animation: none;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .infoSection {
+    padding: 1.5rem;
+  }
+
+  .statCard {
+    padding: 1rem;
+  }
+
+  .enrollButton,
+  .ctaButton {
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+  }
+
+  .facilityCard {
+    padding: 1.5rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 360px) {
+  .heroMeta {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .skillsGrid {
+    gap: 0.5rem;
+  }
+
+  .skillTag {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .heroText,
+  .backButton,
+  .thumbnailPlaceholder,
+  .statCard,
+  .facilityCard,
+  .enrollButton,
+  .ctaButton {
+    transition: none;
+    animation: none;
+  }
+
+  .heroText.loaded,
+  .backButton:hover,
+  .thumbnailPlaceholder:hover,
+  .playIcon:hover,
+  .statCard:hover,
+  .skillTag:hover,
+  .facilityCard:hover,
+  .enrollButton:hover,
+  .ctaButton:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .hero,
+  .ctaBanner {
+    background: #00856f;
+  }
+
+  .infoSection,
+  .statCard,
+  .facilityCard {
+    border-width: 2px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .backButton,
+  .enrollButton,
+  .ctaButton,
+  .ctaBanner {
+    display: none;
+  }
+
+  .section,
+  .facilitiesSection {
+    padding: 2rem 0;
+  }
+}

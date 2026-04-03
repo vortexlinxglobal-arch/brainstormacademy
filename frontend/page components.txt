@@ -1,0 +1,66 @@
+// Example of how to structure your page components with navbar spacing
+
+// Option 1: Using <main> tag (Recommended)
+const YourPage = () => {
+  return (
+    <main style={{ paddingTop: '70px' }}>
+      {/* Your page content here */}
+      <section className={styles.hero}>
+        {/* Hero content */}
+      </section>
+      
+      <section className={styles.content}>
+        {/* Main content */}
+      </section>
+    </main>
+  );
+};
+
+// Option 2: Using a wrapper div
+const YourPage = () => {
+  return (
+    <div className="page-with-navbar">
+      {/* Your page content here */}
+    </div>
+  );
+};
+
+// Option 3: For pages with hero sections (like your Contact page)
+const ContactPage = () => {
+  return (
+    <>
+      {/* Hero section with margin-top instead of padding-top */}
+      <section className={styles.hero} style={{ marginTop: '70px' }}>
+        {/* Hero content */}
+      </section>
+      
+      {/* Rest of the page content */}
+      <section className={styles.content}>
+        {/* Content */}
+      </section>
+    </>
+  );
+};
+
+// Option 4: Add to your CSS modules
+// In your page's CSS module file:
+/*
+.page {
+  padding-top: 70px;
+  min-height: 100vh;
+}
+
+.hero {
+  margin-top: 70px; 
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding-top: 64px;
+  }
+  
+  .hero {
+    margin-top: 64px;
+  }
+}
+*/

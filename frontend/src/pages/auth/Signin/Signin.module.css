@@ -1,0 +1,736 @@
+/* =================================================================
+   SIGNIN PAGE - LIGHT THEME DEFAULT
+   Green & Brown Theme with Modern Design
+   ================================================================= */
+
+/* =================================================================
+   CONTAINER & LAYOUT
+   ================================================================= */
+.signinContainer {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  position: relative;
+  color-scheme: light;
+}
+
+/* =================================================================
+   BACK TO HOME BUTTON
+   ================================================================= */
+.backToHome {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: white;
+  color: #00856f;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  letter-spacing: -0.01em;
+  font-family: inherit;
+}
+
+.backToHome:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 133, 111, 0.15);
+  background: #f8faf9;
+  border-color: #00856f;
+}
+
+.backToHome svg {
+  transition: transform 0.3s ease;
+}
+
+.backToHome:hover svg {
+  transform: translateX(-4px);
+}
+
+/* =================================================================
+   IMAGE SIDE (LEFT)
+   ================================================================= */
+.imageSide {
+  flex: 1;
+  background: linear-gradient(135deg, #00856f 0%, #7bd6b2 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageOverlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  z-index: 2;
+}
+
+.illustrationImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+}
+
+.imageContent {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: white;
+  max-width: 500px;
+}
+
+.imageFallback .imageContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageIcon {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.imageContent h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.imageContent p {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  opacity: 0.95;
+  margin: 0;
+  font-weight: 400;
+}
+
+.decorativeCircle1,
+.decorativeCircle2 {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decorativeCircle1 {
+  width: 400px;
+  height: 400px;
+  top: -200px;
+  right: -100px;
+  border: 40px solid rgba(255, 255, 255, 0.08);
+}
+
+.decorativeCircle2 {
+  width: 300px;
+  height: 300px;
+  bottom: -150px;
+  left: -100px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.features {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  right: 3rem;
+  display: flex;
+  gap: 2rem;
+  z-index: 3;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+}
+
+.featureIcon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.feature p {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* =================================================================
+   FORM SIDE (RIGHT)
+   ================================================================= */
+.formSide {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 450px;
+}
+
+.formHeader {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.formHeader h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #2b373a;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.02em;
+}
+
+.formHeader p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Error Message */
+.errorMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.errorMessage svg {
+  color: #dc3545;
+  flex-shrink: 0;
+}
+
+.errorMessage p {
+  color: #dc3545;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* =================================================================
+   FORM FIELDS
+   ================================================================= */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2b373a;
+  letter-spacing: -0.01em;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  color: #94a3b8;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  color: #2b373a;
+  background: #f8faf9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.inputWrapper input:focus {
+  outline: none;
+  border-color: #00856f;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 133, 111, 0.1);
+}
+
+.inputWrapper input::placeholder {
+  color: #94a3b8;
+}
+
+/* Password Toggle */
+.togglePassword {
+  position: absolute;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.togglePassword:hover {
+  color: #00856f;
+  background: rgba(0, 133, 111, 0.05);
+}
+
+/* Form Options */
+.formOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -0.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: #00856f;
+}
+
+.forgotLink {
+  font-size: 0.875rem;
+  color: #00856f;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.forgotLink:hover {
+  color: #006b5a;
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.submitButton {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #00856f, #7bd6b2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(0, 133, 111, 0.25);
+  letter-spacing: -0.01em;
+  font-family: inherit;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 133, 111, 0.35);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading State */
+.loadingContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinnerCircle {
+  opacity: 0.25;
+}
+
+.spinnerPath {
+  opacity: 0.75;
+}
+
+/* =================================================================
+   DIVIDER & ADDITIONAL SECTIONS
+   ================================================================= */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0 1.5rem 0;
+  text-align: center;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.divider span {
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* Sign Up Section */
+.signupSection {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.signupSection p {
+  font-size: 0.9375rem;
+  color: #666;
+  margin: 0;
+}
+
+.signupSection a {
+  color: #00856f;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signupSection a:hover {
+  color: #006b5a;
+  text-decoration: underline;
+}
+
+/* Help Section */
+.helpSection {
+  text-align: center;
+}
+
+.helpSection p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.helpSection a {
+  color: #00856f;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  word-break: break-word;
+}
+
+.helpSection a:hover {
+  color: #006b5a;
+  text-decoration: underline;
+}
+
+/* =================================================================
+   RESPONSIVE DESIGN
+   ================================================================= */
+
+@media (max-width: 1200px) {
+  .imageContent h2 {
+    font-size: 2rem;
+  }
+
+  .imageContent p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .imageSide {
+    padding: 2rem;
+  }
+
+  .features {
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    gap: 1.5rem;
+  }
+
+  .formSide {
+    padding: 1.5rem;
+  }
+
+  .backToHome {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .signinContainer {
+    flex-direction: column;
+  }
+
+  .imageSide {
+    min-height: 250px;
+    padding: 2rem 1.5rem;
+  }
+
+  .imageContent {
+    display: none;
+  }
+
+  .features {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
+  .formSide {
+    padding: 2rem 1.5rem;
+    flex: unset;
+  }
+
+  .formContainer {
+    max-width: 100%;
+  }
+
+  .formHeader h1 {
+    font-size: 1.75rem;
+  }
+
+  .backToHome {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .formOptions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .formSide {
+    padding: 1.5rem 1rem;
+  }
+
+  .formHeader h1 {
+    font-size: 1.5rem;
+  }
+
+  .inputWrapper input {
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    font-size: 0.875rem;
+  }
+
+  .inputIcon {
+    left: 0.875rem;
+  }
+
+  .submitButton {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .imageSide {
+    min-height: 200px;
+  }
+
+  .features {
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  .backToHome span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .imageSide {
+    display: none;
+  }
+
+  .formSide {
+    padding: 1.5rem;
+  }
+
+  .formContainer {
+    max-width: 500px;
+  }
+}
+
+/* =================================================================
+   ACCESSIBILITY & PERFORMANCE
+   ================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .submitButton,
+  .togglePassword,
+  .inputWrapper input,
+  .backToHome {
+    transition: none;
+  }
+
+  .submitButton:hover:not(:disabled),
+  .backToHome:hover {
+    transform: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}
+
+.submitButton:focus-visible,
+.togglePassword:focus-visible,
+.forgotLink:focus-visible,
+.signupSection a:focus-visible,
+.helpSection a:focus-visible,
+.backToHome:focus-visible {
+  outline: 2px solid #00856f;
+  outline-offset: 2px;
+}
+
+@media (prefers-contrast: high) {
+  .imageSide {
+    background: #00856f;
+  }
+
+  .inputWrapper input {
+    border-width: 2px;
+  }
+
+  .errorMessage {
+    border-width: 2px;
+  }
+
+  .backToHome {
+    border-width: 2px;
+  }
+}
+
+/* Force Light Theme */
+@media (prefers-color-scheme: dark) {
+  .signinContainer,
+  .formSide {
+    background: #ffffff;
+    color: #2b373a;
+  }
+
+  .formHeader h1,
+  .inputGroup label {
+    color: #2b373a;
+  }
+
+  .inputWrapper input {
+    background: #f8faf9;
+    border-color: #e2e8f0;
+    color: #2b373a;
+  }
+}
+
+@media print {
+  .imageSide,
+  .divider,
+  .signupSection,
+  .helpSection,
+  .backToHome {
+    display: none;
+  }
+
+  .signinContainer {
+    display: block;
+  }
+
+  .formSide {
+    padding: 0;
+  }
+}

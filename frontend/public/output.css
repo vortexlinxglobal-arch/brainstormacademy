@@ -1,0 +1,16 @@
+.bg-neutral {
+  background-color: #f5f5dc;
+}
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.font-bold {
+  font-weight: 700;
+}
+.text-primary-dark {
+  color: #8b4513;
+}
+.text-center {
+  text-align: center;
+}
