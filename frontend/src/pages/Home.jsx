@@ -65,13 +65,6 @@ const programTiles = [
   },
 ];
 
-const stats = [
-  { label: "Years of Impact", value: "10+" },
-  { label: "Graduates", value: "5k+" },
-  { label: "Employability Rate", value: "92%" },
-  { label: "Industry Partners", value: "30+" },
-];
-
 const testimonials = [
   {
     name: "Aisha Musa",
