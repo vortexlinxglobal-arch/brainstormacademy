@@ -20,7 +20,9 @@ const BlogPost = ({ slug: initialSlug }) => {
     
     if (!blogPost) {
       // Redirect to blog page if post not found
-      router.push('/blog');
+      if (slug) {
+        router.push('/blog');
+      }
       return;
     }
 
@@ -52,7 +54,7 @@ const BlogPost = ({ slug: initialSlug }) => {
     }, 100);
 
     return () => observer.disconnect();
-  }, [slug]);
+  }, [slug, router]);
 
   if (!post) {
     return (
