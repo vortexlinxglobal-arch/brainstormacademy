@@ -1,7 +1,8 @@
-import { supabase } from "../api/supabaseClient";
+import { getSupabaseClient } from "../api/supabaseClient";
 
 export default function StaffPage() {
   async function createStaff() {
+    const supabase = getSupabaseClient();
     // Replace with the account you signed up with
     const { data, error } = await supabase.auth.signInWithPassword({
       email: "staff1@example.com",
