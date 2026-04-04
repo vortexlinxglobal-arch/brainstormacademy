@@ -124,9 +124,9 @@
   inset: 0;
   background: linear-gradient(
     150deg,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0.55) 45%,
-    rgba(0, 0, 0, 0.72) 100%
+    rgba(0, 0, 0, 0.40) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    rgba(0, 0, 0, 0.48) 100%
   );
   z-index: 1;
 }

@@ -56,7 +56,7 @@ const Signin = () => {
       <div className={styles.imageSide}>
         <div className={styles.imageOverlay}>
           <img
-            src="/assets/images/signin-illustration.jpg"
+            src="/web-design.jpg"
             alt="Learning Illustration"
             className={styles.illustrationImage}
             onError={(e) => {

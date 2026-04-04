@@ -144,7 +144,7 @@ const Signup = () => {
       <div className={styles.imageSide}>
         <div className={styles.imageOverlay}>
           <img
-            src="/assets/images/signup-illustration.jpg"
+            src="/web-dev-4.jpg"
             alt="Learning Illustration"
             className={styles.illustrationImage}
             onError={(e) => {
