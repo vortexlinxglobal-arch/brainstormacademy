@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import styles from "./Signin.module.css";
 
 const Signin = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -27,12 +28,12 @@ const Signin = () => {
       setIsLoading(false);
       console.log("Login submitted:", { email, rememberMe });
       // Navigate to dashboard or home after successful signin
-      // navigate('/dashboard');
+      // router.push('/dashboard');
     }, 1500);
   };
 
   const handleBackToHome = () => {
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -282,7 +283,7 @@ const Signin = () => {
                 />
                 <span>Remember me</span>
               </label>
-              <Link to="/forgot-password" className={styles.forgotLink}>
+              <Link href="/forgot-password" className={styles.forgotLink}>
                 Forgot Password?
               </Link>
             </div>
@@ -327,7 +328,7 @@ const Signin = () => {
           {/* Sign Up Link */}
           <div className={styles.signupSection}>
             <p>
-              Don't have an account? <Link to="/signup">Sign Up</Link>
+              Don't have an account? <Link href="/signup">Sign Up</Link>
             </p>
           </div>
 

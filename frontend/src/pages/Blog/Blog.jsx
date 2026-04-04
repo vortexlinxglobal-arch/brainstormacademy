@@ -1,13 +1,14 @@
 // src/pages/Blog/Blog.jsx
 import { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { blogPosts, categories, getFeaturedPosts } from '../../data/blogData';
 import styles from './Blog.module.css';
 
 const Blog = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
   const [isVisible, setIsVisible] = useState({});
-  const [activeCategory, setActiveCategory] = useState(searchParams.get('category') || 'all');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -35,19 +36,15 @@ const Blog = () => {
   }, []);
 
   useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    if (categoryParam) {
-      setActiveCategory(categoryParam);
-    }
-  }, [searchParams]);
+    if (!router.isReady) return;
+    const categoryParam = router.query.category;
+    setActiveCategory(categoryParam ? String(categoryParam) : 'all');
+  }, [router.isReady, router.query.category]);
 
   const handleCategoryChange = (categoryId) => {
     setActiveCategory(categoryId);
-    if (categoryId === 'all') {
-      setSearchParams({});
-    } else {
-      setSearchParams({ category: categoryId });
-    }
+    const query = categoryId === 'all' ? {} : { category: categoryId };
+    router.push({ pathname: '/blog', query }, undefined, { shallow: true });
   };
 
   const featuredPosts = getFeaturedPosts();
@@ -129,7 +126,7 @@ const Blog = () => {
               {featuredPosts.map((post, index) => (
                 <Link
                   key={post.id}
-                  to={`/blog/${post.slug}`}
+                  href={`/blog/${post.slug}`}
                   className={`${styles.featuredCard} ${index === 0 ? styles.large : ''}`}
                 >
                   <div className={styles.featuredImage}>
@@ -182,7 +179,7 @@ const Blog = () => {
               {filteredPosts.map((post) => (
                 <Link
                   key={post.id}
-                  to={`/blog/${post.slug}`}
+                  href={`/blog/${post.slug}`}
                   className={styles.postCard}
                 >
                   <div className={styles.postImage}>
@@ -267,7 +264,7 @@ const Blog = () => {
             <p className={styles.ctaText}>
               We'd love to hear from you. Contact us to contribute or share your success story.
             </p>
-            <Link to="/contact" className={styles.ctaButton}>
+            <Link href="/contact" className={styles.ctaButton}>
               <span>Get in Touch</span>
               <span className={styles.ctaArrow}>→</span>
             </Link>

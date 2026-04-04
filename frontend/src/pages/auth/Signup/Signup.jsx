@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import styles from "./Signup.module.css";
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -94,7 +95,7 @@ const Signup = () => {
 
         // Redirect to signin after 2 seconds
         setTimeout(() => {
-          navigate("/signin");
+          router.push("/signin");
         }, 2000);
       }, 1500);
     } else {
@@ -103,7 +104,7 @@ const Signup = () => {
   };
 
   const handleBackToHome = () => {
-    navigate("/");
+    router.push("/");
   };
 
   const getPasswordStrength = () => {
@@ -598,7 +599,7 @@ const Signup = () => {
           {/* Login Link */}
           <div className={styles.loginSection}>
             <p>
-              Already have an account? <Link to="/signin">Sign In</Link>
+              Already have an account? <Link href="/signin">Sign In</Link>
             </p>
           </div>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import styles from "./Home.module.css";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const heroSlides = [
   {
@@ -171,10 +171,10 @@ const Home = () => {
                 <p className={styles.heroText}>{slide.subtitle}</p>
 
                 <div className={styles.heroActions}>
-                  <Link to="/signup" className={styles.primaryCta}>
+                  <Link href="/signup" className={styles.primaryCta}>
                     Ask a question
                   </Link>
-                  <Link to="/courses" className={styles.secondaryCta}>
+                  <Link href="/courses" className={styles.secondaryCta}>
                     Explore courses
                   </Link>
                 </div>
@@ -256,7 +256,7 @@ const Home = () => {
             <p className={styles.ctaLabel}>Ready to change your career?</p>
             <h2>Join Brainstorm Academy and start a practical skills program this term.</h2>
           </div>
-          <Link to="/signup" className={styles.ctaButton}>
+          <Link href="/signup" className={styles.ctaButton}>
             Start enrollment
           </Link>
         </div>

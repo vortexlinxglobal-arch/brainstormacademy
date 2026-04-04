@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import { useEffect, useState, useRef, useCallback } from "react";
 import styles from "./FeaturedCourses.module.css";
 
 const FeaturedCourses = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const buttonRef = useRef(null);
 
   const courses = [
@@ -77,8 +77,8 @@ const FeaturedCourses = () => {
 
   // Optimized navigation handlers
   const handleBackClick = useCallback(() => {
-    navigate("/courses");
-  }, [navigate]);
+    router.push("/courses");
+  }, [router]);
 
   return (
     <section className={styles.section}>

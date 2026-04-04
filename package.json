@@ -6,10 +6,11 @@
     "backend"
   ],
   "scripts": {
+    "dev": "cd frontend && npm run dev",
     "start": "cd frontend && npm start",
     "build": "cd frontend && npm run build",
     "test": "cd frontend && npm test",
-    "frontend": "cd frontend && npm start",
+    "frontend": "cd frontend && npm run dev",
     "frontend:build": "cd frontend && npm run build",
     "backend": "cd backend && npm run dev || echo 'No backend dev script configured yet'",
     "prepare-next": "echo 'Next.js migration preparation step: move frontend into a Next.js app under /frontend or /frontend-next'"

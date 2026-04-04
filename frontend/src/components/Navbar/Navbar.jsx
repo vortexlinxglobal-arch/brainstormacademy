@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import styles from "./Navbar.module.css";
 import logo from "../../assets/images/logo_result.webp";
 
 const Navbar = () => {
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -100,7 +102,7 @@ const Navbar = () => {
       <nav className={`${styles.navbar} ${isScrolled ? styles.scrolled : ""}`}>
         <div className={styles.container}>
           {/* Logo */}
-          <Link to="/" className={styles.logo} onClick={closeMobileMenu}>
+          <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
             <img
               src={logo}
               alt="Brainstorm Skills"
@@ -114,15 +116,13 @@ const Navbar = () => {
             {navStructure.map((item) => (
               <div key={item.label} className={styles.navItem}>
                 {item.type === "link" ? (
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) =>
-                      `${styles.navLink} ${isActive ? styles.active : ""}`
-                    }
-                    end
+                  <Link
+                    href={item.to}
+                    className={`${styles.navLink} ${router.asPath === item.to ? styles.active : ""}`}
+                    onClick={closeMobileMenu}
                   >
                     {item.label}
-                  </NavLink>
+                  </Link>
                 ) : (
                   <div className={styles.dropdownWrapper}>
                     <button
@@ -163,14 +163,12 @@ const Navbar = () => {
                             );
                           }
                           return (
-                            <NavLink
+                            <Link
                               key={subItem.to}
-                              to={subItem.to}
-                              className={({ isActive }) =>
-                                `${styles.dropdownItem} ${
-                                  subItem.featured ? styles.featured : ""
-                                } ${isActive ? styles.active : ""}`
-                              }
+                              href={subItem.to}
+                              className={`${styles.dropdownItem} ${
+                                subItem.featured ? styles.featured : ""
+                              } ${router.asPath === subItem.to ? styles.active : ""}`}
                               onClick={() => setOpenDropdown(null)}
                             >
                               {subItem.icon && (
@@ -179,7 +177,7 @@ const Navbar = () => {
                                 </span>
                               )}
                               <span>{subItem.label}</span>
-                            </NavLink>
+                            </Link>
                           );
                         })}
                       </div>
@@ -192,10 +190,10 @@ const Navbar = () => {
 
           {/* Desktop Actions */}
           <div className={styles.navActions}>
-            <Link to="/signin" className={styles.signInBtn}>
+            <Link href="/signin" className={styles.signInBtn} onClick={closeMobileMenu}>
               Sign in
             </Link>
-            <Link to="/signup" className={styles.getStartedBtn}>
+            <Link href="/signup" className={styles.getStartedBtn} onClick={closeMobileMenu}>
               Get Started
             </Link>
           </div>
@@ -237,7 +235,7 @@ const Navbar = () => {
           {/* Mobile Header */}
           <div className={styles.mobileHeader}>
             <Link
-              to="/"
+              href="/"
               className={styles.mobileLogo}
               onClick={closeMobileMenu}
             >
@@ -275,16 +273,13 @@ const Navbar = () => {
             {navStructure.map((item) => (
               <div key={item.label} className={styles.mobileNavItem}>
                 {item.type === "link" ? (
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) =>
-                      `${styles.mobileNavLink} ${isActive ? styles.active : ""}`
-                    }
+                  <Link
+                    href={item.to}
+                    className={`${styles.mobileNavLink} ${router.asPath === item.to ? styles.active : ""}`}
                     onClick={closeMobileMenu}
-                    end
                   >
                     {item.label}
-                  </NavLink>
+                  </Link>
                 ) : (
                   <>
                     <button
@@ -326,14 +321,12 @@ const Navbar = () => {
                           );
                         }
                         return (
-                          <NavLink
+                          <Link
                             key={subItem.to}
-                            to={subItem.to}
-                            className={({ isActive }) =>
-                              `${styles.mobileSubmenuItem} ${
-                                subItem.featured ? styles.featured : ""
-                              } ${isActive ? styles.active : ""}`
-                            }
+                            href={subItem.to}
+                            className={`${styles.mobileSubmenuItem} ${
+                              subItem.featured ? styles.featured : ""
+                            } ${router.asPath === subItem.to ? styles.active : ""}`}
                             onClick={closeMobileMenu}
                           >
                             {subItem.icon && (
@@ -342,7 +335,7 @@ const Navbar = () => {
                               </span>
                             )}
                             <span>{subItem.label}</span>
-                          </NavLink>
+                          </Link>
                         );
                       })}
                     </div>
@@ -355,14 +348,14 @@ const Navbar = () => {
           {/* Mobile Actions */}
           <div className={styles.mobileActions}>
             <Link
-              to="/signin"
+              href="/signin"
               className={styles.mobileSignInBtn}
               onClick={closeMobileMenu}
             >
               Sign in
             </Link>
             <Link
-              to="/signup"
+              href="/signup"
               className={styles.mobileGetStartedBtn}
               onClick={closeMobileMenu}
             >

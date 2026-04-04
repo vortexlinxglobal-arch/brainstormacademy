@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
+import { useRouter } from "next/router";
 import styles from "./CourseDescription.module.css";
 
-const CourseDescription = () => {
-  const { courseId } = useParams();
-  const navigate = useNavigate();
+const CourseDescription = ({ courseId: propCourseId }) => {
+  const router = useRouter();
+  const courseId = propCourseId || String(router.query.courseId || "");
   const [isFloating, setIsFloating] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const buttonRef = useRef(null);
@@ -126,12 +126,12 @@ const CourseDescription = () => {
 
   // Optimized navigation handlers
   const handleBackClick = useCallback(() => {
-    navigate("/courses");
-  }, [navigate]);
+    router.push("/courses");
+  }, [router]);
 
   const handleEnrollClick = useCallback(() => {
-    navigate("/contact");
-  }, [navigate]);
+    router.push("/contact");
+  }, [router]);
 
   return (
     <main className={styles.page}>

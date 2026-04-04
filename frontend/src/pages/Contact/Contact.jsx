@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './Contact.module.css';
 
 const Contact = () => {
@@ -293,10 +294,10 @@ const Contact = () => {
                 <p className={styles.highlightText}>
                   Start your journey with Brainstorm Academy today. Transform your future with our NBTE-certified programs.
                 </p>
-                <a href="/courses" className={styles.highlightButton}>
+                <Link href="/courses" className={styles.highlightButton}>
                   <span>Explore Courses</span>
                   <span className={styles.highlightArrow}>→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

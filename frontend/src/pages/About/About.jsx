@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './About.module.css';
 
@@ -352,7 +352,7 @@ const About = () => {
             {nsqCourses.map((course, index) => (
               <Link
                 key={course.id}
-                to={`/courses/${course.id}`}
+                href={`/courses/${course.id}`}
                 className={`${styles.courseCard} ${
                   styles[`card${(index % 4) + 1}`]
                 }`}
@@ -558,7 +558,7 @@ const About = () => {
               Contact us to learn how Brainstorm Academy can empower you or your
               child.
             </p>
-            <Link to='/contact' className={styles.ctaButton}>
+            <Link href='/contact' className={styles.ctaButton}>
               <span>Get in Touch</span>
               <span className={styles.ctaArrow}>→</span>
             </Link>

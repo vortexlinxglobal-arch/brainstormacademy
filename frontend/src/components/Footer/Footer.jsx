@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -109,7 +109,7 @@ const Footer = () => {
             <ul className={styles.linkList}>
               {quickLinks.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className={styles.link}>
+                  <Link href={link.to} className={styles.link}>
                     {link.label}
                   </Link>
                 </li>
@@ -123,7 +123,7 @@ const Footer = () => {
             <ul className={styles.linkList}>
               {programs.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className={styles.link}>
+                  <Link href={link.to} className={styles.link}>
                     {link.label}
                   </Link>
                 </li>
@@ -137,7 +137,7 @@ const Footer = () => {
             <ul className={styles.linkList}>
               {resources.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className={styles.link}>
+                  <Link href={link.to} className={styles.link}>
                     {link.label}
                   </Link>
                 </li>
@@ -216,8 +216,8 @@ const Footer = () => {
             © {currentYear} Brainstorm Skills Learning Center. All rights reserved.
           </p>
           <div className={styles.bottomLinks}>
-            <Link to="/privacy" className={styles.bottomLink}>Privacy</Link>
-            <Link to="/terms" className={styles.bottomLink}>Terms</Link>
+            <Link href="/privacy" className={styles.bottomLink}>Privacy</Link>
+            <Link href="/terms" className={styles.bottomLink}>Terms</Link>
             <a href="https://www.vortexlinx.com" className={styles.bottomLink} target="_blank" rel="noopener noreferrer">
               Built by Vortex Linx
             </a>

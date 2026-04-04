@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./CourseList.module.css";
 
@@ -6,7 +6,9 @@ const CourseList = () => {
   const [isVisible, setIsVisible] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -406,7 +408,7 @@ const CourseList = () => {
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <Link
-                    to={`/courses/description/${course.id}`}
+                    href={`/courses/description/${course.id}`}
                     className={styles.courseLink}
                   >
                     <div className={styles.courseImageWrapper}>
@@ -544,11 +546,11 @@ const CourseList = () => {
               professional certification
             </p>
             <div className={styles.ctaButtons}>
-              <Link to="/contact" className={styles.primaryBtn}>
+              <Link href="/contact" className={styles.primaryBtn}>
                 <span>Get in Touch</span>
                 <span className={styles.btnArrow}>→</span>
               </Link>
-              <Link to="/about" className={styles.secondaryBtn}>
+              <Link href="/about" className={styles.secondaryBtn}>
                 Learn More About Us
               </Link>
             </div>

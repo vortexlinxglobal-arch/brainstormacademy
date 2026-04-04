@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const CourseCard = ({ course }) => {
   return (
     <Link
-      to={`/courses/description/${course.id}`}
+      href={`/courses/description/${course.id}`}
       className="course-card"
       aria-label={`Learn more about ${course.title}`}
     >

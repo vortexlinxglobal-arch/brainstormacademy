@@ -1,8 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const CourseDetail = () => {
-  const { courseId } = useParams();
+  const router = useRouter();
+  const courseId = String(router.query.courseId || "");
   const [isFloating, setIsFloating] = useState(false);
   const buttonRef = useRef(null);
 
@@ -190,7 +192,7 @@ const CourseDetail = () => {
       <section className='section course-details'>
         <div className='container'>
           <Link
-            to='/about'
+            href='/about'
             className={`back-to-about ${isFloating ? 'floating' : ''}`}
             aria-label='Back to About page'
             ref={buttonRef}
@@ -206,7 +208,7 @@ const CourseDetail = () => {
           <p>{course.curriculum}</p>
           <h3>Learning Outcomes</h3>
           <p>{course.outcomes}</p>
-          <Link to='/contact' className='cta-button'>
+          <Link href='/contact' className='cta-button'>
             Enroll Now
           </Link>
         </div>
@@ -234,7 +236,7 @@ const CourseDetail = () => {
           <p>
             Contact us to learn more about our NSQ programs and how to enroll.
           </p>
-          <Link to='/contact' className='cta-button'>
+          <Link href='/contact' className='cta-button'>
             Get in Touch
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import styles from './CtaBanner.module.css';
 
@@ -85,12 +85,12 @@ const CtaBanner = () => {
 
             {/* CTA Buttons */}
             <div className={styles.ctaButtons}>
-              <Link to='/courses' className={styles.primaryButton}>
+              <Link href='/courses' className={styles.primaryButton}>
                 <span>Get Started</span>
                 <span className={styles.buttonArrow}>→</span>
               </Link>
 
-              <Link to='/contact' className={styles.secondaryButton}>
+              <Link href='/contact' className={styles.secondaryButton}>
                 <span>Contact Us</span>
               </Link>
             </div>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import styles from "./Hero.module.css";
 
 const Hero = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -78,11 +78,11 @@ const Hero = () => {
   };
 
   const handleStartLearning = () => {
-    navigate("/signup");
+    router.push("/signup");
   };
 
   const handleBrowseCourses = () => {
-    navigate("/courses");
+    router.push("/courses");
   };
 
   return (

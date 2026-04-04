@@ -1,6 +1,3 @@
-:root {
-  color-scheme: light;
-}
 
 .page {
   min-height: 100vh;
@@ -43,15 +40,6 @@
 }
 
 /* Avoid unwanted horizontal gaps/scrollbars */
-html,
-body,
-#root,
-.page {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
 
 @media (max-width: 768px) {
   .heroSection {

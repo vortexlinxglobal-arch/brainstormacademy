@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import HomeLayout from "../../layouts/HomeLayout";
 
 const EditCourse = () => {
-  const { courseId } = useParams();
+  const router = useRouter();
+  const courseId = String(router.query.courseId || "");
 
   const courses = {
     "networking-system-security": {
@@ -198,7 +200,7 @@ const EditCourse = () => {
               <button type="submit" className="cta-button">
                 Update Course
               </button>
-              <Link to="/courses" className="cta-button secondary">
+              <Link href="/courses" className="cta-button secondary">
                 Cancel
               </Link>
             </form>

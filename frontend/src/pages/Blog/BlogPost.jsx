@@ -1,12 +1,13 @@
 // src/pages/Blog/BlogPost.jsx
 import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { getBlogPostBySlug, getRelatedPosts, categories } from '../../data/blogData';
 import styles from './BlogPost.module.css';
 
-const BlogPost = () => {
-  const { slug } = useParams();
-  const navigate = useNavigate();
+const BlogPost = ({ slug: initialSlug }) => {
+  const router = useRouter();
+  const slug = initialSlug || String(router.query.slug || "");
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
   const [isVisible, setIsVisible] = useState({});
@@ -19,7 +20,7 @@ const BlogPost = () => {
     
     if (!blogPost) {
       // Redirect to blog page if post not found
-      navigate('/blog');
+      router.push('/blog');
       return;
     }
 
@@ -51,7 +52,7 @@ const BlogPost = () => {
     }, 100);
 
     return () => observer.disconnect();
-  }, [slug, navigate]);
+  }, [slug]);
 
   if (!post) {
     return (
@@ -75,9 +76,9 @@ const BlogPost = () => {
       <section className={styles.breadcrumb}>
         <div className={styles.container}>
           <nav className={styles.breadcrumbNav}>
-            <Link to="/" className={styles.breadcrumbLink}>Home</Link>
+            <Link href="/" className={styles.breadcrumbLink}>Home</Link>
             <span className={styles.breadcrumbSeparator}>→</span>
-            <Link to="/blog" className={styles.breadcrumbLink}>Blog</Link>
+            <Link href="/blog" className={styles.breadcrumbLink}>Blog</Link>
             <span className={styles.breadcrumbSeparator}>→</span>
             <span className={styles.breadcrumbCurrent}>{post.title}</span>
           </nav>
@@ -89,7 +90,7 @@ const BlogPost = () => {
         <div className={styles.heroPattern}></div>
         <div className={styles.heroContent}>
           <div className={styles.heroMeta}>
-            <Link to={`/blog?category=${post.category}`} className={styles.categoryBadge}>
+            <Link href={`/blog?category=${post.category}`} className={styles.categoryBadge}>
               <span className={styles.categoryIcon}>{categoryInfo?.icon}</span>
               <span>{categoryInfo?.name}</span>
             </Link>
@@ -235,7 +236,7 @@ const BlogPost = () => {
                 <p className={styles.ctaText}>
                   Explore our NBTE-certified courses and begin your journey today.
                 </p>
-                <Link to="/courses" className={styles.ctaButton}>
+                <Link href="/courses" className={styles.ctaButton}>
                   <span>View Courses</span>
                   <span className={styles.ctaArrow}>→</span>
                 </Link>
@@ -258,7 +259,7 @@ const BlogPost = () => {
               {relatedPosts.map((relatedPost) => (
                 <Link
                   key={relatedPost.id}
-                  to={`/blog/${relatedPost.slug}`}
+                  href={`/blog/${relatedPost.slug}`}
                   className={styles.relatedCard}
                 >
                   <div className={styles.relatedImage}>
@@ -285,7 +286,7 @@ const BlogPost = () => {
             </div>
 
             <div className={styles.backToBlogs}>
-              <Link to="/blog" className={styles.backButton}>
+              <Link href="/blog" className={styles.backButton}>
                 <span className={styles.backArrow}>←</span>
                 <span>Back to All Articles</span>
               </Link>
