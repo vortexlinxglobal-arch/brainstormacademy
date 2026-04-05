@@ -293,7 +293,12 @@
     },
     "_originalRewrites": {
       "beforeFiles": [],
-      "afterFiles": [],
+      "afterFiles": [
+        {
+          "source": "/api/:path*",
+          "destination": "https://elesdexlehfmwfrbbrgd.supabase.co/functions/v1/:path*"
+        }
+      ],
       "fallback": []
     }
   },

@@ -14,98 +14,253 @@ serve(async (req) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
 
-  if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+  // Submit admissions application
+  if (req.method === "POST" && !req.url.includes("/review") && !req.url.includes("/letter")) {
+    try {
+      const body = await req.json();
+      const {
+        applicant_name,
+        applicant_email,
+        phone,
+        date_of_birth,
+        address,
+        education_background,
+        trade_interest,
+        previous_experience,
+        motivation_statement,
+        special_needs,
+        emergency_contact,
+      } = body;
 
-  const body = await req.json();
-  const {
-    student, // { first_name, last_name, dob, gender, contact, guardian }
-    trade_code, // e.g., BTC
-    template_id, // optional; if not provided, use default
-  } = body;
+      // Validate required fields
+      if (!applicant_name || !applicant_email || !trade_interest) {
+        return json({ error: "Missing required fields" }, 400);
+      }
 
-  // Resolve trade
-  const { data: trade } = await supabase
-    .from("trades")
-    .select("id, code, name")
-    .eq("code", trade_code)
-    .maybeSingle();
-  if (!trade) return json({ error: "Invalid trade_code" }, 400);
+      // Submit application
+      const { data: application, error } = await supabase.rpc('submit_admissions_application', {
+        p_applicant_name: applicant_name,
+        p_applicant_email: applicant_email,
+        p_phone: phone,
+        p_date_of_birth: date_of_birth,
+        p_address: address,
+        p_education_background: education_background,
+        p_trade_interest: trade_interest,
+        p_previous_experience: previous_experience,
+        p_motivation_statement: motivation_statement,
+        p_special_needs: special_needs,
+        p_emergency_contact: emergency_contact,
+      });
 
-  // Generate student reg and create student
-  const { data: reg } = await supabase.rpc("gen_student_reg_number", {
-    p_trade_id: trade.id,
-  });
-  const { data: studentRow, error: studentErr } = await supabase
-    .from("students")
-    .insert({
-      registration_number: reg as string,
-      ...student,
-    })
-    .select()
-    .single();
-  if (studentErr) return json({ error: studentErr.message }, 400);
+      if (error) return json({ error: error.message }, 400);
 
-  // Enrollment
-  await supabase.from("enrollments").insert({
-    student_id: studentRow.id,
-    trade_id: trade.id,
-    start_date: new Date().toISOString().slice(0, 10),
-  });
-
-  // Template
-  let tplId = template_id;
-  if (!tplId) {
-    const { data: tpl } = await supabase
-      .from("admission_templates")
-      .select(
-        "id, html_template, logo_path, watermark_path, signatory_name, signatory_title"
-      )
-      .eq("is_default", true)
-      .maybeSingle();
-    tplId = tpl?.id;
-    if (!tplId)
-      return json({ error: "No default admission template set" }, 400);
+      return json({
+        data: {
+          application,
+          message: "Application submitted successfully. You will receive a confirmation email shortly."
+        }
+      });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
   }
 
-  // Render HTML with placeholders
-  const { data: tplRow } = await supabase
-    .from("admission_templates")
-    .select("*")
-    .eq("id", tplId!)
-    .single();
-  const html = (tplRow?.html_template || "")
-    .replaceAll(
-      "{{student_name}}",
-      `${studentRow.first_name} ${studentRow.last_name}`
-    )
-    .replaceAll("{{registration_number}}", studentRow.registration_number)
-    .replaceAll("{{trade_name}}", trade.name)
-    .replaceAll("{{issue_date}}", new Date().toLocaleDateString())
-    .replaceAll(
-      "{{signatory_block}}",
-      `${tplRow.signatory_name}, ${tplRow.signatory_title}`
-    );
+  // Review admissions application (staff/admin only)
+  if (req.method === "POST" && req.url.includes("/review")) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader) return json({ error: "Unauthorized" }, 401);
 
-  // Store HTML as file (PDF generation can be added later via headless render service)
-  const fileName = `admission_${studentRow.id}.html`;
-  const { error: uploadErr } = await supabase.storage
-    .from("letters")
-    .upload(fileName, new Blob([html], { type: "text/html" }), {
-      upsert: true,
-    });
-  if (uploadErr) return json({ error: uploadErr.message }, 400);
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
-  const { data: letter, error: letterErr } = await supabase
-    .from("admission_letters")
-    .insert({
-      student_id: studentRow.id,
-      template_id: tplId!,
-      file_path: fileName,
-      status: "issued",
-    })
-    .select()
-    .single();
-  if (letterErr) return json({ error: letterErr.message }, 400);
+      if (authError || !user) return json({ error: "Invalid token" }, 401);
 
-  return json({ data: { student: studentRow, letter } });
+      // Check if user is staff/admin
+      const { data: profile, error: profileErr } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profileErr || !['staff', 'admin'].includes(profile.role)) {
+        return json({ error: "Access denied" }, 403);
+      }
+
+      const body = await req.json();
+      const { application_id, status, decision_notes } = body;
+
+      if (!application_id || !status) {
+        return json({ error: "application_id and status are required" }, 400);
+      }
+
+      const { data, error } = await supabase.rpc('review_admissions_application', {
+        p_application_id: application_id,
+        p_status: status,
+        p_decision_notes: decision_notes,
+        p_reviewed_by: user.id
+      });
+
+      if (error) return json({ error: error.message }, 400);
+
+      return json({ data: { success: true, message: "Application reviewed successfully" } });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
+  }
+
+  // Generate admission letter (staff/admin only)
+  if (req.method === "POST" && req.url.includes("/letter")) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader) return json({ error: "Unauthorized" }, 401);
+
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+      if (authError || !user) return json({ error: "Invalid token" }, 401);
+
+      // Check if user is staff/admin
+      const { data: profile, error: profileErr } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profileErr || !['staff', 'admin'].includes(profile.role)) {
+        return json({ error: "Access denied" }, 403);
+      }
+
+      const body = await req.json();
+      const { application_id, letter_type } = body;
+
+      if (!application_id || !letter_type) {
+        return json({ error: "application_id and letter_type are required" }, 400);
+      }
+
+      const { data: letterId, error } = await supabase.rpc('generate_admission_letter', {
+        p_application_id: application_id,
+        p_letter_type: letter_type,
+        p_generated_by: user.id
+      });
+
+      if (error) return json({ error: error.message }, 400);
+
+      // Get the generated letter
+      const { data: letter, error: letterErr } = await supabase
+        .from("admission_letters")
+        .select("*")
+        .eq("id", letterId)
+        .single();
+
+      if (letterErr) return json({ error: letterErr.message }, 400);
+
+      return json({
+        data: {
+          letter,
+          message: "Admission letter generated successfully"
+        }
+      });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
+  }
+
+  // Get admissions statistics (staff/admin only)
+  if (req.method === "GET" && req.url.includes("/stats")) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader) return json({ error: "Unauthorized" }, 401);
+
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+      if (authError || !user) return json({ error: "Invalid token" }, 401);
+
+      // Check if user is staff/admin
+      const { data: profile, error: profileErr } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profileErr || !['staff', 'admin'].includes(profile.role)) {
+        return json({ error: "Access denied" }, 403);
+      }
+
+      const url = new URL(req.url);
+      const dateFrom = url.searchParams.get("from");
+      const dateTo = url.searchParams.get("to");
+
+      const { data: stats, error } = await supabase.rpc('get_admissions_stats', {
+        p_date_from: dateFrom,
+        p_date_to: dateTo
+      });
+
+      if (error) return json({ error: error.message }, 400);
+
+      return json({ data: stats });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
+  }
+
+  // Get applications by trade (staff/admin only)
+  if (req.method === "GET" && req.url.includes("/by-trade")) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader) return json({ error: "Unauthorized" }, 401);
+
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+      if (authError || !user) return json({ error: "Invalid token" }, 401);
+
+      // Check if user is staff/admin
+      const { data: profile, error: profileErr } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profileErr || !['staff', 'admin'].includes(profile.role)) {
+        return json({ error: "Access denied" }, 403);
+      }
+
+      const { data: applications, error } = await supabase.rpc('get_applications_by_trade');
+
+      if (error) return json({ error: error.message }, 400);
+
+      return json({ data: applications });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
+  }
+
+  // Get user's own applications
+  if (req.method === "GET" && req.url.includes("/my-applications")) {
+    try {
+      const authHeader = req.headers.get("Authorization");
+      if (!authHeader) return json({ error: "Unauthorized" }, 401);
+
+      const token = authHeader.replace("Bearer ", "");
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+      if (authError || !user) return json({ error: "Invalid token" }, 401);
+
+      const { data: applications, error } = await supabase
+        .from("admissions_applications")
+        .select("*")
+        .eq("applicant_email", user.email)
+        .order("submitted_at", { ascending: false });
+
+      if (error) return json({ error: error.message }, 400);
+
+      return json({ data: applications });
+    } catch (error) {
+      return json({ error: error.message }, 500);
+    }
+  }
+
+  return json({ error: "Method not allowed" }, 405);
 });

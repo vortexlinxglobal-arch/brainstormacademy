@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/router";
 import styles from "./CourseDescription.module.css";

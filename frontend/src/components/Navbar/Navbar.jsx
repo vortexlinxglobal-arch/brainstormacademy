@@ -1,15 +1,24 @@
+'use client'
+
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Navbar.module.css";
-import logo from "../../assets/images/logo_result.webp";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+  const { user, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,6 +62,11 @@ const Navbar = () => {
 
   const handleDropdownToggle = (dropdown) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    closeMobileMenu();
   };
 
   const courseCategories = [
@@ -118,7 +132,7 @@ const Navbar = () => {
                 {item.type === "link" ? (
                   <Link
                     href={item.to}
-                    className={`${styles.navLink} ${router.asPath === item.to ? styles.active : ""}`}
+                    className={`${styles.navLink} ${router.pathname === item.to ? styles.active : ""}`}
                     onClick={closeMobileMenu}
                   >
                     {item.label}
@@ -168,7 +182,7 @@ const Navbar = () => {
                               href={subItem.to}
                               className={`${styles.dropdownItem} ${
                                 subItem.featured ? styles.featured : ""
-                              } ${router.asPath === subItem.to ? styles.active : ""}`}
+                              } ${router.pathname === subItem.to ? styles.active : ""}`}
                               onClick={() => setOpenDropdown(null)}
                             >
                               {subItem.icon && (
@@ -190,12 +204,37 @@ const Navbar = () => {
 
           {/* Desktop Actions */}
           <div className={styles.navActions}>
-            <Link href="/signin" className={styles.signInBtn} onClick={closeMobileMenu}>
-              Sign in
-            </Link>
-            <Link href="/signup" className={styles.getStartedBtn} onClick={closeMobileMenu}>
-              Get Started
-            </Link>
+            {isClient ? (
+              user ? (
+                <>
+                  <Link href="/dashboard" className={styles.signInBtn} onClick={closeMobileMenu}>
+                    Dashboard
+                  </Link>
+                  <button onClick={handleSignOut} className={styles.getStartedBtn}>
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/signin" className={styles.signInBtn} onClick={closeMobileMenu}>
+                    Sign in
+                  </Link>
+                  <Link href="/signup" className={styles.getStartedBtn} onClick={closeMobileMenu}>
+                    Get Started
+                  </Link>
+                </>
+              )
+            ) : (
+              // Loading state or server-side render
+              <>
+                <Link href="/signin" className={styles.signInBtn} onClick={closeMobileMenu}>
+                  Sign in
+                </Link>
+                <Link href="/signup" className={styles.getStartedBtn} onClick={closeMobileMenu}>
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -275,7 +314,7 @@ const Navbar = () => {
                 {item.type === "link" ? (
                   <Link
                     href={item.to}
-                    className={`${styles.mobileNavLink} ${router.asPath === item.to ? styles.active : ""}`}
+                    className={`${styles.mobileNavLink} ${router.pathname === item.to ? styles.active : ""}`}
                     onClick={closeMobileMenu}
                   >
                     {item.label}
@@ -326,7 +365,7 @@ const Navbar = () => {
                             href={subItem.to}
                             className={`${styles.mobileSubmenuItem} ${
                               subItem.featured ? styles.featured : ""
-                            } ${router.asPath === subItem.to ? styles.active : ""}`}
+                            } ${router.pathname === subItem.to ? styles.active : ""}`}
                             onClick={closeMobileMenu}
                           >
                             {subItem.icon && (
@@ -347,20 +386,60 @@ const Navbar = () => {
 
           {/* Mobile Actions */}
           <div className={styles.mobileActions}>
-            <Link
-              href="/signin"
-              className={styles.mobileSignInBtn}
-              onClick={closeMobileMenu}
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/signup"
-              className={styles.mobileGetStartedBtn}
-              onClick={closeMobileMenu}
-            >
-              Get Started
-            </Link>
+            {isClient ? (
+              user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className={styles.mobileSignInBtn}
+                    onClick={closeMobileMenu}
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className={styles.mobileGetStartedBtn}
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/signin"
+                    className={styles.mobileSignInBtn}
+                    onClick={closeMobileMenu}
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className={styles.mobileGetStartedBtn}
+                    onClick={closeMobileMenu}
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )
+            ) : (
+              // Loading state or server-side render
+              <>
+                <Link
+                  href="/signin"
+                  className={styles.mobileSignInBtn}
+                  onClick={closeMobileMenu}
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  className={styles.mobileGetStartedBtn}
+                  onClick={closeMobileMenu}
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { getSupabaseClient } from "../api/supabaseClient";
 
 export default function StaffPage() {
