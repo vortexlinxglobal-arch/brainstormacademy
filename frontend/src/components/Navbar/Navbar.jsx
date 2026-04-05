@@ -1,16 +1,21 @@
 'use client'
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAuth } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import styles from "./Navbar.module.css";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  const { user, signOut } = useAuth();
+  
+  // Safely get auth context with fallback
+  const authContext = useContext(AuthContext);
+  const user = authContext?.user || null;
+  const signOut = authContext?.signOut || (() => {});
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
