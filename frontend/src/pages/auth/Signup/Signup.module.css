@@ -200,13 +200,11 @@
   justify-content: center;
   padding: 2rem;
   background: #ffffff;
-  overflow-y: auto;
 }
 
 .formContainer {
   width: 100%;
-  max-width: 480px;
-  padding: 1rem 0;
+  max-width: 450px;
 }
 
 .formHeader {
@@ -282,7 +280,7 @@
 .formFields {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
 .inputGroup {
