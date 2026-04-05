@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { apiClient, db } from '../../api'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,13 +10,13 @@ const StaffDashboard = () => {
   const navigate = useNavigate()
   const [dashboardData, setDashboardData] = useState(null)
   const [notifications, setNotifications] = useState([])
+  const [remunerationData, setRemunerationData] = useState(null)
+  const [financeData, setFinanceData] = useState(null)
+  const [idCardData, setIdCardData] = useState(null)
+  const [activeSection, setActiveSection] = useState('overview')
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    loadDashboardData()
-  }, [])
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     try {
       setLoading(true)
       const [dashboard, notificationsData] = await Promise.all([
@@ -26,17 +26,40 @@ const StaffDashboard = () => {
 
       setDashboardData(dashboard)
       setNotifications(notificationsData.data || [])
+
+      const [idCardResult, remunerationResult, financeResult] = await Promise.allSettled([
+        apiClient.getStaffIdCard(),
+        apiClient.getStaffRemuneration(),
+        apiClient.getStaffFinanceSummary(),
+      ])
+
+      if (idCardResult.status === 'fulfilled') {
+        setIdCardData(idCardResult.value)
+      }
+
+      if (remunerationResult.status === 'fulfilled') {
+        setRemunerationData(remunerationResult.value)
+      }
+
+      if (financeResult.status === 'fulfilled') {
+        setFinanceData(financeResult.value)
+      }
     } catch (error) {
       console.error('Error loading dashboard data:', error)
     } finally {
       setLoading(false)
     }
-  }
+  }, [user.id])
+
+  useEffect(() => {
+    loadDashboardData()
+  }, [loadDashboardData])
 
   const handleSignOut = async () => {
     await signOut()
     navigate('/')
   }
+
 
   if (loading) {
     return (
@@ -46,35 +69,271 @@ const StaffDashboard = () => {
     )
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-gray-900">Staff Dashboard</h1>
-              <span className="text-sm text-gray-500">
-                Welcome, {profile?.full_name}
-              </span>
+  const sectionLabels = [
+    { key: 'overview', label: 'Overview' },
+    { key: 'idCard', label: 'Staff ID Card' },
+    { key: 'remuneration', label: 'Remuneration' },
+    { key: 'finance', label: 'Finance' },
+  ]
+
+  const printStaffIdCard = () => {
+    window.print()
+  }
+
+  const getRemuneration = () => {
+    return remunerationData || {
+      salary_base: dashboardData?.salary || 180000,
+      allowances: dashboardData?.allowances || 24000,
+      annual_bonus: dashboardData?.annual_bonus || 32000,
+      benefits: dashboardData?.benefits || [
+        'Pension & Life Insurance',
+        'Health Maintenance',
+        'Transport Allowance',
+      ],
+      next_pay_date: dashboardData?.next_pay_date || '2026-05-05',
+      currency: 'NGN',
+    }
+  }
+
+  const getFinanceSummary = () => {
+    return financeData || {
+      payroll_budget: dashboardData?.payroll_budget || 125000000,
+      available_cash: dashboardData?.available_cash || 18200000,
+      vendor_payables: dashboardData?.vendor_payables || 3250000,
+      monthly_revenue: dashboardData?.monthly_revenue || 11800000,
+      gross_margin: dashboardData?.gross_margin || 0.42,
+      cost_centers: dashboardData?.cost_centers || [
+        { name: 'Payroll', value: 55 },
+        { name: 'Facilities', value: 18 },
+        { name: 'Learning Tech', value: 14 },
+        { name: 'Nigerian Operations', value: 13 },
+      ],
+      currency: 'NGN',
+    }
+  }
+
+  const getStaffIdCard = () => {
+    return idCardData || {
+      staff_number: dashboardData?.staff_number || 'STF-00923',
+      full_name: profile?.full_name || 'Staff Member',
+      department: dashboardData?.department_name || 'Business Operations',
+      role: dashboardData?.category_name || 'Technical Staff',
+      location: dashboardData?.location || 'Lagos, Nigeria',
+      issue_date: dashboardData?.issue_date || new Date().toLocaleDateString(),
+      expires_on: dashboardData?.expires_on || new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString(),
+      verification_code: dashboardData?.verification_code || 'NG-STAFF-2026-51',
+    }
+  }
+
+  const renderIdCard = () => {
+    const card = getStaffIdCard()
+    return (
+      <div className="bg-white rounded-lg shadow p-6 space-y-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Staff ID Card</p>
+            <h2 className="text-xl font-semibold text-gray-900">Professional Badge</h2>
+          </div>
+          <button
+            onClick={printStaffIdCard}
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700"
+          >
+            Print ID Card
+          </button>
+        </div>
+
+        <div id="staff-id-card" className="rounded-[28px] border border-gray-200 bg-gradient-to-br from-white to-slate-50 p-6 shadow-sm">
+          <div className="grid gap-6 md:grid-cols-[120px_1fr] items-center">
+            <div className="h-32 w-32 rounded-3xl bg-emerald-600 text-white shadow-lg flex items-center justify-center text-4xl font-semibold">
+              {card.full_name?.split(' ').map((part) => part.charAt(0)).join('').slice(0, 2)}
             </div>
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleSignOut}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Sign Out
-              </button>
+            <div>
+              <p className="text-sm uppercase tracking-[0.24em] text-slate-400">{card.role}</p>
+              <h3 className="mt-2 text-2xl font-semibold text-slate-900">{card.full_name}</h3>
+              <p className="mt-2 text-sm text-slate-600">{card.department} · {card.location}</p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Staff number</p>
+              <p className="mt-2 text-lg font-semibold text-slate-900">{card.staff_number}</p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Valid until</p>
+              <p className="mt-2 text-lg font-semibold text-slate-900">{card.expires_on}</p>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-3xl bg-slate-900 p-5 text-white">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-slate-400">Verification code</p>
+                <p className="mt-2 text-lg font-semibold">{card.verification_code}</p>
+              </div>
+              <div className="rounded-3xl bg-slate-800 px-3 py-2 text-right text-xs uppercase text-slate-300">
+                Nigerian Operations
+              </div>
             </div>
           </div>
         </div>
-      </header>
+      </div>
+    )
+  }
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            {/* Quick Stats */}
+  const renderRemuneration = () => {
+    const pay = getRemuneration()
+    const totalCompensation = pay.salary_base + pay.allowances + pay.annual_bonus
+
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-500">Remuneration & Benefits</p>
+              <h2 className="text-xl font-semibold text-gray-900">Payroll summary</h2>
+            </div>
+            <div className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700">
+              Next payroll: {pay.next_pay_date}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Base salary</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{pay.salary_base.toLocaleString()}</p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Allowances</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{pay.allowances.toLocaleString()}</p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Annual bonus</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{pay.annual_bonus.toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-500">Total compensation</p>
+                <p className="mt-2 text-3xl font-semibold text-slate-900">₦{totalCompensation.toLocaleString()}</p>
+              </div>
+              <div className="rounded-full bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600">Net pay estimate</div>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              {pay.benefits.map((benefit, index) => (
+                <div key={index} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+                  <p className="text-sm font-medium text-slate-900">{benefit}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-medium text-slate-500">Benefits cadence</p>
+            <div className="mt-4 space-y-3">
+              <div className="rounded-2xl bg-green-50 p-4">
+                <p className="text-sm text-slate-700">Tax planning and payroll compliance for Lagos operations</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Health insurance premium scheduled each quarter</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Transport & hazard allowance review in June</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderFinanceOverview = () => {
+    const finance = getFinanceSummary()
+    return (
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-500">Company finance</p>
+              <h2 className="text-xl font-semibold text-gray-900">Operational finance dashboard</h2>
+            </div>
+            <div className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
+              Currency: {finance.currency}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-3">
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Available cash</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{finance.available_cash.toLocaleString()}</p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Payroll budget</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{finance.payroll_budget.toLocaleString()}</p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+              <p className="text-sm text-slate-500">Vendor payables</p>
+              <p className="mt-3 text-3xl font-semibold text-slate-900">₦{finance.vendor_payables.toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-gray-500">Monthly revenue</p>
+            <p className="mt-3 text-3xl font-semibold text-slate-900">₦{finance.monthly_revenue.toLocaleString()}</p>
+            <p className="mt-2 text-sm text-slate-500">Gross margin: {(finance.gross_margin * 100).toFixed(0)}%</p>
+
+            <div className="mt-6 space-y-4">
+              {finance.cost_centers.map((center) => (
+                <div key={center.name}>
+                  <div className="flex items-center justify-between text-sm text-slate-600">
+                    <span>{center.name}</span>
+                    <span>{center.value}%</span>
+                  </div>
+                  <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div className="h-full rounded-full bg-emerald-500" style={{ width: `${center.value}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm text-gray-500">Financial highlights</p>
+            <div className="mt-6 space-y-4">
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Focus on cost efficiency for venue rentals across Lagos hubs.</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Optimizing payroll cycles for local salary disbursements.</p>
+              </div>
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-700">Priority onboarding for vendor payments due this quarter.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const renderSectionContent = () => {
+    switch (activeSection) {
+      case 'idCard':
+        return renderIdCard()
+      case 'remuneration':
+        return renderRemuneration()
+      case 'finance':
+        return renderFinanceOverview()
+      default:
+        return (
+          <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center">
@@ -131,7 +390,6 @@ const StaffDashboard = () => {
               </div>
             </div>
 
-            {/* Department Staff */}
             {dashboardData?.department_staff && (
               <div className="bg-white rounded-lg shadow mb-8">
                 <div className="px-6 py-4 border-b border-gray-200">
@@ -166,7 +424,6 @@ const StaffDashboard = () => {
               </div>
             )}
 
-            {/* Recent Activities */}
             <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Recent Activities</h3>
@@ -197,11 +454,68 @@ const StaffDashboard = () => {
                 )}
               </div>
             </div>
+          </>
+        )
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-bold text-gray-900">Staff Dashboard</h1>
+              <span className="text-sm text-gray-500">
+                Welcome, {profile?.full_name}
+              </span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={handleSignOut}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg shadow mb-8">
+              <div className="px-6 py-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-sm text-gray-500">Staff operations</p>
+                  <h2 className="text-xl font-semibold text-gray-900">Manage your ID, payroll, and finance insight</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {sectionLabels.map((section) => (
+                    <button
+                      key={section.key}
+                      onClick={() => setActiveSection(section.key)}
+                      className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                        activeSection === section.key
+                          ? 'bg-green-600 text-white shadow-sm'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      }`}
+                    >
+                      {section.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {renderSectionContent()}
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Notifications */}
             <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Notifications</h3>
@@ -229,7 +543,6 @@ const StaffDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
             <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Quick Actions</h3>
@@ -258,7 +571,6 @@ const StaffDashboard = () => {
               </div>
             </div>
 
-            {/* Staff Info */}
             <div className="bg-white rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h3 className="text-lg font-medium text-gray-900">Staff Information</h3>

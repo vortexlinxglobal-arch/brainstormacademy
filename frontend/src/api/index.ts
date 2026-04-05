@@ -98,6 +98,18 @@ class ApiClient {
     return this.request('/staff')
   }
 
+  async getStaffIdCard() {
+    return this.request('/staff/id-card')
+  }
+
+  async getStaffRemuneration() {
+    return this.request('/staff/remuneration')
+  }
+
+  async getStaffFinanceSummary() {
+    return this.request('/staff/finance')
+  }
+
   async registerStaff(data: {
     email: string
     password: string
