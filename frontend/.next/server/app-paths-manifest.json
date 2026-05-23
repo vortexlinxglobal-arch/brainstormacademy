@@ -1,0 +1,8 @@
+{
+  "/api/course-status/route": "app/api/course-status/route.js",
+  "/page": "app/page.js",
+  "/courses/page": "app/courses/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/courses/[id]/page": "app/courses/[id]/page.js",
+  "/courses/description/[id]/page": "app/courses/description/[id]/page.js"
+}
