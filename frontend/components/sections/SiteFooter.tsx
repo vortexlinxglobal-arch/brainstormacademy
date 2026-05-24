@@ -33,7 +33,7 @@ export function SiteFooter() {
             BA
           </div>
           <p className="max-w-sm text-sm leading-7 text-slate-400">
-            Brainstorm Skills Academy is an NBTE-approved skills training center empowering Nigerian youth with practical, industry-relevant skills for successful careers.
+            Brainstorm Academy Skills is an NBTE-approved skills training center empowering Nigerian youth with practical, industry-relevant skills for successful careers.
           </p>
           <div className="space-y-3 text-sm text-slate-400">
             <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export function SiteFooter() {
 
       <div className="border-t border-[#D4AF37]/15 bg-[#061f12]/90 py-5 text-sm text-slate-400">
         <div className="container-fluid flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Brainstorm Skills Academy. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Brainstorm Academy Skills. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-4 text-slate-400">
             <Link href="/terms" className="transition hover:text-[#D4AF37]">Terms</Link>
             <Link href="/privacy" className="transition hover:text-[#D4AF37]">Privacy</Link>

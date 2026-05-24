@@ -24,7 +24,7 @@ export function CertificatePreviewModal({
   courseTitle,
   issuedDate,
   certificateId,
-  institution = 'Brainstorm Skills Academy',
+  institution = 'Brainstorm Academy Skills',
 }: CertificatePreviewModalProps) {
   const qrPattern = useMemo(() => {
     return Array.from({ length: 6 }, (_, row) =>
