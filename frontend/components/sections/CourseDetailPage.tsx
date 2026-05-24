@@ -184,13 +184,13 @@ export function CourseDetailPage({
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(10,108,63,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.14),transparent_45%)] bg-white dark:bg-slate-950">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A6C3F]/20 to-transparent" />
-        <div className="relative px-4 py-12 sm:px-6 lg:px-8">
+        <div className="relative px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="grid gap-8 lg:grid-cols-3"
+              className="grid gap-8 lg:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)]"
             >
               {/* Main Content */}
               <div className="space-y-6 lg:col-span-2">
@@ -235,7 +235,7 @@ export function CourseDetailPage({
                 </div>
 
                 {/* Stats */}
-                <div className="grid gap-6 sm:grid-cols-4">
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                   <div className="flex items-center gap-3">
                     <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                     <div>
@@ -290,20 +290,20 @@ export function CourseDetailPage({
               {/* Sidebar CTA */}
               <motion.div
                 variants={itemVariants}
-                className="space-y-4 lg:sticky lg:top-6 lg:h-fit"
+                className="space-y-4 lg:sticky lg:top-6 lg:h-fit lg:self-start"
               >
                 <Card className="rounded-2xl border-slate-200 shadow-lg dark:border-slate-800">
                   <CardContent className="space-y-6 p-6">
                     {/* Thumbnail */}
-                    <div className="relative overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900 sm:aspect-[16/9]">
                       <Image
                         src={thumbnail}
                         alt={title}
-                        width={400}
-                        height={225}
-                        className="h-auto w-full object-cover"
+                        width={800}
+                        height={450}
+                        className="h-full w-full object-cover"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 transition hover:bg-black/40">
                         <Play className="h-12 w-12 fill-white text-white" />
                       </div>
                     </div>
@@ -403,20 +403,22 @@ export function CourseDetailPage({
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-            <TabsList className="grid w-full grid-cols-5 rounded-2xl bg-slate-100 p-1 dark:bg-slate-900 lg:w-auto lg:grid-cols-5">
-              <TabsTrigger value="overview" className="rounded-xl">
+            <TabsList className="flex w-full flex-wrap gap-3 overflow-x-auto rounded-2xl bg-slate-100 p-2 dark:bg-slate-900 lg:w-auto lg:flex-nowrap">
+              <div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent dark:from-slate-950 lg:hidden" />
+              <div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent dark:from-slate-950 lg:hidden" />
+              <TabsTrigger value="overview" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="curriculum" className="rounded-xl">
+              <TabsTrigger value="curriculum" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
                 Curriculum
               </TabsTrigger>
-              <TabsTrigger value="reviews" className="rounded-xl">
+              <TabsTrigger value="reviews" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
                 Reviews
               </TabsTrigger>
-              <TabsTrigger value="resources" className="rounded-xl">
+              <TabsTrigger value="resources" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
                 Resources
               </TabsTrigger>
-              <TabsTrigger value="discussions" className="rounded-xl">
+              <TabsTrigger value="discussions" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
                 Discussions
               </TabsTrigger>
             </TabsList>
@@ -445,7 +447,7 @@ export function CourseDetailPage({
               </motion.div>
 
               {/* Course Description */}
-              <div className="grid gap-8 lg:grid-cols-3">
+              <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
                 <div className="space-y-8 lg:col-span-2">
                   <Card className="rounded-2xl border-slate-200 dark:border-slate-800">
                     <CardHeader>
