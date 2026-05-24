@@ -10,7 +10,7 @@ const ImageGallery = () => {
   const [visibleCategories, setVisibleCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [allCategories, setAllCategories] = useState([
+  const [allCategories] = useState([
     { id: "workshop", label: "Workshops", name: "workshop" },
     { id: "craftsmanship", label: "Craftsmanship", name: "craftsmanship" },
     { id: "facility", label: "Facilities", name: "facility" },
