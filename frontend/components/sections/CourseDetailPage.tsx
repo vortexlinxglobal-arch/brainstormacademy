@@ -403,34 +403,47 @@ export function CourseDetailPage({
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-            <TabsList className="flex w-full flex-wrap gap-3 overflow-x-auto rounded-2xl bg-slate-100 p-2 dark:bg-slate-900 lg:w-auto lg:flex-nowrap">
-              <div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent dark:from-slate-950 lg:hidden" />
-              <div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent dark:from-slate-950 lg:hidden" />
-              <TabsTrigger value="overview" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
+            <TabsList className="relative flex w-full items-center gap-3 overflow-x-auto rounded-full bg-slate-100 px-2 py-2 text-left shadow-sm shadow-slate-200/50 dark:bg-slate-900 dark:shadow-none lg:w-auto">
+              <TabsTrigger
+                value="overview"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+              >
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="curriculum" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
+              <TabsTrigger
+                value="curriculum"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+              >
                 Curriculum
               </TabsTrigger>
-              <TabsTrigger value="reviews" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
+              <TabsTrigger
+                value="reviews"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+              >
                 Reviews
               </TabsTrigger>
-              <TabsTrigger value="resources" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
+              <TabsTrigger
+                value="resources"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+              >
                 Resources
               </TabsTrigger>
-              <TabsTrigger value="discussions" className="min-w-[10rem] rounded-xl px-4 py-3 text-left">
+              <TabsTrigger
+                value="discussions"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+              >
                 Discussions
               </TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
-            <TabsContent value="overview" className="space-y-8">
+            <TabsContent value="overview" className="space-y-6">
               {/* Video Player */}
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={activeTab === 'overview' ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4 }}
-                className="overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900"
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95"
               >
                 <div className="relative aspect-video w-full bg-black">
                   <iframe
@@ -447,9 +460,9 @@ export function CourseDetailPage({
               </motion.div>
 
               {/* Course Description */}
-              <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
-                <div className="space-y-8 lg:col-span-2">
-                  <Card className="rounded-2xl border-slate-200 dark:border-slate-800">
+              <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+                <div className="space-y-6 lg:col-span-2">
+                  <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95">
                     <CardHeader>
                       <CardTitle>About this course</CardTitle>
                     </CardHeader>
@@ -509,13 +522,18 @@ export function CourseDetailPage({
 
             {/* Curriculum Tab */}
             <TabsContent value="curriculum" className="space-y-6">
-              <Accordion type="single" collapsible className="space-y-3">
-                {modules.map((module, idx) => (
-                  <AccordionItem
-                    key={module.id}
-                    value={module.id}
-                    className="rounded-2xl border border-slate-200 px-6 dark:border-slate-800"
-                  >
+              <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95">
+                <CardHeader>
+                  <CardTitle>Curriculum</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Accordion type="single" collapsible className="space-y-3">
+                    {modules.map((module, idx) => (
+                      <AccordionItem
+                        key={module.id}
+                        value={module.id}
+                        className="rounded-3xl border border-slate-200 px-6 dark:border-slate-800"
+                      >
                     <AccordionTrigger className="hover:no-underline">
                       <div className="flex items-center gap-4">
                         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0A6C3F]/10 text-sm font-semibold text-[#0A6C3F]">
@@ -562,7 +580,9 @@ export function CourseDetailPage({
                   </AccordionItem>
                 ))}
               </Accordion>
-            </TabsContent>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
             {/* Reviews Tab */}
             <TabsContent value="reviews" className="space-y-6">
