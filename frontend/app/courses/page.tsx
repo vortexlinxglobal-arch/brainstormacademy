@@ -67,7 +67,7 @@ export default function CoursesPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="overflow-visible bg-white dark:bg-slate-950">
       <header className="z-40 border-b border-slate-200 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 md:sticky md:top-0">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
