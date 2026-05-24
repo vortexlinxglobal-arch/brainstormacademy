@@ -68,8 +68,8 @@ export default function CoursesPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
-      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
+      <header className="z-40 border-b border-slate-200 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 md:sticky md:top-0">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               ← Back to home
@@ -84,7 +84,7 @@ export default function CoursesPage() {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-2 xs:grid-cols-2 sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">NSQ Courses</p>
               <p className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">17+</p>
@@ -105,9 +105,9 @@ export default function CoursesPage() {
         </div>
       </header>
 
-      <section className="bg-slate-50 dark:bg-slate-950/80 py-10">
+      <section className="bg-slate-50 dark:bg-slate-950/80 py-6 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 sm:p-8">
+          <div className="rounded-2xl sm:rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 sm:p-6 md:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">Our NSQ Courses</p>
@@ -131,13 +131,13 @@ export default function CoursesPage() {
         </div>
       </section>
 
-      <div className="px-4 py-10 sm:px-6 lg:px-8">
+      <div className="px-3 py-6 sm:px-6 sm:py-10 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr]">
             <motion.aside
               initial={{ opacity: 0, x: -24 }}
               animate={{ opacity: 1, x: 0 }}
-              className={`lg:block ${showFilters ? 'block' : 'hidden'} space-y-8`}
+              className={`md:block ${showFilters ? 'block' : 'hidden'} space-y-6 sm:space-y-8`}
             >
               <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
                 <div className="flex items-center justify-between gap-3">
