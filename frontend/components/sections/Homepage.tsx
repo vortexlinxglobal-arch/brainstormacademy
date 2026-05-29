@@ -149,37 +149,37 @@ const recentPrograms = [
     id: '1',
     title: 'Woodwork & Craftsmanship',
     category: 'Creative Trade',
-    image: 'https://images.unsplash.com/photo-1516179257070-5f1a4f8f6f3f?w=900&h=650&fit=crop',
+    image: '/images/gallery/painting-1.jpg',
   },
   {
     id: '2',
     title: 'Digital Media Production',
     category: 'Creative Tech',
-    image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=900&h=650&fit=crop',
+    image: '/images/gallery/hospitality-1.jpg',
   },
   {
     id: '3',
     title: 'Hospitality & Event Styling',
     category: 'Service Skills',
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=650&fit=crop',
+    image: '/images/gallery/hospitality-4.jpg',
   },
   {
     id: '4',
     title: 'Electrical & Solar Installation',
     category: 'Energy Trade',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&h=650&fit=crop',
+    image: '/images/gallery/painting-5.jpg',
   },
   {
     id: '5',
     title: 'Fashion Design Labs',
     category: 'Creative Enterprise',
-    image: 'https://images.unsplash.com/photo-1495121605193-b116b5b9c5d4?w=900&h=650&fit=crop',
+    image: '/images/gallery/painting-3.jpg',
   },
   {
     id: '6',
     title: 'ICT & Network Cabling',
     category: 'Digital Skills',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&h=650&fit=crop',
+    image: '/images/gallery/hospitality-6.jpg',
   },
 ]
 
