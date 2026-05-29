@@ -403,7 +403,7 @@ export function CourseDetailPage({
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-            <TabsList className="relative flex w-full items-center gap-3 overflow-x-auto rounded-full bg-slate-100 px-2 py-2 text-left shadow-sm shadow-slate-200/50 dark:bg-slate-900 dark:shadow-none lg:w-auto">
+            <TabsList className="relative flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto rounded-full bg-slate-100 px-2 py-2 text-left shadow-sm shadow-slate-200/50 dark:bg-slate-900 dark:shadow-none lg:w-auto">
               <TabsTrigger
                 value="overview"
                 className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
@@ -466,7 +466,7 @@ export function CourseDetailPage({
                     <CardHeader>
                       <CardTitle>About this course</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 divide-y divide-slate-200 dark:divide-slate-800">
                       <p className="text-slate-700 dark:text-slate-300">{description}</p>
                       <div className="space-y-4">
                         <div>
@@ -526,7 +526,7 @@ export function CourseDetailPage({
                 <CardHeader>
                   <CardTitle>Curriculum</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 divide-y divide-slate-200 dark:divide-slate-800">
                   <Accordion type="single" collapsible className="space-y-3">
                     {modules.map((module, idx) => (
                       <AccordionItem
@@ -648,7 +648,33 @@ export function CourseDetailPage({
             </TabsContent>
           </Tabs>
         </div>
+
+        <div className="lg:hidden" aria-hidden="true">
+          <div className="h-24" />
+        </div>
       </section>
+
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-xl shadow-slate-200/20 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95 lg:hidden">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+              {isEnrolled ? 'Keep going with this course' : 'Ready to start learning?'}
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {isEnrolled ? 'Continue where you left off.' : 'Secure your spot in the next session.'}
+            </p>
+          </div>
+          <Button
+            variant="brand"
+            size="lg"
+            className="min-w-[10rem] rounded-2xl"
+            onClick={() => handleToggleStatus('toggle-enroll')}
+            disabled={isStatusLoading}
+          >
+            {isStatusLoading ? 'Loading…' : isEnrolled ? 'Continue' : 'Enroll Now'}
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

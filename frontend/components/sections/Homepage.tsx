@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Badge } from '@/components/ui/badge'
@@ -143,6 +144,45 @@ const programCategories = [
   },
 ]
 
+const recentPrograms = [
+  {
+    id: '1',
+    title: 'Woodwork & Craftsmanship',
+    category: 'Creative Trade',
+    image: 'https://images.unsplash.com/photo-1516179257070-5f1a4f8f6f3f?w=900&h=650&fit=crop',
+  },
+  {
+    id: '2',
+    title: 'Digital Media Production',
+    category: 'Creative Tech',
+    image: 'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=900&h=650&fit=crop',
+  },
+  {
+    id: '3',
+    title: 'Hospitality & Event Styling',
+    category: 'Service Skills',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=650&fit=crop',
+  },
+  {
+    id: '4',
+    title: 'Electrical & Solar Installation',
+    category: 'Energy Trade',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=900&h=650&fit=crop',
+  },
+  {
+    id: '5',
+    title: 'Fashion Design Labs',
+    category: 'Creative Enterprise',
+    image: 'https://images.unsplash.com/photo-1495121605193-b116b5b9c5d4?w=900&h=650&fit=crop',
+  },
+  {
+    id: '6',
+    title: 'ICT & Network Cabling',
+    category: 'Digital Skills',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&h=650&fit=crop',
+  },
+]
+
 export function Homepage() {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -219,6 +259,105 @@ export function Homepage() {
                   </Card>
                 </motion.div>
               ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-950 text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="space-y-10"
+          >
+            <motion.div variants={itemVariants} className="space-y-4 text-center mx-auto max-w-3xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">
+                Recent Programs
+              </p>
+              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                Discover the latest programs in motion.
+              </h2>
+              <p className="text-base leading-7 text-slate-300 sm:text-lg">
+                A living gallery of recent program launches, designed with smooth flow and responsive polish for every screen.
+              </p>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="space-y-6">
+              <div className="grid gap-4 lg:hidden">
+                {recentPrograms.map((program) => (
+                  <div key={program.id} className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={program.image}
+                        alt={program.title}
+                        fill
+                        className="object-cover transition duration-700 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="space-y-2 p-5">
+                      <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
+                      <h3 className="text-xl font-semibold text-white">{program.title}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="hidden lg:space-y-6">
+                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
+                  <div className="relative overflow-hidden">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
+                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marquee 30s linear infinite' }}>
+                      {[...recentPrograms, ...recentPrograms].map((program, index) => (
+                        <div key={`${program.id}-top-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
+                          <div className="relative h-64 overflow-hidden">
+                            <Image
+                              src={program.image}
+                              alt={program.title}
+                              fill
+                              className="object-cover transition duration-700 hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
+                          </div>
+                          <div className="p-5">
+                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
+                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
+                  <div className="relative overflow-hidden">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
+                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marqueeReverse 32s linear infinite' }}>
+                      {[...recentPrograms.slice().reverse(), ...recentPrograms.slice().reverse()].map((program, index) => (
+                        <div key={`${program.id}-bottom-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
+                          <div className="relative h-64 overflow-hidden">
+                            <Image
+                              src={program.image}
+                              alt={program.title}
+                              fill
+                              className="object-cover transition duration-700 hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
+                          </div>
+                          <div className="p-5">
+                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
+                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
