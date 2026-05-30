@@ -23,7 +23,8 @@ async function runMigrations() {
       '002_staff_profiles.sql',
       '003_trades_courses.sql',
       '004_students.sql',
-      '005_admissions_letters.sql'
+      '005_admissions_letters.sql',
+      '008_program_gallery.sql'
     ]
 
     // Run each migration

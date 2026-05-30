@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -144,46 +145,72 @@ const programCategories = [
   },
 ]
 
-const recentPrograms = [
+// Fallback data in case API fails
+const FALLBACK_PROGRAMS = [
   {
     id: '1',
     title: 'Woodwork & Craftsmanship',
     category: 'Creative Trade',
-    image: '/images/gallery/painting-1.jpg',
+    image_url: '/images/gallery/painting-1.jpg',
   },
   {
     id: '2',
     title: 'Digital Media Production',
     category: 'Creative Tech',
-    image: '/images/gallery/hospitality-1.jpg',
+    image_url: '/images/gallery/hospitality-1.jpg',
   },
   {
     id: '3',
     title: 'Hospitality & Event Styling',
     category: 'Service Skills',
-    image: '/images/gallery/hospitality-4.jpg',
+    image_url: '/images/gallery/hospitality-4.jpg',
   },
   {
     id: '4',
     title: 'Electrical & Solar Installation',
     category: 'Energy Trade',
-    image: '/images/gallery/painting-5.jpg',
+    image_url: '/images/gallery/painting-5.jpg',
   },
   {
     id: '5',
     title: 'Fashion Design Labs',
     category: 'Creative Enterprise',
-    image: '/images/gallery/painting-3.jpg',
+    image_url: '/images/gallery/painting-3.jpg',
   },
   {
     id: '6',
     title: 'ICT & Network Cabling',
     category: 'Digital Skills',
-    image: '/images/gallery/hospitality-6.jpg',
+    image_url: '/images/gallery/hospitality-6.jpg',
   },
 ]
 
 export function Homepage() {
+  const [recentPrograms, setRecentPrograms] = useState(FALLBACK_PROGRAMS)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        const response = await fetch('/api/programs')
+        if (!response.ok) throw new Error('Failed to fetch programs')
+        const data = await response.json()
+        // Map API response to use image_url instead of image
+        const mappedData = data.map((prog: any) => ({
+          ...prog,
+          image_url: prog.image_url || '/images/gallery/painting-1.jpg',
+        }))
+        setRecentPrograms(mappedData.length > 0 ? mappedData : FALLBACK_PROGRAMS)
+      } catch (error) {
+        console.error('Error fetching programs:', error)
+        setRecentPrograms(FALLBACK_PROGRAMS)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchPrograms()
+  }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -291,7 +318,7 @@ export function Homepage() {
                   <div key={program.id} className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
                     <div className="relative h-64 overflow-hidden">
                       <Image
-                        src={program.image}
+                        src={program.image_url}
                         alt={program.title}
                         fill
                         className="object-cover transition duration-700 group-hover:scale-105"
@@ -315,7 +342,7 @@ export function Homepage() {
                         <div key={`${program.id}-top-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
                           <div className="relative h-64 overflow-hidden">
                             <Image
-                              src={program.image}
+                              src={program.image_url}
                               alt={program.title}
                               fill
                               className="object-cover transition duration-700 hover:scale-105"
@@ -341,7 +368,7 @@ export function Homepage() {
                         <div key={`${program.id}-bottom-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
                           <div className="relative h-64 overflow-hidden">
                             <Image
-                              src={program.image}
+                              src={program.image_url}
                               alt={program.title}
                               fill
                               className="object-cover transition duration-700 hover:scale-105"
