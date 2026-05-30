@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X, Search, Bell } from 'lucide-react'
@@ -18,18 +19,54 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#D4AF37]/15 bg-white/95 backdrop-blur-xl shadow-sm">
-      <div className="container-fluid flex items-center justify-between gap-4 py-4 md:py-5">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-[#0A6C3F] via-[#4d8b55] to-[#D4AF37] text-lg font-bold text-white shadow-lg shadow-[#0A6C3F]/15">
-            BS
+      <div className="container-fluid flex items-center justify-between gap-4 py-2.5 sm:py-3 md:py-4 lg:py-5">
+        {/* Logo with responsive sizing */}
+        <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 transition-transform hover:scale-105">
+          {/* Mobile logo - 32px height on small screens */}
+          <div className="h-8 w-auto sm:hidden">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Brainstorm Skills Logo"
+              width={48}
+              height={48}
+              className="h-full w-auto object-contain"
+              priority
+            />
           </div>
+
+          {/* Tablet/small screens - 40px height */}
+          <div className="hidden sm:block md:hidden h-10 w-auto">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Brainstorm Skills Logo"
+              width={60}
+              height={60}
+              className="h-full w-auto object-contain"
+              priority
+            />
+          </div>
+
+          {/* Desktop - 48px height and above */}
+          <div className="hidden md:block h-12 w-auto">
+            <Image
+              src="/assets/images/logo.png"
+              alt="Brainstorm Skills Logo"
+              width={72}
+              height={72}
+              className="h-full w-auto object-contain"
+              priority
+            />
+          </div>
+
+          {/* Text branding - hidden on very small screens, visible sm and up */}
           <div className="hidden sm:block">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">Brainstorm</p>
-            <p className="text-sm font-bold text-slate-900">Skills Academy</p>
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-500">Brainstorm</p>
+            <p className="text-xs sm:text-sm font-bold text-slate-900">Skills Academy</p>
           </div>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -42,34 +79,36 @@ export function SiteHeader() {
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-2 lg:gap-3 flex-shrink-0">
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
+            className="inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
             aria-label="Search"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-4 lg:h-5 w-4 lg:w-5" />
           </button>
           <button
             type="button"
-            className="relative inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
+            className="relative inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
             aria-label="Notifications"
           >
-            <Bell className="h-5 w-5" />
-            <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[#D4AF37] px-1.5 text-[11px] font-semibold text-slate-950">3</span>
+            <Bell className="h-4 lg:h-5 w-4 lg:w-5" />
+            <span className="absolute -right-1 -top-1 flex h-4 lg:h-5 min-w-[1rem] lg:min-w-[1.25rem] items-center justify-center rounded-full bg-[#D4AF37] px-1 lg:px-1.5 text-[10px] lg:text-[11px] font-semibold text-slate-950">3</span>
           </button>
-          <Button asChild variant="brand" className="rounded-full px-4 py-3 text-sm">
+          <Button asChild variant="brand" className="rounded-full px-3 lg:px-4 py-2.5 lg:py-3 text-xs lg:text-sm">
             <Link href="/signin">Sign In</Link>
           </Button>
-          <Button asChild variant="gold" className="rounded-full px-4 py-3 text-sm">
+          <Button asChild variant="gold" className="rounded-full px-3 lg:px-4 py-2.5 lg:py-3 text-xs lg:text-sm">
             <Link href="/signup">Get Started</Link>
           </Button>
         </div>
 
+        {/* Mobile Menu Button */}
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F] md:hidden"
+          className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F] md:hidden flex-shrink-0"
           aria-label="Toggle mobile menu"
           aria-expanded={open}
         >
@@ -77,6 +116,7 @@ export function SiteHeader() {
         </button>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open ? (
           <motion.div
@@ -86,7 +126,7 @@ export function SiteHeader() {
             transition={{ duration: 0.25 }}
             className="md:hidden border-t border-slate-200 bg-white/95"
           >
-            <div className="container-fluid space-y-4 py-4">
+            <div className="container-fluid space-y-3 py-4 sm:py-5">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -98,7 +138,7 @@ export function SiteHeader() {
                 </Link>
               ))}
 
-              <div className="flex flex-col gap-3 pt-2">
+              <div className="flex flex-col gap-2.5 pt-3 sm:pt-4">
                 <Button asChild variant="brand" className="w-full rounded-full px-4 py-3 text-sm">
                   <Link href="/signin">Sign In</Link>
                 </Button>
