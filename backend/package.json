@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "npx supabase start"
+  },
   "devDependencies": {
     "supabase": "^2.65.6"
   }

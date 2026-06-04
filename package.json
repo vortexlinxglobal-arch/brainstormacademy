@@ -7,6 +7,8 @@
   ],
   "scripts": {
     "dev": "cd frontend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev || echo 'No backend dev script configured yet'",
     "start": "cd frontend && npm start",
     "build": "cd frontend && npm run build",
     "test": "cd frontend && npm test",
