@@ -27,7 +27,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="min-h-[320px] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A6C3F]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1a6b53]"></div>
       </div>
     )
   }

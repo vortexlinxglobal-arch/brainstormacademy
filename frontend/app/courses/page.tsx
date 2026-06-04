@@ -119,7 +119,7 @@ export default function CoursesPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#0A6C3F] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#095d34]">
+                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#1a6b53] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#095d34]">
                   Ask a question
                 </Link>
                 <Link href="/about" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-slate-500">
@@ -162,7 +162,7 @@ export default function CoursesPage() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search by course, instructor, or skill"
-                      className="w-full rounded-3xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#0A6C3F] focus:ring-2 focus:ring-[#0A6C3F]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
+                      className="w-full rounded-3xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
                     />
                   </div>
                 </div>
@@ -178,7 +178,7 @@ export default function CoursesPage() {
                       onClick={() => setSelectedCategory(category)}
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedCategory === category
-                          ? 'bg-[#0A6C3F] text-white shadow-sm'
+                          ? 'bg-[#1a6b53] text-white shadow-sm'
                           : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800'
                       }`}
                     >
@@ -198,7 +198,7 @@ export default function CoursesPage() {
                       onClick={() => setSelectedLevel(level)}
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedLevel === level
-                          ? 'bg-[#0A6C3F] text-white shadow-sm'
+                          ? 'bg-[#1a6b53] text-white shadow-sm'
                           : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800'
                       }`}
                     >

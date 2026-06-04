@@ -114,7 +114,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
           <div className="flex h-full flex-col justify-between px-4 py-6">
             <div>
               <div className="flex items-center gap-3 px-2 pb-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0A6C3F] shadow-lg shadow-[#0A6C3F]/20">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#1a6b53] shadow-lg shadow-[#1a6b53]/20">
                   <span className="text-lg font-bold text-white">BA</span>
                 </div>
                 {sidebarOpen ? (
@@ -136,7 +136,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                         className={
                           'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-colors ' +
                           (active
-                            ? 'bg-[#0A6C3F] text-white shadow-sm'
+                            ? 'bg-[#1a6b53] text-white shadow-sm'
                             : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900')
                         }
                         aria-current={active ? 'page' : undefined}
@@ -193,7 +193,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                     type="search"
                     aria-label="Search courses, dashboards, resources"
                     placeholder="Search courses, dashboards, resources"
-                    className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-100 py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#0A6C3F] focus:ring-2 focus:ring-[#0A6C3F]/20 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
+                    className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-100 py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
                   />
                 </div>
               </div>
@@ -257,7 +257,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                     <div className="flex flex-col items-center gap-1 text-xs">
                       <span
                         className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl transition ${
-                          active ? 'bg-[#0A6C3F] text-white' : 'text-slate-500'
+                          active ? 'bg-[#1a6b53] text-white' : 'text-slate-500'
                         }`}
                       >
                         <Icon className="h-5 w-5" />

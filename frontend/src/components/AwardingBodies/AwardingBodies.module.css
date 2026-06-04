@@ -31,7 +31,7 @@
   gap: 8px;
   background: rgba(46, 125, 50, 0.1);
   border: 1px solid rgba(46, 125, 50, 0.2);
-  color: #2e7d32;
+  color: #1a6b53;
   padding: 8px 16px;
   border-radius: 50px;
   font-size: 12px;
@@ -96,14 +96,14 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #2e7d32 0%, #6d4023 100%);
+  background: linear-gradient(90deg, #1a6b53 0%, #d4a873 100%);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  border-color: #2e7d32;
+  border-color: #1a6b53;
   transform: translateY(-8px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
@@ -138,7 +138,7 @@
 }
 
 .card:hover .logoContainer {
-  border-color: #2e7d32;
+  border-color: #1a6b53;
   transform: scale(1.05);
 }
 
@@ -155,7 +155,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #d4a873 100%);
   color: white;
   font-size: 16px;
   font-weight: 800;
@@ -172,7 +172,7 @@
   border-radius: 20px;
   font-size: 11px;
   font-weight: 700;
-  color: #6d4023;
+  color: #d4a873;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -213,12 +213,12 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  color: #2e7d32;
+  color: #1a6b53;
 }
 
 .verified svg {
   flex-shrink: 0;
-  color: #2e7d32;
+  color: #1a6b53;
 }
 
 /* Stats */
@@ -245,7 +245,7 @@
 .statValue {
   font-size: 40px;
   font-weight: 900;
-  color: #2e7d32;
+  color: #1a6b53;
   letter-spacing: -1px;
   line-height: 1;
 }
@@ -513,7 +513,7 @@
 
 /* Focus States */
 .card:focus-within {
-  outline: 3px solid #2e7d32;
+  outline: 3px solid #1a6b53;
   outline-offset: 3px;
 }
 
@@ -563,7 +563,7 @@
   }
 
   .verified {
-    border: 1px solid #2e7d32;
+    border: 1px solid #1a6b53;
   }
 
   .stats {
@@ -599,7 +599,7 @@
 /* Hover Enhancement for Desktop */
 @media (hover: hover) and (pointer: fine) {
   .card:hover .cardTitle {
-    color: #2e7d32;
+    color: #1a6b53;
   }
 
   .card:hover .verified {

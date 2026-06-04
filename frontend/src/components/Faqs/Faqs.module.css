@@ -31,7 +31,7 @@
   gap: 8px;
   background: rgba(46, 125, 50, 0.1);
   border: 1px solid rgba(46, 125, 50, 0.2);
-  color: #2e7d32;
+  color: #1a6b53;
   padding: 8px 16px;
   border-radius: 50px;
   font-size: 12px;
@@ -84,14 +84,14 @@
 }
 
 .categoryBtn:hover {
-  border-color: #2e7d32;
-  color: #2e7d32;
+  border-color: #1a6b53;
+  color: #1a6b53;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
 }
 
 .categoryBtn.active {
-  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #0d4a3a 100%);
   color: white;
   border-color: transparent;
   box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
@@ -132,7 +132,7 @@
 }
 
 .faqItem.open {
-  border-color: #2e7d32;
+  border-color: #1a6b53;
   box-shadow: 0 8px 24px rgba(46, 125, 50, 0.12);
 }
 
@@ -177,7 +177,7 @@
 
 .faqItem.open .icon {
   transform: rotate(180deg);
-  color: #2e7d32;
+  color: #1a6b53;
 }
 
 /* FAQ Answer */
@@ -292,7 +292,7 @@
 }
 
 .primaryBtn {
-  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #0d4a3a 100%);
   color: white;
   box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
 }
@@ -308,12 +308,12 @@
 
 .secondaryBtn {
   background: white;
-  color: #2e7d32;
-  border: 2px solid #2e7d32;
+  color: #1a6b53;
+  border: 2px solid #1a6b53;
 }
 
 .secondaryBtn:hover {
-  background: #2e7d32;
+  background: #1a6b53;
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(46, 125, 50, 0.2);
@@ -552,7 +552,7 @@
 .categoryBtn:focus-visible,
 .primaryBtn:focus-visible,
 .secondaryBtn:focus-visible {
-  outline: 3px solid #2e7d32;
+  outline: 3px solid #1a6b53;
   outline-offset: 3px;
 }
 

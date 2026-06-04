@@ -51,7 +51,7 @@
 }
 
 .blog-post-content a {
-  color: #2e7d32;
+  color: #1a6b53;
   font-weight: 600;
   text-decoration: none;
   border-bottom: 2px solid rgba(46, 125, 50, 0.3);
@@ -59,7 +59,7 @@
 }
 
 .blog-post-content a:hover {
-  border-bottom-color: #2e7d32;
+  border-bottom-color: #1a6b53;
 }
 
 .blog-post-content ul,
@@ -75,7 +75,7 @@
 }
 
 .blog-post-content li strong {
-  color: #2e7d32;
+  color: #1a6b53;
   font-weight: 700;
 }
 
@@ -92,7 +92,7 @@
   margin: 32px 0;
   padding: 24px 28px;
   background: rgba(46, 125, 50, 0.05);
-  border-left: 4px solid #2e7d32;
+  border-left: 4px solid #1a6b53;
   border-radius: 8px;
   font-size: 17px;
   font-style: italic;

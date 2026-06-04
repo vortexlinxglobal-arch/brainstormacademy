@@ -25,7 +25,7 @@ export function LearningPathCard({ pathName, description, steps, completion }: L
       <CardHeader className="px-6 pt-6">
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className="bg-[#0A6C3F] text-white">
+            <Badge variant="secondary" className="bg-[#1a6b53] text-white">
               Learning Path
             </Badge>
             <Badge variant="outline" className="rounded-full border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
@@ -71,7 +71,7 @@ export function LearningPathCard({ pathName, description, steps, completion }: L
               <span>{completion}% complete</span>
             </div>
             <div className="h-3 rounded-full bg-slate-200 dark:bg-slate-800">
-              <div className="h-full rounded-full bg-[#0A6C3F]" style={{ width: `${completion}%` }} />
+              <div className="h-full rounded-full bg-[#1a6b53]" style={{ width: `${completion}%` }} />
             </div>
           </div>
 

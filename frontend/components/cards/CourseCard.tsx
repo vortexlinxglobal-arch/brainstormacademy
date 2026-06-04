@@ -57,7 +57,7 @@ export function CourseCard({
         className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-950"
         aria-labelledby={`course-card-title-${id}`}
       >
-      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A6C3F]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950">
+      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a6b53]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950">
         <div className="relative aspect-video overflow-hidden bg-slate-100 sm:aspect-[16/12]">
           <Image
             src={thumbnail}
@@ -67,7 +67,7 @@ export function CourseCard({
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             priority={false}
           />
-          <div className="absolute left-4 top-4 rounded-full bg-[#0A6C3F]/95 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-lg shadow-slate-950/20">
+          <div className="absolute left-4 top-4 rounded-full bg-[#1a6b53]/95 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-lg shadow-slate-950/20">
             {category}
           </div>
         </div>
@@ -82,7 +82,7 @@ export function CourseCard({
         </div>
 
         <div className="space-y-3">
-          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 dark:text-slate-100 transition-colors group-hover:text-[#0A6C3F]">
+          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 dark:text-slate-100 transition-colors group-hover:text-[#1a6b53]">
             {title}
           </h3>
           <div className="flex items-center gap-3">

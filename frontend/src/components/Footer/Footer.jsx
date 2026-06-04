@@ -80,7 +80,7 @@ const Footer = () => {
                   <defs>
                     <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#2d7a3e"/>
-                      <stop offset="100%" stopColor="#6d4023"/>
+                      <stop offset="100%" stopColor="#d4a873"/>
                     </linearGradient>
                   </defs>
                 </svg>

@@ -61,7 +61,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
   return (
     <div className="space-y-8">
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <Card className="bg-gradient-to-br from-[#0A6C3F] to-[#07542f] text-white overflow-hidden">
+        <Card className="bg-gradient-to-br from-[#1a6b53] to-[#07542f] text-white overflow-hidden">
           <CardContent className="relative overflow-hidden rounded-[2rem] bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.16),_transparent_30%)] p-8 sm:p-10">
             <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
             <div className="relative space-y-6">
@@ -175,7 +175,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
                   <p className="text-xs uppercase tracking-[0.3em] text-emerald-600">{course.level}</p>
                   <h3 className="mt-3 text-lg font-semibold text-slate-900 dark:text-slate-100">{course.title}</h3>
                 </div>
-                <span className="inline-flex items-center rounded-full bg-[#0A6C3F]/10 px-3 py-1 text-xs font-semibold text-[#0A6C3F]">{course.dueIn}</span>
+                <span className="inline-flex items-center rounded-full bg-[#1a6b53]/10 px-3 py-1 text-xs font-semibold text-[#1a6b53]">{course.dueIn}</span>
               </div>
               <div className="mt-5 h-40 overflow-hidden rounded-3xl bg-slate-100 dark:bg-slate-900">
                 <img src={course.thumbnail} alt={course.title} className="h-full w-full object-cover" />
@@ -222,8 +222,8 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
           <CardContent className="grid gap-4 sm:grid-cols-2">
             {achievements.map((achievement) => (
               <div key={achievement.title} className="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
-                <div className="flex items-center gap-3 text-[#0A6C3F]">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-[#0A6C3F] shadow-sm">
+                <div className="flex items-center gap-3 text-[#1a6b53]">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-[#1a6b53] shadow-sm">
                     {getBadgeIcon(achievement.icon)}
                   </span>
                   <div>

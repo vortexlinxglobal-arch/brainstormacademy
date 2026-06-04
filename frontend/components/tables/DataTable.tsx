@@ -110,7 +110,7 @@ export function DataTable<Row extends Record<string, unknown>>({
                   setPage(1)
                 }}
                 placeholder="Search records"
-                className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-100 px-11 text-sm text-slate-900 outline-none transition focus:border-[#0A6C3F] focus:ring-2 focus:ring-[#0A6C3F]/20 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
+                className="h-12 w-full rounded-2xl border border-slate-200 bg-slate-100 px-11 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100"
               />
             </div>
             {onExport ? (
@@ -151,7 +151,7 @@ export function DataTable<Row extends Record<string, unknown>>({
                     type="checkbox"
                     checked={selectedIds.size === paginatedData.length && paginatedData.length > 0}
                     onChange={toggleAll}
-                    className="h-4 w-4 rounded border-slate-300 text-[#0A6C3F] focus:ring-[#0A6C3F]"
+                    className="h-4 w-4 rounded border-slate-300 text-[#1a6b53] focus:ring-[#1a6b53]"
                     aria-label="Select all rows"
                   />
                 </label>
@@ -201,7 +201,7 @@ export function DataTable<Row extends Record<string, unknown>>({
                         type="checkbox"
                         checked={selectedIds.has(row[idKey] as Row[keyof Row & string])}
                         onChange={() => toggleRow(row[idKey] as Row[keyof Row & string])}
-                        className="h-4 w-4 rounded border-slate-300 text-[#0A6C3F] focus:ring-[#0A6C3F]"
+                        className="h-4 w-4 rounded border-slate-300 text-[#1a6b53] focus:ring-[#1a6b53]"
                         aria-label={`Select row ${String(row[idKey])}`}
                       />
                     </label>

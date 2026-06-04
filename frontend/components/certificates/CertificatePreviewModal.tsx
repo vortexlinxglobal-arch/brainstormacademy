@@ -38,7 +38,7 @@ export function CertificatePreviewModal({
       <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
         <defs>
           <linearGradient id="certBg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#0A6C3F;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#1a6b53;stop-opacity:1" />
             <stop offset="50%" style="stop-color:#10B981;stop-opacity:1" />
             <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
           </linearGradient>
@@ -105,7 +105,7 @@ export function CertificatePreviewModal({
 
           <!-- Badges -->
           <g transform="translate(0, 440)">
-            <rect x="0" y="0" width="120" height="30" fill="#0A6C3F" rx="15" ry="15"/>
+            <rect x="0" y="0" width="120" height="30" fill="#1a6b53" rx="15" ry="15"/>
             <text x="60" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">NSQ Certified</text>
 
             <rect x="130" y="0" width="140" height="30" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" rx="15" ry="15"/>
@@ -194,7 +194,7 @@ export function CertificatePreviewModal({
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Badge variant="default" className="bg-[#0A6C3F] text-white">
+              <Badge variant="default" className="bg-[#1a6b53] text-white">
                 NSQ Certified
               </Badge>
               <Badge variant="outline" className="border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
@@ -213,7 +213,7 @@ export function CertificatePreviewModal({
             </Button>
           </div>
 
-          <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-[#0A6C3F] via-[#10B981] to-[#D4AF37] p-8 text-white shadow-xl dark:border-slate-800">
+          <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-[#1a6b53] via-[#10B981] to-[#D4AF37] p-8 text-white shadow-xl dark:border-slate-800">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.18),_transparent_22%)]" />
             <div className="relative space-y-5">
               <div className="rounded-[1.75rem] border border-white/15 bg-white/10 p-6 shadow-lg shadow-black/10">

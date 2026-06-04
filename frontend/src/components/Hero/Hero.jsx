@@ -6,6 +6,7 @@ const Hero = () => {
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const slides = [
     {
@@ -65,12 +66,28 @@ const Hero = () => {
     },
   ];
 
+  // Auto-advance carousel
   useEffect(() => {
     setIsLoaded(true);
+    if (isPaused) return;
+    
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 4500);
     return () => clearInterval(interval);
+  }, [slides.length, isPaused]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === 'ArrowRight') {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      } else if (e.key === 'ArrowLeft') {
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
   }, [slides.length]);
 
   const handleSlideChange = (index) => {
@@ -149,7 +166,11 @@ const Hero = () => {
         </div>
 
         {/* Right Carousel */}
-        <div className={styles.carouselWrapper}>
+        <div 
+          className={styles.carouselWrapper}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
           <div className={styles.carousel}>
             {slides.map((slide, index) => (
               <div

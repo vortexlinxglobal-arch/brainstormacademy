@@ -9,28 +9,28 @@
   --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
   --font-display: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;
 
-  /* Brand Colors */
-  --color-primary: #006400;
-  --color-primary-dark: #004d1a;
-  --color-blue: #0077be;
-  --color-blue-dark: #005a8f;
-  --color-accent: #ffc300;
-  --color-accent-soft: #fff8e2;
+  /* Brand Colors - Fine Green & Metallic Gold */
+  --color-primary: #1a6b53;
+  --color-primary-dark: #0d4a3a;
+  --color-primary-light: #2a8570;
+  --color-accent: #d4a873;
+  --color-accent-soft: #f5f0e8;
+  --color-accent-dark: #a67c42;
   --color-surface: #ffffff;
-  --color-bg: #f6f8fb;
-  --color-border: #dbe4ea;
-  --color-heading: #102a43;
-  --color-body: #334155;
-  --color-muted: #64748b;
+  --color-bg: #faf8f5;
+  --color-border: #e8e4df;
+  --color-heading: #0d2e26;
+  --color-body: #3a4744;
+  --color-muted: #7a8682;
   --color-card: #ffffff;
-  --color-card-border: rgba(16, 42, 67, 0.08);
-  --color-shadow: 0 20px 60px rgba(16, 42, 67, 0.08);
-  --color-footer: #0f172a;
+  --color-card-border: rgba(26, 107, 83, 0.08);
+  --color-shadow: 0 20px 60px rgba(13, 46, 38, 0.08);
+  --color-footer: #0d2e26;
   color-scheme: light;
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 12px;
-  --shadow-soft: 0 18px 50px rgba(16, 42, 67, 0.08);
+  --shadow-soft: 0 18px 50px rgba(13, 46, 38, 0.08);
 }
 
 html,
@@ -125,7 +125,7 @@ textarea {
 
 [class*="BlogPost_content"] a,
 [class*="blogPost_content"] a {
-  color: #2e7d32 !important;
+  color: #1a6b53 !important;
   font-weight: 600 !important;
   text-decoration: none !important;
   border-bottom: 2px solid rgba(46, 125, 50, 0.3) !important;
@@ -134,7 +134,7 @@ textarea {
 
 [class*="BlogPost_content"] a:hover,
 [class*="blogPost_content"] a:hover {
-  border-bottom-color: #2e7d32 !important;
+  border-bottom-color: #1a6b53 !important;
 }
 
 [class*="BlogPost_content"] ul,
@@ -154,7 +154,7 @@ textarea {
 
 [class*="BlogPost_content"] li strong,
 [class*="blogPost_content"] li strong {
-  color: #2e7d32 !important;
+  color: #1a6b53 !important;
   font-weight: 700 !important;
 }
 
@@ -174,7 +174,7 @@ textarea {
   margin: 32px 0 !important;
   padding: 24px 28px !important;
   background: rgba(46, 125, 50, 0.05) !important;
-  border-left: 4px solid #2e7d32 !important;
+  border-left: 4px solid #1a6b53 !important;
   border-radius: 8px !important;
   font-size: 17px !important;
   font-style: italic !important;

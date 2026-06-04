@@ -64,7 +64,7 @@ export function AnalyticsOverviewCards({ metrics }: AnalyticsOverviewCardsProps)
                 >
                   <polyline
                     fill="none"
-                    stroke={metric.accent ?? '#0A6C3F'}
+                    stroke={metric.accent ?? '#1a6b53'}
                     strokeWidth="3"
                     points={sparklinePath(metric.sparkline)}
                     strokeLinecap="round"

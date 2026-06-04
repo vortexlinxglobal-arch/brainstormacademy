@@ -40,7 +40,7 @@ export default function BusinessCenterLayout({ children }: BusinessCenterLayoutP
           {items.map((item) => {
             const active = pathname === item.href
             return (
-              <Link key={item.href} href={item.href} className={`rounded-2xl border px-4 py-2 text-sm font-medium transition ${active ? 'border-[#0A6C3F] bg-[#F2F9F3] text-[#0A6C3F]' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'}`}>
+              <Link key={item.href} href={item.href} className={`rounded-2xl border px-4 py-2 text-sm font-medium transition ${active ? 'border-[#1a6b53] bg-[#F2F9F3] text-[#1a6b53]' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50'}`}>
                 {item.label}
               </Link>
             )

@@ -4,10 +4,12 @@
 
 :root {
   color-scheme: light;
-  --brand-green: #0A6C3F;
-  --brand-green-dark: #084d2e;
-  --brand-gold: #D4AF37;
-  --brand-gold-dark: #A67C00;
+  --brand-green: #1a6b53;
+  --brand-green-dark: #0d4a3a;
+  --brand-gold: #d4a873;
+  --brand-gold-dark: #a67c42;
+  --brand-green-light: #2a8570;
+  --brand-gold-light: #e5c4a0;
 }
 
 html {

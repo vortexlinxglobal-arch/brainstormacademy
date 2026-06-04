@@ -12,7 +12,7 @@ export function Badge({ className = '', variant = 'default', ...props }: BadgePr
     secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200',
     destructive: 'bg-red-500 text-white hover:bg-red-600',
     outline: 'border border-slate-200 text-slate-900 hover:bg-slate-50',
-    brand: 'bg-[#0A6C3F] text-white hover:bg-[#0e7c4b]',
+    brand: 'bg-[#1a6b53] text-white hover:bg-[#0e7c4b]',
     gold: 'bg-[#D4AF37] text-slate-950 hover:bg-[#b99223]',
   }
 

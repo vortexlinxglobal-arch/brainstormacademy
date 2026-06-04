@@ -29,7 +29,7 @@ export function SiteFooter() {
     <footer className="bg-[#061f12] text-slate-300">
       <div className="container-fluid grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         <div className="space-y-4">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-[#0A6C3F] via-[#4d8b55] to-[#D4AF37] text-lg font-bold text-white shadow-lg shadow-[#0A6C3F]/20">
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-[#1a6b53] via-[#4d8b55] to-[#D4AF37] text-lg font-bold text-white shadow-lg shadow-[#1a6b53]/20">
             BA
           </div>
           <p className="max-w-sm text-sm leading-7 text-slate-400">

@@ -70,7 +70,7 @@
   border-radius: 20px;
   font-size: clamp(11px, 1.3vw, 12px);
   font-weight: 700;
-  color: #2e7d32;
+  color: #1a6b53;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: clamp(16px, 2.5vw, 20px);
@@ -147,7 +147,7 @@
 .categoryCard:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 40px rgba(46, 125, 50, 0.12);
-  border-color: #2e7d32;
+  border-color: #1a6b53;
 }
 
 .categoryPreview {
@@ -251,7 +251,7 @@
   align-items: center;
   gap: 6px;
   background: white;
-  color: #2e7d32;
+  color: #1a6b53;
   padding: clamp(8px, 1vw, 10px) clamp(14px, 2vw, 16px);
   border-radius: 6px;
   font-size: clamp(11px, 1.3vw, 12px);
@@ -399,7 +399,7 @@
 
 .navBtn:hover {
   background: rgba(46, 125, 50, 0.8);
-  border-color: #2e7d32;
+  border-color: #1a6b53;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -476,7 +476,7 @@
 .modalCategory {
   display: inline-block;
   background: rgba(46, 125, 50, 0.1);
-  color: #2e7d32;
+  color: #1a6b53;
   padding: clamp(6px, 1vw, 8px) clamp(12px, 2vw, 14px);
   border-radius: 20px;
   font-size: clamp(10px, 1.2vw, 11px);
@@ -517,7 +517,7 @@
     rgba(46, 125, 50, 0.1) 0%,
     rgba(46, 125, 50, 0.05) 100%
   );
-  color: #2e7d32;
+  color: #1a6b53;
   padding: clamp(8px, 1.2vw, 10px) clamp(14px, 2vw, 16px);
   border-radius: 20px;
   font-size: clamp(12px, 1.4vw, 13px);
@@ -550,7 +550,7 @@
 
 /* CTA Section */
 .ctaSection {
-  background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #0d4a3a 100%);
   padding: clamp(40px, 6vw, 60px);
   border-radius: clamp(12px, 2vw, 20px);
   text-align: center;
@@ -622,7 +622,7 @@
   align-items: center;
   gap: 8px;
   background: white;
-  color: #2e7d32;
+  color: #1a6b53;
   padding: clamp(10px, 1.2vw, 12px) clamp(20px, 3vw, 28px);
   border-radius: 8px;
   border: none;
@@ -799,5 +799,52 @@
   .ctaButton {
     padding: clamp(8px, 1vw, 10px) clamp(14px, 2.2vw, 18px);
     font-size: clamp(11px, 1.3vw, 12px);
+  }
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .gallery {
+    padding: 40px 16px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .categoryCard {
+    min-height: 200px;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 900px) {
+  .gallery {
+    padding: 30px 16px;
+  }
+
+  .categoriesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .categoryCard {
+    min-height: 180px;
+  }
+}
+
+/* Touch device gallery optimization */
+@media (hover: none) and (pointer: coarse) {
+  .categoryOverlay {
+    opacity: 0.95;
+  }
+
+  .categoryCard {
+    cursor: pointer;
+    border: 2px solid #1a6b53;
+  }
+
+  .modal {
+    padding: 16px;
   }
 }

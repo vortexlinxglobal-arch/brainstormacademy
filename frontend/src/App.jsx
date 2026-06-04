@@ -263,7 +263,7 @@ const NotFound = () => {
         href="/"
         style={{
           padding: "14px 28px",
-          background: "linear-gradient(135deg, #00856f, #7bd6b2)",
+          background: "linear-gradient(135deg, #1a6b53, #2a8570)",
           color: "white",
           textDecoration: "none",
           borderRadius: "8px",

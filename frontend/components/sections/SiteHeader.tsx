@@ -71,10 +71,10 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="group relative text-sm font-semibold text-slate-700 transition hover:text-[#0A6C3F]"
+              className="group relative text-sm font-semibold text-slate-700 transition hover:text-[#1a6b53]"
             >
               {link.label}
-              <span className="absolute left-0 -bottom-1 h-0.5 w-0 rounded-full bg-[#0A6C3F] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute left-0 -bottom-1 h-0.5 w-0 rounded-full bg-[#1a6b53] transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
         </div>
@@ -83,14 +83,14 @@ export function SiteHeader() {
         <div className="hidden md:flex items-center gap-2 lg:gap-3 flex-shrink-0">
           <button
             type="button"
-            className="inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
+            className="inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#1a6b53] hover:text-[#1a6b53]"
             aria-label="Search"
           >
             <Search className="h-4 lg:h-5 w-4 lg:w-5" />
           </button>
           <button
             type="button"
-            className="relative inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F]"
+            className="relative inline-flex h-10 lg:h-11 w-10 lg:w-11 items-center justify-center rounded-2xl border border-[#D4AF37]/20 bg-[#f8faf5] text-slate-700 transition hover:border-[#1a6b53] hover:text-[#1a6b53]"
             aria-label="Notifications"
           >
             <Bell className="h-4 lg:h-5 w-4 lg:w-5" />
@@ -108,7 +108,7 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-slate-700 transition hover:border-[#0A6C3F] hover:text-[#0A6C3F] md:hidden flex-shrink-0"
+          className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 text-slate-700 transition hover:border-[#1a6b53] hover:text-[#1a6b53] md:hidden flex-shrink-0"
           aria-label="Toggle mobile menu"
           aria-expanded={open}
         >

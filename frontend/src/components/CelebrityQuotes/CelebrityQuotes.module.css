@@ -47,7 +47,7 @@
   gap: 6px;
   background: rgba(46, 125, 50, 0.1);
   border: 1px solid rgba(46, 125, 50, 0.2);
-  color: #2e7d32;
+  color: #1a6b53;
   padding: 6px 14px;
   border-radius: 50px;
   font-size: 11px;
@@ -121,7 +121,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #2e7d32 0%, #6d4023 100%);
+  background: linear-gradient(90deg, #1a6b53 0%, #d4a873 100%);
 }
 
 .quoteCard::after {
@@ -216,7 +216,7 @@
   flex-shrink: 0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 3px solid white;
-  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #d4a873 100%);
 }
 
 .authorImage img {
@@ -231,7 +231,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #2e7d32 0%, #6d4023 100%);
+  background: linear-gradient(135deg, #1a6b53 0%, #d4a873 100%);
   color: white;
   font-size: 22px;
   font-weight: 700;
@@ -279,8 +279,8 @@
 }
 
 .navButton:hover {
-  border-color: #2e7d32;
-  color: #2e7d32;
+  border-color: #1a6b53;
+  color: #1a6b53;
   background: rgba(46, 125, 50, 0.05);
   transform: scale(1.05);
 }
@@ -321,7 +321,7 @@
 }
 
 .dot.active {
-  background: #2e7d32;
+  background: #1a6b53;
   width: 28px;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
@@ -765,7 +765,7 @@
 /* Focus States */
 .navButton:focus-visible,
 .dot:focus-visible {
-  outline: 3px solid #2e7d32;
+  outline: 3px solid #1a6b53;
   outline-offset: 2px;
 }
 
@@ -823,5 +823,77 @@
 
   .dot.active {
     background: #000;
+  }
+}
+
+/* Mobile Carousel Testimonials */
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 16px;
+  }
+
+  .carousel {
+    height: 450px;
+    border-radius: 12px;
+  }
+
+  .quote {
+    padding: 32px 16px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .author {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .navigation {
+    bottom: 16px;
+    gap: 8px;
+  }
+
+  .dots {
+    gap: 6px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 700px) {
+  .carousel {
+    height: 320px;
+  }
+
+  .quote {
+    padding: 20px 12px;
+    font-size: 14px;
+  }
+
+  .author {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+}
+
+/* Touch device carousel */
+@media (hover: none) and (pointer: coarse) {
+  .carousel {
+    cursor: grab;
+  }
+
+  .carousel:active {
+    cursor: grabbing;
+  }
+
+  .navBtn {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    cursor: pointer;
   }
 }

@@ -145,7 +145,7 @@ export function CourseDetail({
             </div>
             <div className="space-y-4 p-6">
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
-                <Badge variant="secondary" className="bg-[#0A6C3F]/10 text-[#0A6C3F] dark:bg-[#0A6C3F]/20 dark:text-emerald-200">NSQ Certified</Badge>
+                <Badge variant="secondary" className="bg-[#1a6b53]/10 text-[#1a6b53] dark:bg-[#1a6b53]/20 dark:text-emerald-200">NSQ Certified</Badge>
                 <Badge variant="secondary" className="bg-[#D4AF37]/10 text-[#A67C00] dark:bg-[#D4AF37]/15 dark:text-[#E6C56D]">NBTE Approved</Badge>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
@@ -266,7 +266,7 @@ export function CourseDetail({
                       {module.lessons.map((lesson) => (
                         <div key={lesson.id} className="flex items-center justify-between rounded-3xl border border-slate-200 bg-slate-50 p-4 text-sm dark:border-slate-800 dark:bg-slate-900">
                           <div className="flex items-center gap-3">
-                            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#0A6C3F]/10 text-[#0A6C3F]">
+                            <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#1a6b53]/10 text-[#1a6b53]">
                               <PlayCircle className="h-4 w-4" />
                             </span>
                             <span>{lesson.title}</span>
@@ -320,7 +320,7 @@ export function CourseDetail({
                 <div className="mt-6 grid gap-4">
                   <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center gap-3">
-                      <FileText className="h-5 w-5 text-[#0A6C3F]" />
+                      <FileText className="h-5 w-5 text-[#1a6b53]" />
                       <div>
                         <p className="font-medium text-slate-900 dark:text-slate-100">Course workbook</p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">12 pages</p>
@@ -330,7 +330,7 @@ export function CourseDetail({
                   </div>
                   <div className="flex items-center justify-between rounded-3xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                     <div className="flex items-center gap-3">
-                      <FileText className="h-5 w-5 text-[#0A6C3F]" />
+                      <FileText className="h-5 w-5 text-[#1a6b53]" />
                       <div>
                         <p className="font-medium text-slate-900 dark:text-slate-100">Certification guide</p>
                         <p className="text-sm text-slate-500 dark:text-slate-400">4 pages</p>

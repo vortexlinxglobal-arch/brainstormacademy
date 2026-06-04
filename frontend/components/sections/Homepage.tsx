@@ -453,7 +453,7 @@ export function Homepage() {
                   'Lifetime alumni community support',
                 ].map((item, idx) => (
                   <motion.li key={idx} variants={itemVariants} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-[#0A6C3F] flex-shrink-0" />
+                    <CheckCircle className="h-5 w-5 text-[#1a6b53] flex-shrink-0" />
                     <span className="text-slate-700">{item}</span>
                   </motion.li>
                 ))}
@@ -462,9 +462,9 @@ export function Homepage() {
 
             <motion.div variants={itemVariants}>
               <Card className="rounded-2xl border-slate-200 shadow-lg">
-                <CardContent className="p-8 space-y-6 bg-gradient-to-br from-[#0A6C3F]/5 to-slate-100">
+                <CardContent className="p-8 space-y-6 bg-gradient-to-br from-[#1a6b53]/5 to-slate-100">
                   <div className="space-y-2">
-                    <p className="text-sm font-semibold uppercase tracking-wider text-[#0A6C3F]">Success Metrics</p>
+                    <p className="text-sm font-semibold uppercase tracking-wider text-[#1a6b53]">Success Metrics</p>
                     <h3 className="text-3xl font-bold text-slate-900">Career Transformation Guaranteed</h3>
                   </div>
 
@@ -531,7 +531,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-[#0A6C3F] to-[#0A6C3F]/80 text-white">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-[#1a6b53] to-[#1a6b53]/80 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -22,7 +22,7 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl text-slate-900">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#0A6C3F] to-[#0f6f44] flex items-center justify-center text-white text-sm font-bold">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#1a6b53] to-[#0f6f44] flex items-center justify-center text-white text-sm font-bold">
               BS
             </div>
             <span className="hidden sm:inline">Brainstorm</span>
@@ -34,7 +34,7 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0A6C3F] transition"
+                className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#1a6b53] transition"
               >
                 {item.label}
               </Link>
@@ -54,7 +54,7 @@ export function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 text-slate-700 hover:text-[#0A6C3F] transition"
+            className="md:hidden p-2 text-slate-700 hover:text-[#1a6b53] transition"
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -74,7 +74,7 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#0A6C3F] transition rounded-lg hover:bg-slate-50"
+                className="block px-3 py-2 text-sm font-medium text-slate-700 hover:text-[#1a6b53] transition rounded-lg hover:bg-slate-50"
                 onClick={() => setIsOpen(false)}
               >
                 {item.label}

@@ -183,7 +183,7 @@ export function CourseDetailPage({
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(10,108,63,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.14),transparent_45%)] bg-white dark:bg-slate-950">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0A6C3F]/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a6b53]/20 to-transparent" />
         <div className="relative px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <motion.div
@@ -216,7 +216,7 @@ export function CourseDetailPage({
                     {description}
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Badge className="rounded-full bg-[#0A6C3F] px-4 py-2 text-white">
+                    <Badge className="rounded-full bg-[#1a6b53] px-4 py-2 text-white">
                       {level}
                     </Badge>
                     <Badge className="rounded-full border-[#D4AF37]/50 bg-[#FEF7E7] text-[#7C5F15] dark:border-[#D4AF37]/30 dark:bg-slate-900 dark:text-[#F5E3A4]">
@@ -536,7 +536,7 @@ export function CourseDetailPage({
                       >
                     <AccordionTrigger className="hover:no-underline">
                       <div className="flex items-center gap-4">
-                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0A6C3F]/10 text-sm font-semibold text-[#0A6C3F]">
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1a6b53]/10 text-sm font-semibold text-[#1a6b53]">
                           {idx + 1}
                         </span>
                         <div className="text-left">
@@ -556,7 +556,7 @@ export function CourseDetailPage({
                           className="flex items-center gap-3 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-slate-900"
                         >
                           <div className="flex-1 flex items-center gap-3">
-                            {lesson.type === 'video' && <Play className="h-5 w-5 text-[#0A6C3F]" />}
+                            {lesson.type === 'video' && <Play className="h-5 w-5 text-[#1a6b53]" />}
                             {lesson.type === 'resource' && (
                               <Download className="h-5 w-5 text-blue-500" />
                             )}

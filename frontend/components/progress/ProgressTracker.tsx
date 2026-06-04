@@ -55,7 +55,7 @@ export function ProgressTracker({ overallCompletion, courses, nextMilestone }: P
             className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900"
           >
             <div className="mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-white shadow-md shadow-slate-200/40 dark:bg-slate-950 dark:shadow-black/20">
-              <span className="text-5xl font-semibold text-[#0A6C3F]">{overallCompletion}%</span>
+              <span className="text-5xl font-semibold text-[#1a6b53]">{overallCompletion}%</span>
             </div>
             <p className="mt-5 text-sm text-slate-500 dark:text-slate-400">Complete program achievement</p>
           </motion.div>
