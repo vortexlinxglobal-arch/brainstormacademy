@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import { auth } from '@/src/api'
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -11,11 +12,13 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [tradeCode, setTradeCode] = useState('')
+  const [dateOfBirth, setDateOfBirth] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setMessage(null)
 
     if (password !== confirmPassword) {
@@ -23,24 +26,51 @@ export default function SignupPage() {
       return
     }
 
+    if (!tradeCode) {
+      setMessage({ type: 'error', text: 'Please select a trade program.' })
+      return
+    }
+
     setLoading(true)
     try {
-      const { data, error } = await auth.signUp(email, password, { full_name: fullName })
-      if (error) {
-        setMessage({ type: 'error', text: error.message })
-      } else if (data?.session) {
-        setMessage({ type: 'success', text: 'Account created successfully. Redirecting…' })
-        setTimeout(() => {
-          router.push('/courses')
-        }, 800)
-      } else {
-        setMessage({
-          type: 'success',
-          text: 'Account created. Please check your email to confirm your account before signing in.',
-        })
+      const response = await fetch(`${BACKEND_URL}/v1/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          full_name: fullName,
+          date_of_birth: dateOfBirth,
+          trade_code: tradeCode,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setMessage({ type: 'error', text: data.error || 'Signup failed' })
+        return
       }
+
+      setMessage({
+        type: 'success',
+        text: 'Account created successfully! Redirecting to courses…',
+      })
+
+      // Store the access token in localStorage for now
+      if (data.data?.session?.access_token) {
+        localStorage.setItem('auth_token', data.data.session.access_token)
+        localStorage.setItem('user_id', data.data.user.id)
+      }
+
+      setTimeout(() => {
+        router.push('/courses')
+      }, 1500)
     } catch (error) {
-      setMessage({ type: 'error', text: 'Unable to create account. Please try again.' })
+      setMessage({
+        type: 'error',
+        text: 'Unable to create account. Please try again.',
+      })
       console.error(error)
     } finally {
       setLoading(false)
@@ -150,6 +180,42 @@ export default function SignupPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="dateOfBirth" className="block text-sm font-medium text-slate-300">
+                  Date of birth
+                </label>
+                <input
+                  id="dateOfBirth"
+                  name="dateOfBirth"
+                  type="date"
+                  required
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="tradeCode" className="block text-sm font-medium text-slate-300">
+                  Trade program
+                </label>
+                <select
+                  id="tradeCode"
+                  name="tradeCode"
+                  required
+                  value={tradeCode}
+                  onChange={(e) => setTradeCode(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
+                >
+                  <option value="">Select a program...</option>
+                  <option value="TRADE001">Electrical Installation (TRADE001)</option>
+                  <option value="TRADE002">Plumbing & Gas Fitting (TRADE002)</option>
+                  <option value="TRADE003">Carpentry & Joinery (TRADE003)</option>
+                  <option value="TRADE004">Welding & Fabrication (TRADE004)</option>
+                  <option value="TRADE005">Automotive Technology (TRADE005)</option>
+                </select>
               </div>
 
               {message ? (

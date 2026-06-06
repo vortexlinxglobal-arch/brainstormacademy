@@ -3,35 +3,55 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import { auth } from '@/src/api'
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000'
 
 export default function SigninPage() {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(true)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     setLoading(true)
     setMessage(null)
 
     try {
-      const { data, error } = await auth.signIn(email, password)
-      if (error) {
-        setMessage({ type: 'error', text: error.message })
-      } else if (data?.session) {
-        setMessage({ type: 'success', text: 'Signed in successfully — redirecting…' })
-        setTimeout(() => {
-          router.push('/courses')
-        }, 600)
-      } else {
-        setMessage({ type: 'success', text: 'Check your email to complete sign in.' })
+      const response = await fetch(`${BACKEND_URL}/v1/auth/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setMessage({ type: 'error', text: data.error || 'Sign in failed' })
+        return
       }
+
+      setMessage({
+        type: 'success',
+        text: 'Signed in successfully — redirecting…',
+      })
+
+      // Store tokens and user info
+      if (data.data?.session?.access_token) {
+        localStorage.setItem('auth_token', data.data.session.access_token)
+        localStorage.setItem('refresh_token', data.data.session.refresh_token || '')
+        localStorage.setItem('user_id', data.data.user.id)
+      }
+
+      setTimeout(() => {
+        router.push('/courses')
+      }, 600)
     } catch (error) {
-      setMessage({ type: 'error', text: 'Unable to sign in. Please try again.' })
+      setMessage({
+        type: 'error',
+        text: 'Unable to sign in. Please try again.',
+      })
       console.error(error)
     } finally {
       setLoading(false)

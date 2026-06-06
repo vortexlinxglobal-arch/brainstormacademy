@@ -818,6 +818,263 @@ app.post('/v1/staff/performance', async (req, res) => {
   }
 });
 
+// ============================================================================
+// AUTHENTICATION ENDPOINTS
+// ============================================================================
+
+// Auth: Signup (Student Registration)
+app.post('/v1/auth/signup', async (req, res) => {
+  try {
+    const {
+      email,
+      password,
+      full_name,
+      first_name,
+      last_name,
+      date_of_birth,
+      gender,
+      contact,
+      trade_code,
+    } = req.body;
+
+    // Validate required fields
+    if (!email || !password || !full_name || !date_of_birth || !trade_code) {
+      return respond(
+        res,
+        {
+          error: 'Missing required fields: email, password, full_name, date_of_birth, trade_code',
+        },
+        400
+      );
+    }
+
+    // Validate trade exists
+    const { data: trade, error: tradeErr } = await supabase
+      .from('trades')
+      .select('id, code, name')
+      .eq('code', trade_code)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (tradeErr || !trade) {
+      return respond(res, { error: 'Invalid or inactive trade code' }, 400);
+    }
+
+    // Create user account via Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          role: 'student',
+          full_name,
+          first_name: first_name || full_name.split(' ')[0],
+          last_name: last_name || full_name.split(' ').slice(1).join(' '),
+        },
+      },
+    });
+
+    if (authError) {
+      return respond(res, { error: authError.message || 'Failed to create account' }, 400);
+    }
+
+    if (!authData.user) {
+      return respond(res, { error: 'Failed to create user account' }, 400);
+    }
+
+    // Create student profile
+    const { data: student, error: studentError } = await supabase
+      .from('students')
+      .insert({
+        user_id: authData.user.id,
+        first_name: first_name || full_name.split(' ')[0],
+        last_name: last_name || full_name.split(' ').slice(1).join(' '),
+        email,
+        date_of_birth,
+        gender: gender || null,
+        contact: contact || null,
+        enrollment_status: 'pending',
+      })
+      .select()
+      .single();
+
+    if (studentError) {
+      console.error('Student profile creation failed:', studentError);
+      // Still successful even if student profile creation fails (auth user created)
+    }
+
+    // Enroll student in trade
+    if (trade) {
+      const { error: enrollmentError } = await supabase.from('enrollments').insert({
+        user_id: authData.user.id,
+        trade_id: trade.id,
+        enrollment_date: new Date().toISOString(),
+        status: 'active',
+      });
+
+      if (enrollmentError) {
+        console.error('Enrollment creation failed:', enrollmentError);
+      }
+    }
+
+    return respond(
+      res,
+      {
+        data: {
+          user: {
+            id: authData.user.id,
+            email: authData.user.email,
+          },
+          student: student || null,
+          message: 'Account created successfully. Please check your email to verify your account.',
+        },
+      },
+      201
+    );
+  } catch (error) {
+    console.error('Signup error:', error);
+    return respond(res, { error: error.message || 'Signup failed' }, 500);
+  }
+});
+
+// Auth: Signin (Login)
+app.post('/v1/auth/signin', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return respond(res, { error: 'Email and password are required' }, 400);
+    }
+
+    // Sign in via Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      return respond(res, { error: authError.message || 'Invalid credentials' }, 401);
+    }
+
+    if (!authData.session) {
+      return respond(res, { error: 'Failed to create session' }, 401);
+    }
+
+    // Get user profile
+    const { data: student, error: studentError } = await supabase
+      .from('students')
+      .select('id, user_id, first_name, last_name, email, enrollment_status')
+      .eq('user_id', authData.user.id)
+      .maybeSingle();
+
+    return respond(
+      res,
+      {
+        data: {
+          user: {
+            id: authData.user.id,
+            email: authData.user.email,
+          },
+          session: {
+            access_token: authData.session.access_token,
+            refresh_token: authData.session.refresh_token,
+            expires_in: authData.session.expires_in,
+            expires_at: authData.session.expires_at,
+          },
+          student: student || null,
+        },
+      },
+      200
+    );
+  } catch (error) {
+    console.error('Signin error:', error);
+    return respond(res, { error: error.message || 'Signin failed' }, 500);
+  }
+});
+
+// Auth: Verify Token
+app.get('/v1/auth/verify', async (req, res) => {
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+
+    // Get user profile
+    const { data: student, error: studentError } = await supabase
+      .from('students')
+      .select('id, user_id, first_name, last_name, email, enrollment_status')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    return respond(res, {
+      data: {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+        student: student || null,
+      },
+    });
+  } catch (error) {
+    console.error('Verify error:', error);
+    return respond(res, { error: error.message || 'Verification failed' }, 500);
+  }
+});
+
+// Auth: Refresh Token
+app.post('/v1/auth/refresh', async (req, res) => {
+  try {
+    const { refresh_token } = req.body;
+
+    if (!refresh_token) {
+      return respond(res, { error: 'Refresh token is required' }, 400);
+    }
+
+    const { data: authData, error: authError } = await supabase.auth.refreshSession({
+      refresh_token,
+    });
+
+    if (authError || !authData.session) {
+      return respond(res, { error: authError?.message || 'Failed to refresh session' }, 401);
+    }
+
+    return respond(res, {
+      data: {
+        session: {
+          access_token: authData.session.access_token,
+          refresh_token: authData.session.refresh_token,
+          expires_in: authData.session.expires_in,
+          expires_at: authData.session.expires_at,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Refresh error:', error);
+    return respond(res, { error: error.message || 'Token refresh failed' }, 500);
+  }
+});
+
+// Auth: Signout (Invalidate Session)
+app.post('/v1/auth/signout', async (req, res) => {
+  try {
+    const user = await requireAuth(req, res);
+    if (!user) return;
+
+    // Sign out via Supabase
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      return respond(res, { error: error.message || 'Signout failed' }, 400);
+    }
+
+    return respond(res, { data: { message: 'Signed out successfully' } });
+  } catch (error) {
+    console.error('Signout error:', error);
+    return respond(res, { error: error.message || 'Signout failed' }, 500);
+  }
+});
+
+// ============================================================================
+
 app.use((req, res) => respond(res, { error: 'Not Found' }, 404));
 
 app.listen(PORT, () => {
