@@ -3,9 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 
+const cookieParser = require('cookie-parser');
 const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -960,6 +962,19 @@ app.post('/v1/auth/signin', async (req, res) => {
       return respond(res, { error: 'Failed to create session' }, 401);
     }
 
+    // Set HttpOnly refresh cookie
+    try {
+      const cookieOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      };
+      res.cookie('sb_refresh_token', authData.session.refresh_token, cookieOptions);
+    } catch (err) {
+      console.error('Failed to set refresh cookie:', err);
+    }
+
     // Get user profile
     const { data: student, error: studentError } = await supabase
       .from('students')
@@ -1023,7 +1038,12 @@ app.get('/v1/auth/verify', async (req, res) => {
 // Auth: Refresh Token
 app.post('/v1/auth/refresh', async (req, res) => {
   try {
-    const { refresh_token } = req.body;
+    let { refresh_token } = req.body || {};
+
+    // If not provided in body, attempt to read from HttpOnly cookie
+    if (!refresh_token && req.cookies && req.cookies.sb_refresh_token) {
+      refresh_token = req.cookies.sb_refresh_token;
+    }
 
     if (!refresh_token) {
       return respond(res, { error: 'Refresh token is required' }, 400);
@@ -1035,6 +1055,19 @@ app.post('/v1/auth/refresh', async (req, res) => {
 
     if (authError || !authData.session) {
       return respond(res, { error: authError?.message || 'Failed to refresh session' }, 401);
+    }
+
+    // Update refresh cookie
+    try {
+      const cookieOptions = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      };
+      res.cookie('sb_refresh_token', authData.session.refresh_token, cookieOptions);
+    } catch (err) {
+      console.error('Failed to set refresh cookie during refresh:', err);
     }
 
     return respond(res, {
@@ -1064,6 +1097,12 @@ app.post('/v1/auth/signout', async (req, res) => {
 
     if (error) {
       return respond(res, { error: error.message || 'Signout failed' }, 400);
+    }
+    // Clear refresh cookie
+    try {
+      res.clearCookie('sb_refresh_token');
+    } catch (err) {
+      console.error('Failed to clear refresh cookie:', err);
     }
 
     return respond(res, { data: { message: 'Signed out successfully' } });
