@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
@@ -58,165 +57,137 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
   const currentSlide = slides[activeIndex]
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 py-8 sm:py-12 md:py-16 lg:py-0 lg:h-screen">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-800/70 to-transparent pointer-events-none" />
-
-      {/* Main container */}
-      <div className="relative z-10 h-full w-full flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto gap-6 sm:gap-8 md:gap-12">
-        
-        {/* Left side - Text content */}
+    <section className="relative overflow-hidden bg-slate-950 py-12 sm:py-16 lg:py-20">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(212,175,55,0.18),_transparent_24%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(26,107,83,0.14),_transparent_22%)]" />
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <motion.div
-          className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 sm:space-y-8 py-8 sm:py-12 md:py-16 lg:py-0"
-          initial={{ opacity: 0, x: -30 }}
+          className="flex flex-col justify-center rounded-[2rem] border border-white/10 bg-slate-900/90 p-8 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-10 lg:p-12"
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Badge */}
-          <motion.div
-            key={`badge-${activeIndex}`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-blue-500/20 px-4 py-2 text-sm font-medium text-blue-200 border border-blue-500/30"
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-            Learn & Earn Skills
-          </motion.div>
+          <span className="inline-flex items-center gap-2 self-start rounded-full bg-[#D4AF37]/15 px-4 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-[#F6E2B3]">
+            NBTE Approved • NSQ Certified
+          </span>
 
-          {/* Main headline */}
-          <motion.div
-            key={`title-${activeIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-3 sm:space-y-4"
-          >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
-              {currentSlide.title}
+          <div className="mt-8 space-y-6">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Skills for jobs, built for today.
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-blue-100 leading-relaxed">
-              {currentSlide.subtitle}
+            <p className="max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
+              Practical training with online support, wherever you are. Start fast with blended NSQ pathways designed for rapid employment and entrepreneurial success.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Description */}
-          <motion.p
-            key={`desc-${activeIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-md"
-          >
-            {currentSlide.description}
-          </motion.p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {[
+              { label: 'Hands-on workshops', value: 'Practical trade skills' },
+              { label: 'Career-ready', value: 'Placement support' },
+            ].map((item) => (
+              <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <p className="text-sm uppercase tracking-[0.22em] text-slate-400">{item.label}</p>
+                <p className="mt-2 font-semibold text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            key={`cta-${activeIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col xs:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6"
-          >
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Link
               href="/courses"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 sm:px-7 py-3 sm:py-4 text-sm sm:text-base font-semibold text-slate-900 transition hover:bg-slate-50 active:scale-95"
               onClick={onBrowseClick}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-[#D4AF37]/20 transition hover:bg-[#b99223]"
             >
               Explore Courses
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/signup"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/40 bg-white/10 backdrop-blur-sm px-6 sm:px-7 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white transition hover:bg-white/20 active:scale-95"
               onClick={onEnrollClick}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
             >
-              Get Started Free
+              Start your journey
             </Link>
-          </motion.div>
+          </div>
 
-          {/* Stats row - hidden on mobile, shown on tablet+ */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="hidden sm:flex gap-6 md:gap-8 pt-6 sm:pt-8 border-t border-white/10"
-          >
-            <div>
-              <div className="text-lg sm:text-xl font-bold text-white">98%</div>
-              <div className="text-xs sm:text-sm text-slate-400">Job Placement</div>
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-3xl bg-white/5 p-5">
+              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Success</p>
+              <p className="mt-2 text-2xl font-bold text-white">98%</p>
             </div>
-            <div>
-              <div className="text-lg sm:text-xl font-bold text-white">24+</div>
-              <div className="text-xs sm:text-sm text-slate-400">Programs</div>
+            <div className="rounded-3xl bg-white/5 p-5">
+              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Programs</p>
+              <p className="mt-2 text-2xl font-bold text-white">24+</p>
             </div>
-            <div>
-              <div className="text-lg sm:text-xl font-bold text-white">15K+</div>
-              <div className="text-xs sm:text-sm text-slate-400">Alumni</div>
+            <div className="rounded-3xl bg-white/5 p-5">
+              <p className="text-sm uppercase tracking-[0.22em] text-slate-400">Alumni</p>
+              <p className="mt-2 text-2xl font-bold text-white">15K+</p>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Right side - Carousel */}
         <motion.div
-          className="w-full lg:w-1/2 flex items-center justify-center relative py-8 sm:py-12 md:py-16 lg:py-0"
-          initial={{ opacity: 0, x: 30 }}
+          className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-900/95 shadow-2xl shadow-black/25"
+          initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="relative w-full aspect-square sm:aspect-video lg:aspect-square max-w-sm md:max-w-md lg:max-w-full rounded-2xl overflow-hidden shadow-2xl">
-            {/* Carousel slides */}
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1 }}
-              className="absolute inset-0"
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${currentSlide.image})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-            </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/30 to-slate-950/95" />
+          <div className="relative aspect-[4/5] w-full sm:aspect-[5/4] lg:aspect-[10/12]">
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${currentSlide.image})` }}
+            />
+          </div>
 
-            {/* Previous button */}
-            <button
-              onClick={goToPrevious}
-              onMouseEnter={() => setAutoPlay(false)}
-              onTouchStart={() => setAutoPlay(false)}
-              className="absolute left-2 sm:left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/20 backdrop-blur-sm p-2 sm:p-3 text-white transition hover:bg-white/40 active:scale-90"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-            </button>
+          <div className="relative z-10 p-6 sm:p-8">
+            <div className="space-y-4">
+              <div className="rounded-3xl bg-slate-900/80 p-5 text-slate-200 shadow-xl shadow-slate-950/20">
+                <p className="text-sm uppercase tracking-[0.2em] text-[#D4AF37]">{currentSlide.subtitle}</p>
+                <p className="mt-3 text-lg font-semibold text-white">{currentSlide.title}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{currentSlide.description}</p>
+              </div>
 
-            {/* Next button */}
-            <button
-              onClick={goToNext}
-              onMouseEnter={() => setAutoPlay(false)}
-              onTouchStart={() => setAutoPlay(false)}
-              className="absolute right-2 sm:right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/20 backdrop-blur-sm p-2 sm:p-3 text-white transition hover:bg-white/40 active:scale-90"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-            </button>
+              <div className="flex items-center justify-between gap-3 rounded-3xl bg-white/5 p-4 text-sm text-slate-200">
+                <span className="font-semibold text-white">Featured story</span>
+                <span className="rounded-full bg-[#D4AF37]/20 px-3 py-1 text-[#D4AF37]">Updated daily</span>
+              </div>
+            </div>
 
-            {/* Dot indicators - bottom position */}
-            <div className="absolute bottom-3 sm:bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2 sm:gap-3">
+            <div className="mt-6 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={goToPrevious}
+                onMouseEnter={() => setAutoPlay(false)}
+                onTouchStart={() => setAutoPlay(false)}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                aria-label="Previous slide"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={goToNext}
+                onMouseEnter={() => setAutoPlay(false)}
+                onTouchStart={() => setAutoPlay(false)}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+                aria-label="Next slide"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2">
               {slides.map((_, index) => (
                 <button
                   key={index}
+                  type="button"
                   onClick={() => {
                     setAutoPlay(false)
                     setActiveIndex(index)
                   }}
-                  className={`transition-all ${
-                    index === activeIndex
-                      ? 'h-2 sm:h-3 w-6 sm:w-8 rounded-full bg-white'
-                      : 'h-2 sm:h-3 w-2 sm:w-3 rounded-full bg-white/50 hover:bg-white/70'
+                  className={`h-2 rounded-full transition-all ${
+                    index === activeIndex ? 'w-10 bg-[#D4AF37]' : 'w-2 bg-white/30 hover:w-6 hover:bg-white/60'
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
