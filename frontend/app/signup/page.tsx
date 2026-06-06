@@ -1,306 +1,185 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { Eye, EyeOff, Mail, Lock, User, ArrowLeft, CheckCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { FormEvent, useState } from 'react'
+import { auth } from '@/src/api'
 
 export default function SignupPage() {
+  const router = useRouter()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [agreeTerms, setAgreeTerms] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [errors, setErrors] = useState<{
-    fullName?: string
-    email?: string
-    password?: string
-    confirmPassword?: string
-    terms?: string
-  }>({})
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const validateForm = () => {
-    const newErrors: typeof errors = {}
-    
-    if (!fullName.trim()) {
-      newErrors.fullName = 'Full name is required'
-    } else if (fullName.trim().length < 2) {
-      newErrors.fullName = 'Name must be at least 2 characters'
-    }
-    
-    if (!email) {
-      newErrors.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Please enter a valid email'
-    }
-    
-    if (!password) {
-      newErrors.password = 'Password is required'
-    } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-      newErrors.password = 'Password must include uppercase, lowercase, and numbers'
-    }
-    
-    if (!confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password'
-    } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match'
-    }
-    
-    if (!agreeTerms) {
-      newErrors.terms = 'You must agree to the terms and conditions'
-    }
-    
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setMessage(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-    
-    setIsLoading(true)
+    if (password !== confirmPassword) {
+      setMessage({ type: 'error', text: 'Passwords do not match.' })
+      return
+    }
+
+    setLoading(true)
     try {
-      // TODO: Implement Supabase auth here
-      console.log('Sign up attempt:', { fullName, email, password, agreeTerms })
-      // Simulate auth delay
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const { data, error } = await auth.signUp(email, password, { full_name: fullName })
+      if (error) {
+        setMessage({ type: 'error', text: error.message })
+      } else if (data?.session) {
+        setMessage({ type: 'success', text: 'Account created successfully. Redirecting…' })
+        setTimeout(() => {
+          router.push('/courses')
+        }, 800)
+      } else {
+        setMessage({
+          type: 'success',
+          text: 'Account created. Please check your email to confirm your account before signing in.',
+        })
+      }
     } catch (error) {
-      console.error('Sign up error:', error)
+      setMessage({ type: 'error', text: 'Unable to create account. Please try again.' })
+      console.error(error)
     } finally {
-      setIsLoading(false)
+      setLoading(false)
     }
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4 sm:p-6">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-green-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-600/5 rounded-full blur-3xl"></div>
-      </div>
+    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(212,176,79,0.14),_transparent_35%),#06170f] text-slate-100">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
+          <section className="rounded-[2rem] border border-[#334d3a] bg-white/5 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+            <div className="mb-10">
+              <span className="inline-flex rounded-full bg-[#d4b04f]/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">
+                Join the Academy
+              </span>
+              <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                Start your Brainstorm Skills journey with a premium green and gold experience.
+              </h1>
+              <p className="mt-5 max-w-xl text-slate-300">
+                Create an account today to access career-ready courses, mentorship, and real-world skills training designed for fast-moving learners.
+              </p>
+            </div>
 
-      <div className="relative w-full max-w-md">
-        {/* Back to home */}
-        <Link 
-          href="/"
-          className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors group"
-        >
-          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Back to Home</span>
-        </Link>
+            <div className="grid gap-4">
+              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Career-Focused Learning</p>
+                <p className="mt-3 text-slate-200">Join training programs built for technical and vocational success.</p>
+              </div>
+              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Account Protection</p>
+                <p className="mt-3 text-slate-200">Strong signup security and instant account creation with Supabase-backed auth.</p>
+              </div>
+              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Fast Onboarding</p>
+                <p className="mt-3 text-slate-200">Get into your first course quickly with a trusted login flow.</p>
+              </div>
+            </div>
+          </section>
 
-        {/* Card */}
-        <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-white to-slate-50 p-8 sm:p-10 shadow-2xl backdrop-blur-sm">
-          {/* Header */}
-          <div className="mb-8 space-y-3 text-center">
-            <p className="text-sm font-bold uppercase tracking-widest text-emerald-600">Create Account</p>
-            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent">
-              Join Us
-            </h1>
-            <p className="text-slate-600">Start your learning journey with our premium training programs</p>
-          </div>
+          <section className="rounded-[2rem] border border-[#4b6b4d] bg-slate-950/95 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
+            <div className="mb-8 space-y-3 text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Create Account</p>
+              <h2 className="text-3xl font-bold text-white">Sign up and start learning today</h2>
+              <p className="text-slate-400">Build your profile, join classes, and access the Brainstorm Academy experience.</p>
+            </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name field */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Full Name
-              </label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600/50 pointer-events-none" size={20} />
+            <form className="space-y-5" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="fullName" className="block text-sm font-medium text-slate-300">
+                  Full name
+                </label>
                 <input
+                  id="fullName"
+                  name="fullName"
                   type="text"
+                  autoComplete="name"
+                  required
                   value={fullName}
-                  onChange={(e) => {
-                    setFullName(e.target.value)
-                    if (errors.fullName) setErrors({ ...errors, fullName: undefined })
-                  }}
-                  placeholder="Enter your full name"
-                  className={`w-full pl-12 pr-4 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 transition-all focus:outline-none ${
-                    errors.fullName 
-                      ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                      : 'border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100'
-                  }`}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
               </div>
-              {errors.fullName && (
-                <p className="mt-2 text-sm font-medium text-red-600">{errors.fullName}</p>
-              )}
-            </div>
 
-            {/* Email field */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600/50 pointer-events-none" size={20} />
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-300">
+                  Email address
+                </label>
                 <input
+                  id="email"
+                  name="email"
                   type="email"
+                  autoComplete="email"
+                  required
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                    if (errors.email) setErrors({ ...errors, email: undefined })
-                  }}
-                  placeholder="Enter your email"
-                  className={`w-full pl-12 pr-4 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 transition-all focus:outline-none ${
-                    errors.email 
-                      ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                      : 'border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100'
-                  }`}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
               </div>
-              {errors.email && (
-                <p className="mt-2 text-sm font-medium text-red-600">{errors.email}</p>
-              )}
-            </div>
 
-            {/* Password field */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600/50 pointer-events-none" size={20} />
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-slate-300">
+                  Password
+                </label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value)
-                    if (errors.password) setErrors({ ...errors, password: undefined })
-                  }}
-                  placeholder="Create a strong password"
-                  className={`w-full pl-12 pr-12 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 transition-all focus:outline-none ${
-                    errors.password 
-                      ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                      : 'border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100'
-                  }`}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-emerald-600 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
               </div>
-              {errors.password && (
-                <p className="mt-2 text-sm font-medium text-red-600">{errors.password}</p>
-              )}
-              <p className="mt-2 text-xs text-slate-600">Min 8 chars with uppercase, lowercase & numbers</p>
-            </div>
 
-            {/* Confirm Password field */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-600/50 pointer-events-none" size={20} />
+              <div>
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-300">
+                  Confirm password
+                </label>
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  required
                   value={confirmPassword}
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value)
-                    if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: undefined })
-                  }}
-                  placeholder="Confirm your password"
-                  className={`w-full pl-12 pr-12 py-3 rounded-xl border-2 bg-white text-slate-900 placeholder-slate-400 transition-all focus:outline-none ${
-                    errors.confirmPassword 
-                      ? 'border-red-400 focus:border-red-500 focus:ring-4 focus:ring-red-100' 
-                      : 'border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100'
-                  }`}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-emerald-600 transition-colors"
+              </div>
+
+              {message ? (
+                <div
+                  className={`rounded-3xl border px-4 py-3 text-sm ${
+                    message.type === 'error'
+                      ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                      : 'border-emerald-400/40 bg-emerald-500/10 text-emerald-200'
+                  }`}
                 >
-                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="mt-2 text-sm font-medium text-red-600">{errors.confirmPassword}</p>
-              )}
-            </div>
+                  {message.text}
+                </div>
+              ) : null}
 
-            {/* Terms checkbox */}
-            <label className="flex items-start gap-3 cursor-pointer group p-4 rounded-lg hover:bg-slate-50 transition-colors">
-              <input
-                type="checkbox"
-                checked={agreeTerms}
-                onChange={(e) => {
-                  setAgreeTerms(e.target.checked)
-                  if (errors.terms) setErrors({ ...errors, terms: undefined })
-                }}
-                className="w-5 h-5 mt-0.5 rounded-lg border-2 border-slate-300 accent-emerald-600 cursor-pointer transition-colors hover:border-emerald-600 flex-shrink-0"
-              />
-              <div className="text-sm text-slate-700 group-hover:text-slate-900">
-                I agree to the{' '}
-                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
-                  Terms of Service
-                </a>
-                {' '}and{' '}
-                <a href="#" className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
-                  Privacy Policy
-                </a>
-              </div>
-            </label>
-            {errors.terms && (
-              <p className="text-sm font-medium text-red-600">{errors.terms}</p>
-            )}
-
-            {/* Sign up button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 mt-8 rounded-xl font-bold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 hover:shadow-lg hover:shadow-emerald-500/50 active:scale-95"
-            >
-              {isLoading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Creating account...
-                </span>
-              ) : (
-                'Sign Up'
-              )}
-            </button>
-
-            {/* Divider */}
-            <div className="flex items-center gap-4 my-8">
-              <div className="flex-1 h-px bg-slate-200"></div>
-              <span className="text-sm text-slate-500 font-medium">OR</span>
-              <div className="flex-1 h-px bg-slate-200"></div>
-            </div>
-
-            {/* Sign in link */}
-            <p className="text-center text-slate-700">
-              Already have an account?{' '}
-              <Link
-                href="/signin"
-                className="font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex w-full items-center justify-center rounded-3xl bg-gradient-to-r from-[#c8ad4d] via-[#e0c56e] to-[#d19f38] px-5 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-slate-950 shadow-[0_18px_30px_rgba(210,176,79,0.22)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Sign In
+                {loading ? 'Creating account…' : 'Sign up'}
+              </button>
+            </form>
+
+            <p className="mt-8 text-center text-sm text-slate-400">
+              Already have an account?{' '}
+              <Link href="/signin" className="font-semibold text-[#d4b04f] hover:text-[#f1d87f]">
+                Sign in
               </Link>
             </p>
-
-            {/* Support contact */}
-            <p className="text-center text-sm text-slate-600 pt-4 border-t border-slate-200">
-              Need help?{' '}
-              <a
-                href="mailto:support@brainstormacademy.ng"
-                className="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
-              >
-                Contact support
-              </a>
-            </p>
-          </form>
+          </section>
         </div>
       </div>
     </main>

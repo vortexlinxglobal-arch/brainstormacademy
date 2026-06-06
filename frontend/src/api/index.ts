@@ -1,10 +1,25 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+let supabaseClient: SupabaseClient | null = null
+
+function getSupabaseClient() {
+  if (!supabaseClient) {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      if (typeof window === 'undefined') {
+        return null
+      }
+      throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY')
+    }
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return supabaseClient
+}
+
+export const supabase = getSupabaseClient()
 
 // API Client class for backend functions
 class ApiClient {
@@ -15,7 +30,12 @@ class ApiClient {
   }
 
   private async request(endpoint: string, options: RequestInit = {}) {
-    const token = (await supabase.auth.getSession()).data.session?.access_token
+    const client = getSupabaseClient()
+    if (!client) {
+      throw new Error('Supabase client is unavailable')
+    }
+
+    const token = (await client.auth.getSession()).data.session?.access_token
 
     const headers = {
       'Content-Type': 'application/json',
@@ -288,7 +308,9 @@ export const apiClient = new ApiClient(backendUrl)
 // Authentication helpers
 export const auth = {
   async signUp(email: string, password: string, userData?: any) {
-    return supabase.auth.signUp({
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.signUp({
       email,
       password,
       options: {
@@ -298,26 +320,42 @@ export const auth = {
   },
 
   async signIn(email: string, password: string) {
-    return supabase.auth.signInWithPassword({
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.signInWithPassword({
       email,
       password,
     })
   },
 
   async signOut() {
-    return supabase.auth.signOut()
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.signOut()
   },
 
   async getCurrentUser() {
-    return supabase.auth.getUser()
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.getUser()
   },
 
   async getSession() {
-    return supabase.auth.getSession()
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.getSession()
+  },
+
+  async resetPassword(email: string, redirectTo: string) {
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.resetPasswordForEmail(email, { redirectTo })
   },
 
   onAuthStateChange(callback: (event: string, session: any) => void) {
-    return supabase.auth.onAuthStateChange(callback)
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client.auth.onAuthStateChange(callback)
   },
 }
 
@@ -325,7 +363,9 @@ export const auth = {
 export const db = {
   // Get user profile
   async getProfile(userId: string) {
-    return supabase
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client
       .from('profiles')
       .select('*')
       .eq('id', userId)
@@ -334,7 +374,9 @@ export const db = {
 
   // Get announcements
   async getAnnouncements(limit = 10) {
-    return supabase
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client
       .from('announcements')
       .select('*')
       .eq('is_active', true)
@@ -344,7 +386,9 @@ export const db = {
 
   // Get notifications for user
   async getNotifications(userId: string, limit = 20) {
-    return supabase
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+    return client
       .from('notifications')
       .select('*')
       .eq('recipient_id', userId)
@@ -354,7 +398,10 @@ export const db = {
 
   // Mark notifications as read
   async markNotificationsRead(userId: string, notificationIds?: number[]) {
-    const query = supabase
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
+
+    const query = client
       .from('notifications')
       .update({ is_read: true })
       .eq('recipient_id', userId)
