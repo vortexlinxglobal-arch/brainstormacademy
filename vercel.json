@@ -6,9 +6,6 @@
       "use": "@vercel/next"
     }
   ],
-  "installCommand": "npm install --prefix frontend",
-  "buildCommand": "npm run build --prefix frontend",
-  "routes": [
-    { "src": "/(.*)", "dest": "/frontend/$1" }
-  ]
+  "installCommand": "npm install",
+  "buildCommand": "npm run build"
 }
