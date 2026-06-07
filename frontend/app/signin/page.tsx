@@ -39,7 +39,7 @@ export default function SigninPage() {
       })
 
       // Store tokens and user info
-      if (data?.session?.access_token) {
+      if (data?.session?.access_token && data.user) {
         localStorage.setItem('auth_token', data.session.access_token)
         localStorage.setItem('refresh_token', data.session.refresh_token || '')
         localStorage.setItem('user_id', data.user.id)

@@ -59,7 +59,7 @@ export default function SignupPage() {
       })
 
       // Store the access token in localStorage for now
-      if (data?.session?.access_token) {
+      if (data?.session?.access_token && data.user) {
         localStorage.setItem('auth_token', data.session.access_token)
         localStorage.setItem('user_id', data.user.id)
       }
