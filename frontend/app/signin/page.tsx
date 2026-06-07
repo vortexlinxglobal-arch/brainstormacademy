@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function SigninPage() {
   const router = useRouter()
@@ -20,16 +23,13 @@ export default function SigninPage() {
     setMessage(null)
 
     try {
-      const response = await fetch(`${BACKEND_URL}/v1/auth/signin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        setMessage({ type: 'error', text: data.error || 'Sign in failed' })
+      if (error) {
+        setMessage({ type: 'error', text: error.message || 'Sign in failed' })
         return
       }
 
@@ -39,10 +39,10 @@ export default function SigninPage() {
       })
 
       // Store tokens and user info
-      if (data.data?.session?.access_token) {
-        localStorage.setItem('auth_token', data.data.session.access_token)
-        localStorage.setItem('refresh_token', data.data.session.refresh_token || '')
-        localStorage.setItem('user_id', data.data.user.id)
+      if (data?.session?.access_token) {
+        localStorage.setItem('auth_token', data.session.access_token)
+        localStorage.setItem('refresh_token', data.session.refresh_token || '')
+        localStorage.setItem('user_id', data.user.id)
       }
 
       setTimeout(() => {

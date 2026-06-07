@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function SignupPage() {
   const router = useRouter()
@@ -33,22 +36,20 @@ export default function SignupPage() {
 
     setLoading(true)
     try {
-      const response = await fetch(`${BACKEND_URL}/v1/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          full_name: fullName,
-          date_of_birth: dateOfBirth,
-          trade_code: tradeCode,
-        }),
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            date_of_birth: dateOfBirth,
+            trade_code: tradeCode,
+          },
+        },
       })
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        setMessage({ type: 'error', text: data.error || 'Signup failed' })
+      if (error) {
+        setMessage({ type: 'error', text: error.message || 'Signup failed' })
         return
       }
 
@@ -58,9 +59,9 @@ export default function SignupPage() {
       })
 
       // Store the access token in localStorage for now
-      if (data.data?.session?.access_token) {
-        localStorage.setItem('auth_token', data.data.session.access_token)
-        localStorage.setItem('user_id', data.data.user.id)
+      if (data?.session?.access_token) {
+        localStorage.setItem('auth_token', data.session.access_token)
+        localStorage.setItem('user_id', data.user.id)
       }
 
       setTimeout(() => {
