@@ -1,14 +1,55 @@
 'use client'
 
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 function ConfirmEmailContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const email = searchParams.get('email') || 'your email'
   const [countdown, setCountdown] = useState(30)
+  const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [resending, setResending] = useState(false)
+
+  const handleResend = async () => {
+    if (!email || email === 'your email') {
+      setStatus({ type: 'error', text: 'Unable to resend confirmation email without an email address.' })
+      return
+    }
+
+    setResending(true)
+    setStatus(null)
+    const { error } = await supabase.auth.resend({
+      email,
+      type: 'signup',
+      options: {
+        emailRedirectTo: `${appUrl}/auth/callback`,
+      },
+    })
+
+    if (error) {
+      setStatus({
+        type: 'error',
+        text: error.message?.toLowerCase().includes('rate limit')
+          ? 'A confirmation email was sent recently. Please wait a few minutes before trying again.'
+          : 'Unable to resend confirmation email. Please try again later.',
+      })
+    } else {
+      setStatus({
+        type: 'success',
+        text: 'Confirmation email resent. Check your inbox and spam folder.',
+      })
+    }
+
+    setResending(false)
+  }
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -91,6 +132,28 @@ function ConfirmEmailContent() {
             Browse Courses
           </button>
         </div>
+
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+          <button
+            onClick={handleResend}
+            disabled={resending}
+            className="flex-1 rounded-3xl border border-[#d4b04f] bg-[#111f14] px-5 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-[#d4b04f] transition hover:bg-[#162b1b] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {resending ? 'Resending…' : 'Resend confirmation email'}
+          </button>
+        </div>
+
+        {status ? (
+          <div
+            className={`mt-4 rounded-3xl border px-4 py-3 text-sm ${
+              status.type === 'error'
+                ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                : 'border-emerald-400/40 bg-emerald-500/10 text-emerald-200'
+            }`}
+          >
+            {status.text}
+          </div>
+        ) : null}
 
         <p className="text-center text-xs text-slate-500">
           After confirming your email, you can sign in with your credentials to access all courses and features.
