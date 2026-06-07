@@ -55,7 +55,7 @@ export default function SignupPage() {
 
       setMessage({
         type: 'success',
-        text: 'Account created successfully! Redirecting to courses…',
+        text: 'Account created! Check your email to confirm.',
       })
 
       // Store the access token in localStorage for now
@@ -65,7 +65,7 @@ export default function SignupPage() {
       }
 
       setTimeout(() => {
-        router.push('/courses')
+        router.push(`/signup/confirm-email?email=${encodeURIComponent(email)}`)
       }, 1500)
     } catch (error) {
       setMessage({
