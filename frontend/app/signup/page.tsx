@@ -51,7 +51,10 @@ export default function SignupPage() {
       })
 
       if (error) {
-        setMessage({ type: 'error', text: error.message || 'Signup failed' })
+        const message = error.message?.toLowerCase().includes('rate limit')
+          ? 'We sent a confirmation email recently. Please wait a few minutes and check your inbox or spam folder before trying again.'
+          : error.message || 'Signup failed'
+        setMessage({ type: 'error', text: message })
         return
       }
 
