@@ -24,13 +24,18 @@ function ConfirmEmailContent() {
       return
     }
 
+    const currentOrigin =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+
     setResending(true)
     setStatus(null)
     const { error } = await supabase.auth.resend({
       email,
       type: 'signup',
       options: {
-        emailRedirectTo: `${appUrl}/auth/callback`,
+        emailRedirectTo: `${currentOrigin}/auth/callback`,
       },
     })
 

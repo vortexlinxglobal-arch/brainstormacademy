@@ -36,7 +36,10 @@ export default function SignupPage() {
 
     setLoading(true)
     try {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+      const appUrl =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
