@@ -7,6 +7,9 @@ import { ReactNode } from 'react'
 const adminNav = [
   { href: '/dashboard/admin', label: 'Overview' },
   { href: '/dashboard/admin/business-center', label: 'Business Center' },
+  { href: '/dashboard/admin/students', label: 'Students' },
+  { href: '/dashboard/admin/trades', label: 'Trades' },
+  { href: '/dashboard/admin/programs', label: 'Programs' },
   { href: '/dashboard/admin/users', label: 'Users' },
   { href: '/dashboard/admin/reports', label: 'Reports' },
 ]

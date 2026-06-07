@@ -74,8 +74,22 @@ class ApiClient {
     academic_background?: any
     trade_code: string
   }) {
-    return this.request('/students', {
+    return this.request('/admin/students', {
       method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateAdminStudent(data: {
+    student_id: number
+    enrollment_status?: string
+    contact?: string
+    guardian_contact?: string
+    address?: any
+    academic_background?: any
+  }) {
+    return this.request('/admin/students', {
+      method: 'PUT',
       body: JSON.stringify(data),
     })
   }
@@ -228,6 +242,43 @@ class ApiClient {
   // Trades APIs
   async getTrades() {
     return this.request('/trades')
+  }
+
+  async getAdminStudents() {
+    return this.request('/admin/students')
+  }
+
+  async getAdminPrograms() {
+    return this.request('/admin/programs')
+  }
+
+  async createProgram(data: {
+    title: string
+    category: string
+    image_url: string
+    description?: string
+    display_order?: number
+    is_active?: boolean
+  }) {
+    return this.request('/admin/programs', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateProgram(data: {
+    program_id: number
+    title?: string
+    category?: string
+    image_url?: string
+    description?: string
+    display_order?: number
+    is_active?: boolean
+  }) {
+    return this.request('/admin/programs', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
   }
 
   async getTradeCategories() {

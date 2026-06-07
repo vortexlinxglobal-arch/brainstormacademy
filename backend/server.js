@@ -1,6 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+
+// Node < 22 (including Node 20) does not provide a global WebSocket. Supabase realtime
+// needs a WebSocket implementation. Ensure `ws` is available and set as global.WebSocket
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  global.WebSocket = global.WebSocket || require('ws');
+} catch (e) {
+  // If `ws` isn't installed, Supabase will throw a helpful error; we let it surface.
+}
+
 const { createClient } = require('@supabase/supabase-js');
 
 const cookieParser = require('cookie-parser');
@@ -267,6 +277,212 @@ app.get('/v1/trades/courses', async (req, res) => {
 
     if (error) return respond(res, { error: error.message }, 400);
     return respond(res, { data });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/students', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('students')
+      .select(
+        `id, user_id, registration_number, first_name, last_name, enrollment_status, created_at, profiles(email), enrollments!left(trade_id, trades(name, code))`
+      )
+      .order('created_at', { ascending: false });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/programs', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('program_gallery')
+      .select('*')
+      .order('display_order', { ascending: true });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/students', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const {
+      email,
+      password,
+      first_name,
+      last_name,
+      date_of_birth,
+      gender,
+      contact,
+      guardian_contact,
+      address,
+      academic_background,
+      trade_code,
+    } = req.body;
+
+    if (!email || !password || !first_name || !last_name || !date_of_birth || !trade_code) {
+      return respond(res, { error: 'Missing required fields' }, 400);
+    }
+
+    const { data: trade, error: tradeErr } = await supabase
+      .from('trades')
+      .select('id, code, name')
+      .eq('code', trade_code)
+      .eq('is_active', true)
+      .maybeSingle();
+
+    if (tradeErr || !trade) {
+      return respond(res, { error: 'Invalid or inactive trade code' }, 400);
+    }
+
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          role: 'student',
+          student_data: {
+            first_name,
+            last_name,
+            date_of_birth,
+            gender,
+            contact,
+            guardian_contact,
+            address,
+            academic_background,
+            trade_code,
+          },
+        },
+      },
+    });
+
+    if (authError) return respond(res, { error: authError.message }, 400);
+    if (!authData.user) return respond(res, { error: 'Failed to create user account' }, 400);
+
+    const { data: student, error: studentError } = await supabase
+      .from('students')
+      .select('id, user_id, registration_number, first_name, last_name, enrollment_status')
+      .eq('user_id', authData.user.id)
+      .single();
+
+    if (studentError) {
+      return respond(res, { error: 'Student profile creation failed' }, 400);
+    }
+
+    return respond(res, {
+      data: {
+        user: authData.user,
+        student,
+        message: 'Student created successfully.',
+      },
+    }, 201);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.put('/v1/admin/students', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { student_id, enrollment_status, contact, guardian_contact, address, academic_background } = req.body;
+    if (!student_id) {
+      return respond(res, { error: 'student_id is required' }, 400);
+    }
+
+    const updatePayload = {
+      ...(enrollment_status !== undefined ? { enrollment_status } : {}),
+      ...(contact !== undefined ? { contact } : {}),
+      ...(guardian_contact !== undefined ? { guardian_contact } : {}),
+      ...(address !== undefined ? { address } : {}),
+      ...(academic_background !== undefined ? { academic_background } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('students')
+      .update(updatePayload)
+      .eq('id', student_id)
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Student profile updated successfully' });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/programs', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { title, category, image_url, description, display_order, is_active = true } = req.body;
+    if (!title || !category || !image_url) {
+      return respond(res, { error: 'Missing required fields: title, category, image_url' }, 400);
+    }
+
+    const { data, error } = await supabase
+      .from('program_gallery')
+      .insert({ title, category, image_url, description, display_order, is_active })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Program created successfully' }, 201);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.put('/v1/admin/programs', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { program_id, title, category, image_url, description, display_order, is_active } = req.body;
+    if (!program_id) {
+      return respond(res, { error: 'program_id is required' }, 400);
+    }
+
+    const updatePayload = {
+      ...(title !== undefined ? { title } : {}),
+      ...(category !== undefined ? { category } : {}),
+      ...(image_url !== undefined ? { image_url } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(display_order !== undefined ? { display_order } : {}),
+      ...(is_active !== undefined ? { is_active } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('program_gallery')
+      .update(updatePayload)
+      .eq('id', program_id)
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Program updated successfully' });
   } catch (error) {
     return respond(res, { error: error.message }, 500);
   }
