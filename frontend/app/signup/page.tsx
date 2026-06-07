@@ -82,9 +82,9 @@ export default function SignupPage() {
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(212,176,79,0.14),_transparent_35%),#06170f] text-slate-100">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
-          <section className="rounded-[2rem] border border-[#334d3a] bg-white/5 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+          <section className="rounded-[2rem] border border-[#334d3a] bg-slate-950/60 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
             <div className="mb-10">
-              <span className="inline-flex rounded-full bg-[#d4b04f]/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">
+              <span className="inline-flex rounded-full bg-[#d4b04f]/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-[#e0c56e]">
                 Join the Academy
               </span>
               <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
