@@ -36,10 +36,12 @@ export default function SignupPage() {
 
     setLoading(true)
     try {
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: `${appUrl}/auth/callback`,
           data: {
             full_name: fullName,
             date_of_birth: dateOfBirth,
