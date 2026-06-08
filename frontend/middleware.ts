@@ -13,13 +13,8 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // If accessing main domain (not portal)
-  if (
-    hostname === 'brainstormacademy.ng' ||
-    hostname === 'www.brainstormacademy.ng' ||
-    hostname === 'localhost:3000'
-  ) {
-    // Redirect /portal to the portal subdomain if accessed on main domain
+  // If accessing main domain (not portal), redirect /portal to the portal subdomain
+  if (hostname === 'brainstormacademy.ng' || hostname === 'www.brainstormacademy.ng') {
     if (pathname.startsWith('/portal')) {
       const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || 'https://portal.brainstormacademy.ng'
       return NextResponse.redirect(`${portalUrl}${pathname}`)
