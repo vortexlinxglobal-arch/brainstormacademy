@@ -517,29 +517,62 @@ export const apiClient = new ApiClient(backendUrl)
 // Authentication helpers
 export const auth = {
   async signUp(email: string, password: string, userData?: any) {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-    return client.auth.signUp({
-      email,
-      password,
-      options: {
-        data: userData,
-      },
+    const response = await fetch(`${backendUrl}/v1/auth/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, ...userData }),
     })
+
+    const result = await response.json()
+    if (!response.ok) {
+      throw new Error(result.error || 'Signup failed')
+    }
+
+    return result
   },
 
   async signIn(email: string, password: string) {
+    const response = await fetch(`${backendUrl}/v1/auth/signin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password }),
+    })
+
+    const result = await response.json()
+    if (!response.ok) {
+      throw new Error(result.error || 'Signin failed')
+    }
+
+    const session = result.data?.session
+    if (!session || !session.access_token) {
+      throw new Error('Failed to establish session')
+    }
+
     const client = getSupabaseClient()
     if (!client) throw new Error('Supabase client is unavailable')
-    return client.auth.signInWithPassword({
-      email,
-      password,
+
+    const { error } = await client.auth.setSession({
+      access_token: session.access_token,
+      refresh_token: session.refresh_token,
     })
+
+    if (error) {
+      throw error
+    }
+
+    return result
   },
 
   async signOut() {
     const client = getSupabaseClient()
     if (!client) throw new Error('Supabase client is unavailable')
+
+    await fetch(`${backendUrl}/v1/auth/signout`, {
+      method: 'POST',
+      credentials: 'include',
+    })
+
     return client.auth.signOut()
   },
 

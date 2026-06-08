@@ -3,11 +3,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { auth } from '@/src/api'
 
 export default function SigninPage() {
   const router = useRouter()
@@ -23,35 +19,20 @@ export default function SigninPage() {
     setMessage(null)
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      if (error) {
-        setMessage({ type: 'error', text: error.message || 'Sign in failed' })
-        return
-      }
+      await auth.signIn(email, password)
 
       setMessage({
         type: 'success',
-        text: 'Signed in successfully — redirecting…',
+        text: 'Signed in successfully — redirecting to your portal…',
       })
 
-      // Store tokens and user info
-      if (data?.session?.access_token && data.user) {
-        localStorage.setItem('auth_token', data.session.access_token)
-        localStorage.setItem('refresh_token', data.session.refresh_token || '')
-        localStorage.setItem('user_id', data.user.id)
-      }
-
       setTimeout(() => {
-        router.push('/courses')
+        router.push('/portal')
       }, 600)
-    } catch (error) {
+    } catch (error: any) {
       setMessage({
         type: 'error',
-        text: 'Unable to sign in. Please try again.',
+        text: error?.message || 'Unable to sign in. Please try again.',
       })
       console.error(error)
     } finally {
@@ -82,8 +63,8 @@ export default function SigninPage() {
                 <p className="mt-3 text-slate-200">Protected sign-in, encrypted sessions, and fast credential validation for your learning account.</p>
               </div>
               <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">24/7 Support</p>
-                <p className="mt-3 text-slate-200">Get help anytime from across the academy with priority support for learners and staff.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Staff Login</p>
+                <p className="mt-3 text-slate-200">Staff accounts are provisioned by a portal administrator. Use your registered email and phone number as your password.</p>
               </div>
               <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
                 <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Fast & Reliable</p>

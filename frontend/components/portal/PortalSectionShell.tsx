@@ -49,7 +49,9 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
         const profileData = profileResult.data as Profile
         setProfile(profileData)
 
-        if (!allowedRoles.includes(profileData.role)) {
+        const normalizedRole = profileData.role?.toLowerCase?.() || ''
+        const normalizedAllowedRoles = allowedRoles.map((role) => role.toLowerCase())
+        if (!normalizedAllowedRoles.includes(normalizedRole)) {
           setStatus('forbidden')
           return
         }
@@ -86,7 +88,7 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
         <div className="mx-auto max-w-3xl rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
           <h1 className="text-3xl font-semibold text-slate-900">Portal access required</h1>
           <p className="mt-4 text-base leading-7 text-slate-600">
-            You need to sign in to view this portal section. If you don&apos;t have an account yet, create one now.
+            You need to sign in to view this portal section. If you do not have a staff account, ask your administrator to provision one with your email and phone number.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link

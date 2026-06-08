@@ -124,6 +124,7 @@ export default function SignupPage() {
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Create Account</p>
               <h2 className="text-3xl font-bold text-white">Sign up and start learning today</h2>
               <p className="text-slate-400">Build your profile, join classes, and access the Brainstorm Academy experience.</p>
+              <p className="text-sm text-slate-400 mt-2">Student accounts can register here. Staff accounts must be created by an administrator and use email + phone number credentials.</p>
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>

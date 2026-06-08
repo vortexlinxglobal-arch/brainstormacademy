@@ -914,9 +914,13 @@ app.get('/v1/staff/finance', async (req, res) => {
 
 app.post('/v1/staff', async (req, res) => {
   try {
+    const user = await requireRole(req, res, ['admin', 'manager']);
+    if (!user) return;
+
     const {
       email,
       password,
+      phone,
       full_name,
       category_code,
       department_code,
@@ -926,7 +930,8 @@ app.post('/v1/staff', async (req, res) => {
       qualifications,
     } = req.body;
 
-    if (!email || !password || !full_name || !category_code) {
+    const initialPassword = password || phone;
+    if (!email || !initialPassword || !full_name || !category_code) {
       return respond(res, { error: 'Missing required fields' }, 400);
     }
 
@@ -955,13 +960,14 @@ app.post('/v1/staff', async (req, res) => {
 
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
-      password,
+      password: initialPassword,
       options: {
         data: {
           role: 'staff',
           staff_data: {
             category_code,
             department_code,
+            phone,
             bio,
             employment_date,
             specialty,

@@ -7,9 +7,13 @@ import { auth, db } from '@/src/api'
 
 const roleRedirects: Record<string, string> = {
   Admin: '/portal/admin',
+  admin: '/portal/admin',
   Manager: '/portal/admin',
+  manager: '/portal/admin',
   Instructor: '/portal/instructor',
+  instructor: '/portal/instructor',
   Student: '/portal/student',
+  student: '/portal/student',
 }
 
 const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || ''
@@ -32,7 +36,7 @@ export default function PortalLandingPage() {
         const sessionResult = await auth.getSession()
         const user = sessionResult.data.session?.user
         if (!user) {
-          setLoading(false)
+          router.replace('/signin')
           return
         }
 
@@ -43,7 +47,7 @@ export default function PortalLandingPage() {
           return
         }
 
-        const redirectPath = roleRedirects[profileResult.data.role]
+        const redirectPath = roleRedirects[profileResult.data.role?.toLowerCase?.() || '']
         if (redirectPath) {
           setRedirecting(true)
           router.replace(redirectPath)
