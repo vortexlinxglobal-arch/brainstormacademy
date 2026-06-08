@@ -5,10 +5,18 @@ export function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const { pathname } = request.nextUrl
 
-  // If accessing portal subdomain
+  const portalOnlyRoutes = ['/admin', '/instructor', '/student']
+  const isPortalOnlyRoute = portalOnlyRoutes.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  )
+
+  // If accessing portal subdomain, preserve root pages and only rewrite portal-specific paths.
   if (hostname.startsWith('portal.') || hostname === 'portal.brainstormacademy.ng') {
-    // Ensure all portal subdomain traffic goes to /portal
-    if (!pathname.startsWith('/portal')) {
+    if (pathname === '/') {
+      return NextResponse.rewrite(new URL('/portal', request.url))
+    }
+
+    if (isPortalOnlyRoute) {
       return NextResponse.rewrite(new URL(`/portal${pathname}`, request.url))
     }
   }
