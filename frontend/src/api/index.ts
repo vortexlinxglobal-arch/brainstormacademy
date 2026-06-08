@@ -4,6 +4,36 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || ''
 
+const getBackendUrl = () => {
+  if (!backendUrl) {
+    throw new Error('NEXT_PUBLIC_BACKEND_URL is not configured.')
+  }
+  if (backendUrl.includes('.supabase.co')) {
+    throw new Error('NEXT_PUBLIC_BACKEND_URL must point to the backend API, not the Supabase project URL.')
+  }
+  return backendUrl
+}
+
+const buildBackendHeaders = (headers: Record<string, string> = {}) => ({
+  'Content-Type': 'application/json',
+  ...headers,
+})
+
+async function fetchBackend(endpoint: string, options: RequestInit = {}) {
+  const response = await fetch(`${getBackendUrl()}${endpoint}`, {
+    credentials: 'include',
+    headers: buildBackendHeaders(options.headers as Record<string, string>),
+    ...options,
+  })
+
+  const data = await response.json().catch(() => ({ error: 'Invalid JSON response' }))
+  if (!response.ok) {
+    throw new Error(data.error || `Backend request failed: ${response.status}`)
+  }
+
+  return data
+}
+
 let supabaseClient: SupabaseClient | null = null
 
 function getSupabaseClient() {
@@ -532,17 +562,10 @@ export const auth = {
   },
 
   async signIn(email: string, password: string) {
-    const response = await fetch(`${backendUrl}/v1/auth/signin`, {
+    const result = await fetchBackend('/v1/auth/signin', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({ email, password }),
     })
-
-    const result = await response.json()
-    if (!response.ok) {
-      throw new Error(result.error || 'Signin failed')
-    }
 
     const session = result.data?.session
     if (!session || !session.access_token) {
@@ -565,27 +588,29 @@ export const auth = {
   },
 
   async signOut() {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-
-    await fetch(`${backendUrl}/v1/auth/signout`, {
+    await fetchBackend('/v1/auth/signout', {
       method: 'POST',
-      credentials: 'include',
     })
 
+    const client = getSupabaseClient()
+    if (!client) throw new Error('Supabase client is unavailable')
     return client.auth.signOut()
   },
 
   async getCurrentUser() {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-    return client.auth.getUser()
+    const sessionResult = await this.getSession()
+    return { data: { user: sessionResult.data.session?.user } }
   },
 
   async getSession() {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-    return client.auth.getSession()
+    const result = await fetchBackend('/v1/auth/verify')
+    return {
+      data: {
+        session: {
+          user: result.data.user,
+        },
+      },
+    }
   },
 
   async resetPassword(email: string, redirectTo: string) {
@@ -605,13 +630,7 @@ export const auth = {
 export const db = {
   // Get user profile
   async getProfile(userId: string) {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-    return client
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    return fetchBackend('/v1/profile')
   },
 
   // Get announcements
@@ -628,14 +647,7 @@ export const db = {
 
   // Get notifications for user
   async getNotifications(userId: string, limit = 20) {
-    const client = getSupabaseClient()
-    if (!client) throw new Error('Supabase client is unavailable')
-    return client
-      .from('notifications')
-      .select('*')
-      .eq('recipient_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(limit)
+    return fetchBackend(`/v1/notifications?limit=${limit}`)
   },
 
   // Mark notifications as read

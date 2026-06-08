@@ -33,6 +33,17 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const respond = (res, payload, status = 200) => res.status(status).json(payload);
 
+const setRefreshTokenCookie = (res, refresh_token) => {
+  if (!refresh_token) return;
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+  };
+  res.cookie('sb_refresh_token', refresh_token, cookieOptions);
+};
+
 const getBearerToken = (req) => {
   const authorization = req.get('Authorization');
   if (!authorization || !authorization.startsWith('Bearer ')) return null;
@@ -47,12 +58,29 @@ const getUserFromToken = async (token) => {
 };
 
 const requireAuth = async (req, res) => {
-  const token = getBearerToken(req);
-  const user = await getUserFromToken(token);
+  let token = getBearerToken(req);
+  let user = await getUserFromToken(token);
+
+  if (!user && req.cookies && req.cookies.sb_refresh_token) {
+    const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession({
+      refresh_token: req.cookies.sb_refresh_token,
+    });
+
+    if (!refreshData?.session || refreshError) {
+      respond(res, { error: 'Unauthorized' }, 401);
+      return null;
+    }
+
+    setRefreshTokenCookie(res, refreshData.session.refresh_token);
+    token = refreshData.session.access_token;
+    user = await getUserFromToken(token);
+  }
+
   if (!user) {
     respond(res, { error: 'Unauthorized' }, 401);
     return null;
   }
+
   return user;
 };
 
@@ -1712,6 +1740,52 @@ app.get('/v1/auth/verify', async (req, res) => {
     return respond(res, { error: error.message || 'Verification failed' }, 500);
   }
 });
+
+app.get('/v1/profile', async (req, res) => {
+  try {
+    const user = await requireAuth(req, res)
+    if (!user) return
+
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
+
+    if (error) {
+      return respond(res, { error: error.message || 'Unable to fetch profile' }, 500)
+    }
+
+    return respond(res, { data: profile })
+  } catch (error) {
+    console.error('Profile fetch error:', error)
+    return respond(res, { error: error.message || 'Unable to fetch profile' }, 500)
+  }
+})
+
+app.get('/v1/notifications', async (req, res) => {
+  try {
+    const user = await requireAuth(req, res)
+    if (!user) return
+
+    const limit = parseInt(req.query.limit, 10) || 20
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*')
+      .eq('recipient_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      return respond(res, { error: error.message || 'Unable to fetch notifications' }, 500)
+    }
+
+    return respond(res, { data })
+  } catch (error) {
+    console.error('Notifications fetch error:', error)
+    return respond(res, { error: error.message || 'Unable to fetch notifications' }, 500)
+  }
+})
 
 // Auth: Refresh Token
 app.post('/v1/auth/refresh', async (req, res) => {
