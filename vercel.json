@@ -8,10 +8,5 @@
   ],
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "rewrites": [
-    {
-      "source": "/:path*",
-      "destination": "/frontend/:path*"
-    }
-  ]
+  
 }
