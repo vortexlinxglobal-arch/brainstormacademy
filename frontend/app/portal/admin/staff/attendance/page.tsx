@@ -20,7 +20,7 @@ interface AttendanceRecord {
   id: string
   staffName: string
   role: string
-  checkIn: string
+  checkIn?: string
   checkOut?: string
   duration?: string
   status: 'present' | 'absent' | 'late' | 'early-checkout'
