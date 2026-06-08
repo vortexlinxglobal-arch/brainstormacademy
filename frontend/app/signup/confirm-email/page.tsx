@@ -13,7 +13,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 function ConfirmEmailContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const email = searchParams.get('email') || 'your email'
+  const email = (searchParams?.get('email') || 'your email')
   const [countdown, setCountdown] = useState(30)
   const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [resending, setResending] = useState(false)
