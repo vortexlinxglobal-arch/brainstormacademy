@@ -244,6 +244,14 @@ class ApiClient {
     return this.request('/trades')
   }
 
+  async getPerformanceOverview() {
+    return this.request('/admin/performance/overview')
+  }
+
+  async getPerformanceReviews() {
+    return this.request('/admin/performance/reviews')
+  }
+
   async getAdminStudents() {
     return this.request('/admin/students')
   }
@@ -287,6 +295,156 @@ class ApiClient {
 
   async getTradeCourses(tradeCode: string) {
     return this.request(`/trades/courses?trade_code=${tradeCode}`)
+  }
+
+  async getInventoryBranches() {
+    return this.request('/admin/business-center/branches')
+  }
+
+  async createInventoryBranch(data: {
+    name: string
+    address?: string
+    phone?: string
+    email?: string
+    manager_id?: string
+  }) {
+    return this.request('/admin/business-center/branches', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getInventoryItems() {
+    return this.request('/admin/business-center/items')
+  }
+
+  async createInventoryItem(data: {
+    item_name: string
+    sku?: string
+    description?: string
+    quantity: number
+    reorder_level?: number
+    unit_cost: number
+    branch_id?: string
+  }) {
+    return this.request('/admin/business-center/items', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateInventoryItem(id: string, data: {
+    item_name?: string
+    sku?: string
+    description?: string
+    quantity?: number
+    reorder_level?: number
+    unit_cost?: number
+    branch_id?: string
+  }) {
+    return this.request(`/admin/business-center/items/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async deleteInventoryItem(id: string) {
+    return this.request(`/admin/business-center/items/${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  async getInventoryTransactions() {
+    return this.request('/admin/business-center/transactions')
+  }
+
+  async createInventoryTransaction(data: {
+    inventory_item_id: string
+    branch_id?: string
+    transaction_type: 'purchase' | 'sale' | 'adjustment' | 'transfer'
+    quantity: number
+    unit_cost: number
+    notes?: string
+  }) {
+    return this.request('/admin/business-center/transactions', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getAdminMeetings() {
+    return this.request('/admin/meetings')
+  }
+
+  async createMeeting(data: {
+    topic: string
+    agenda?: string
+    scheduled_date: string
+    scheduled_time: string
+    location: string
+    participants: string
+    minutes?: string
+    status?: string
+  }) {
+    return this.request('/admin/meetings', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateMeeting(id: string, data: {
+    topic?: string
+    agenda?: string
+    scheduled_date?: string
+    scheduled_time?: string
+    location?: string
+    participants?: string
+    minutes?: string
+    status?: string
+  }) {
+    return this.request(`/admin/meetings/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async deleteMeeting(id: string) {
+    return this.request(`/admin/meetings/${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  async getAdminPayments() {
+    return this.request('/admin/payments')
+  }
+
+  async createPayment(data: {
+    student_id?: number
+    student_email?: string
+    enrollment_id?: number
+    amount: number
+    payment_method: string
+    status?: string
+    notes?: string
+    transaction_id?: string
+  }) {
+    return this.request('/admin/payments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updatePayment(id: number, data: {
+    amount?: number
+    payment_method?: string
+    status?: string
+    notes?: string
+    transaction_id?: string
+  }) {
+    return this.request(`/admin/payments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
   }
 
   async createTrade(data: {

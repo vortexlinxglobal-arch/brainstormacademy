@@ -74,6 +74,40 @@ const requireRole = async (req, res, allowedRoles = ['staff', 'admin']) => {
   return user;
 };
 
+const getOrCreateDefaultBranch = async () => {
+  const { data: branch, error: branchError } = await supabase
+    .from('business_center_branches')
+    .select('id')
+    .limit(1)
+    .maybeSingle();
+
+  if (branchError) {
+    throw branchError;
+  }
+
+  if (branch?.id) {
+    return branch.id;
+  }
+
+  const { data: createdBranch, error: createBranchError } = await supabase
+    .from('business_center_branches')
+    .insert({
+      name: 'Main Inventory Branch',
+      address: 'Main Campus',
+      email: 'info@brainstormacademy.ng',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+    .select('id')
+    .single();
+
+  if (createBranchError) {
+    throw createBranchError;
+  }
+
+  return createdBranch.id;
+};
+
 app.get('/health', (req, res) => respond(res, { status: 'ok' }));
 
 app.get('/v1/programs', async (req, res) => {
@@ -1031,6 +1065,428 @@ app.post('/v1/staff/performance', async (req, res) => {
 
     if (error) return respond(res, { error: error.message }, 400);
     return respond(res, { data: { success: true, message: 'Staff performance updated successfully' } });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/business-center/branches', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { data, error } = await supabase
+      .from('business_center_branches')
+      .select('*')
+      .order('name', { ascending: true });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data || []);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/business-center/branches', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { name, address, phone, email, manager_id } = req.body;
+    if (!name) {
+      return respond(res, { error: 'Branch name is required' }, 400);
+    }
+
+    const { data, error } = await supabase
+      .from('business_center_branches')
+      .insert({ name, address, phone, email, manager_id })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/business-center/items', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { data, error } = await supabase
+      .from('business_center_inventory_items')
+      .select('*, branch:business_center_branches(id, name)')
+      .order('item_name', { ascending: true });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data || []);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/business-center/items', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { item_name, sku, description, quantity, reorder_level, unit_cost, branch_id } = req.body;
+    if (!item_name || quantity === undefined || unit_cost === undefined) {
+      return respond(res, { error: 'item_name, quantity, and unit_cost are required' }, 400);
+    }
+
+    const effectiveBranchId = branch_id || (await getOrCreateDefaultBranch());
+    const { data, error } = await supabase
+      .from('business_center_inventory_items')
+      .insert({
+        item_name,
+        sku,
+        description,
+        quantity,
+        reorder_level,
+        unit_cost,
+        branch_id: effectiveBranchId,
+      })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.put('/v1/admin/business-center/items/:id', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { id } = req.params;
+    const { item_name, sku, description, quantity, reorder_level, unit_cost, branch_id } = req.body;
+
+    if (!item_name && !sku && !description && quantity === undefined && reorder_level === undefined && unit_cost === undefined && !branch_id) {
+      return respond(res, { error: 'At least one field must be provided for update' }, 400);
+    }
+
+    const updatePayload = {
+      ...(item_name !== undefined ? { item_name } : {}),
+      ...(sku !== undefined ? { sku } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(quantity !== undefined ? { quantity } : {}),
+      ...(reorder_level !== undefined ? { reorder_level } : {}),
+      ...(unit_cost !== undefined ? { unit_cost } : {}),
+      ...(branch_id !== undefined ? { branch_id } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('business_center_inventory_items')
+      .update(updatePayload)
+      .eq('id', id)
+      .select('*, branch:business_center_branches(id, name)')
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Inventory item updated successfully' });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.delete('/v1/admin/business-center/items/:id', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { id } = req.params;
+
+    // Check if there are any transactions linked to this item
+    const { data: transactions, error: transactionError } = await supabase
+      .from('business_center_inventory_transactions')
+      .select('id', { count: 'exact' })
+      .eq('inventory_item_id', id)
+      .limit(1);
+
+    if (transactionError) {
+      return respond(res, { error: transactionError.message }, 400);
+    }
+
+    if (transactions && transactions.length > 0) {
+      return respond(res, { error: 'Cannot delete item with existing transactions. Archive or deactivate instead.' }, 409);
+    }
+
+    const { error: deleteError } = await supabase
+      .from('business_center_inventory_items')
+      .delete()
+      .eq('id', id);
+
+    if (deleteError) return respond(res, { error: deleteError.message }, 400);
+    return respond(res, { message: 'Inventory item deleted successfully' }, 200);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/business-center/transactions', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { data, error } = await supabase
+      .from('business_center_inventory_transactions')
+      .select('*, inventory_item:business_center_inventory_items(item_name, sku), branch:business_center_branches(id, name)')
+      .order('created_at', { ascending: false });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data || []);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/business-center/transactions', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { inventory_item_id, branch_id, transaction_type, quantity, unit_cost, notes } = req.body;
+    if (!inventory_item_id || !transaction_type || quantity === undefined || unit_cost === undefined) {
+      return respond(res, { error: 'inventory_item_id, transaction_type, quantity, and unit_cost are required' }, 400);
+    }
+
+    const effectiveBranchId = branch_id || (await getOrCreateDefaultBranch());
+    const { data, error } = await supabase
+      .from('business_center_inventory_transactions')
+      .insert({
+        inventory_item_id,
+        branch_id: effectiveBranchId,
+        transaction_type,
+        quantity,
+        unit_cost,
+        notes,
+        performed_by: user.id,
+      })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/meetings', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { data, error } = await supabase
+      .from('meetings')
+      .select('*')
+      .order('scheduled_date', { ascending: false });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data || []);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/meetings', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { topic, agenda, scheduled_date, scheduled_time, location, participants, minutes, status } = req.body;
+    if (!topic || !scheduled_date || !location || !participants) {
+      return respond(res, { error: 'topic, scheduled_date, location, and participants are required' }, 400);
+    }
+
+    const { data, error } = await supabase
+      .from('meetings')
+      .insert({
+        topic,
+        agenda,
+        scheduled_date,
+        scheduled_time,
+        location,
+        participants,
+        minutes,
+        status: status || 'scheduled',
+        created_by: user.id,
+      })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.put('/v1/admin/meetings/:id', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { id } = req.params;
+    const { topic, agenda, scheduled_date, scheduled_time, location, participants, minutes, status } = req.body;
+
+    if (!topic && !agenda && !scheduled_date && !scheduled_time && !location && !participants && !minutes && status === undefined) {
+      return respond(res, { error: 'At least one field must be provided for update' }, 400);
+    }
+
+    const updatePayload = {
+      ...(topic !== undefined ? { topic } : {}),
+      ...(agenda !== undefined ? { agenda } : {}),
+      ...(scheduled_date !== undefined ? { scheduled_date } : {}),
+      ...(scheduled_time !== undefined ? { scheduled_time } : {}),
+      ...(location !== undefined ? { location } : {}),
+      ...(participants !== undefined ? { participants } : {}),
+      ...(minutes !== undefined ? { minutes } : {}),
+      ...(status !== undefined ? { status } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('meetings')
+      .update(updatePayload)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Meeting updated successfully' });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.delete('/v1/admin/meetings/:id', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { id } = req.params;
+
+    const { error: deleteError } = await supabase
+      .from('meetings')
+      .delete()
+      .eq('id', id);
+
+    if (deleteError) return respond(res, { error: deleteError.message }, 400);
+    return respond(res, { message: 'Meeting deleted successfully' }, 200);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.get('/v1/admin/payments', async (req, res) => {
+  try {
+    await requireRole(req, res, ['staff', 'admin']);
+
+    const { data, error } = await supabase
+      .from('payments')
+      .select('*, students(id, first_name, last_name), enrollments(id, trade_id, trade:trades(name))')
+      .order('payment_date', { ascending: false });
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data || []);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.post('/v1/admin/payments', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    let { student_id, student_email, enrollment_id, amount, payment_method, status, notes, transaction_id } = req.body;
+
+    if (!amount || !payment_method) {
+      return respond(res, { error: 'amount and payment_method are required' }, 400);
+    }
+
+    if (!student_id && student_email) {
+      const { data: student, error: studentError } = await supabase
+        .from('students')
+        .select('id')
+        .eq('email', student_email)
+        .maybeSingle();
+
+      if (studentError) return respond(res, { error: studentError.message }, 400);
+      if (!student) return respond(res, { error: 'Student not found for provided email' }, 404);
+      student_id = student.id;
+    }
+
+    if (!student_id) {
+      return respond(res, { error: 'student_id or student_email is required' }, 400);
+    }
+
+    if (!enrollment_id) {
+      const { data: enrollment, error: enrollmentError } = await supabase
+        .from('enrollments')
+        .select('id')
+        .eq('student_id', student_id)
+        .order('enrollment_date', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (enrollmentError) return respond(res, { error: enrollmentError.message }, 400);
+      if (!enrollment) return respond(res, { error: 'No enrollment found for the selected student' }, 404);
+      enrollment_id = enrollment.id;
+    }
+
+    const { data, error } = await supabase
+      .from('payments')
+      .insert({
+        student_id,
+        enrollment_id,
+        amount,
+        payment_method,
+        status: status || 'completed',
+        notes,
+        transaction_id,
+        processed_by: user.id,
+      })
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, data);
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
+app.put('/v1/admin/payments/:id', async (req, res) => {
+  try {
+    const user = await requireRole(req, res, ['staff', 'admin']);
+    if (!user) return;
+
+    const { id } = req.params;
+    const { amount, payment_method, status, notes, transaction_id } = req.body;
+
+    if (!amount && !payment_method && !status && !notes && !transaction_id) {
+      return respond(res, { error: 'At least one field must be provided for update' }, 400);
+    }
+
+    const updatePayload = {
+      ...(amount !== undefined ? { amount } : {}),
+      ...(payment_method !== undefined ? { payment_method } : {}),
+      ...(status !== undefined ? { status } : {}),
+      ...(notes !== undefined ? { notes } : {}),
+      ...(transaction_id !== undefined ? { transaction_id } : {}),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('payments')
+      .update(updatePayload)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) return respond(res, { error: error.message }, 400);
+    return respond(res, { data, message: 'Payment updated successfully' });
   } catch (error) {
     return respond(res, { error: error.message }, 500);
   }
