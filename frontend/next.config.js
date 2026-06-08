@@ -12,15 +12,15 @@ const nextConfig = {
     ],
   },
   async rewrites() {
-    if (!process.env.NEXT_PUBLIC_BACKEND_URL) {
-      return [];
-    }
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_BACKEND_URL}/:path*`,
-      },
-    ];
+    return {
+      beforeFiles: [
+        {
+          source: "/api/:path*",
+          destination: `${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/:path*`,
+        },
+      ],
+      afterFiles: [],
+    };
   },
 };
 
