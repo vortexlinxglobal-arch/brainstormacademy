@@ -603,13 +603,27 @@ export const auth = {
   },
 
   async getSession() {
-    const result = await fetchBackend('/v1/auth/verify')
-    return {
-      data: {
-        session: {
-          user: result.data.user,
+    try {
+      const result = await fetchBackend('/v1/auth/verify')
+      return {
+        data: {
+          session: {
+            user: result.data.user,
+          },
         },
-      },
+      }
+    } catch (error: any) {
+      const message = error?.message?.toString?.() ?? ''
+      if (message.includes('Unauthorized') || message.includes('401')) {
+        return {
+          data: {
+            session: {
+              user: null,
+            },
+          },
+        }
+      }
+      throw error
     }
   },
 

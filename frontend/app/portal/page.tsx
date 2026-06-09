@@ -6,13 +6,9 @@ import { useRouter } from 'next/navigation'
 import { auth, db } from '@/src/api'
 
 const roleRedirects: Record<string, string> = {
-  Admin: '/portal/admin',
   admin: '/portal/admin',
-  Manager: '/portal/admin',
   manager: '/portal/admin',
-  Instructor: '/portal/instructor',
   instructor: '/portal/instructor',
-  Student: '/portal/student',
   student: '/portal/student',
 }
 
@@ -32,9 +28,11 @@ export default function PortalLandingPage() {
 
     async function load() {
       setLoading(true)
+
       try {
         const sessionResult = await auth.getSession()
         const user = sessionResult.data.session?.user
+
         if (!user) {
           router.replace('/signin')
           return
@@ -47,16 +45,16 @@ export default function PortalLandingPage() {
           return
         }
 
-        const redirectPath = roleRedirects[profileResult.data.role?.toLowerCase?.() || '']
+        const normalizedRole = profileResult.data.role?.toLowerCase() || ''
+        const redirectPath = roleRedirects[normalizedRole]
+
         if (redirectPath) {
           setRedirecting(true)
           router.replace(redirectPath)
           return
         }
 
-        setError(
-          `Your account role (${profileResult.data.role}) does not have a dedicated portal section yet. Please contact support.`
-        )
+        setError(`Your account role (${profileResult.data.role}) does not have a dedicated portal section yet. Please contact support.`)
       } catch (err) {
         console.error('Portal landing load failed:', err)
         setError('Unable to verify your account role at this time.')
@@ -129,6 +127,32 @@ export default function PortalLandingPage() {
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Learning & progress</h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">Browse courses, track your progress, and stay connected with your learning plan.</p>
           </Link>
+        </div>
+
+        <div className="mx-auto mt-8 max-w-6xl grid gap-6 lg:grid-cols-3">
+          {[
+            {
+              title: 'Role-aware access',
+              description:
+                'Users are routed automatically to the correct portal experience based on their account role, reducing manual navigation and friction.',
+            },
+            {
+              title: 'Clear workspace entry points',
+              description:
+                'Dedicated paths for administrators, instructors, and students create a more intuitive operational flow.',
+            },
+            {
+              title: 'Real-time session validation',
+              description:
+                'Fast session checks and redirect behavior make the portal feel responsive and secure for every visitor.',
+            },
+          ].map((card) => (
+            <div key={card.title} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-lg">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600">Portal design</p>
+              <h3 className="mt-3 text-2xl font-semibold text-slate-900">{card.title}</h3>
+              <p className="mt-4 text-sm leading-7 text-slate-600">{card.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </main>

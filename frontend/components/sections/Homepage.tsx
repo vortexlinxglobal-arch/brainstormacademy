@@ -145,6 +145,24 @@ const programCategories = [
   },
 ]
 
+const platformHighlights = [
+  {
+    title: 'Learning workflows for every role',
+    description:
+      'Students, instructors and administrators each get a refined path that reduces friction and supports measurable progress.',
+  },
+  {
+    title: 'Clear, modern course discovery',
+    description:
+      'A clean catalog experience helps learners find the right skills quickly with confidence and relevance.',
+  },
+  {
+    title: 'Responsive experience across devices',
+    description:
+      'Optimized layouts and cards ensure fast access on mobile, tablet, and desktop without sacrificing clarity.',
+  },
+]
+
 // Fallback data in case API fails
 const FALLBACK_PROGRAMS = [
   {
@@ -282,6 +300,44 @@ export function Homepage() {
                         <p className="text-sm leading-6 text-slate-600">{program.description}</p>
                       </div>
                       <Badge variant="secondary">{program.badge}</Badge>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="space-y-12"
+          >
+            <motion.div variants={itemVariants} className="space-y-4 text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Platform intelligence</p>
+              <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Research-aligned learning and operations.</h2>
+              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+                We build a modern learning portal inspired by the latest training management experiences in blended, hybrid, and cohort-based learning.
+              </p>
+            </motion.div>
+
+            <motion.div variants={containerVariants} className="grid gap-6 md:grid-cols-3">
+              {platformHighlights.map((item) => (
+                <motion.div key={item.title} variants={itemVariants}>
+                  <Card className="h-full rounded-3xl border border-slate-200 bg-slate-950/5 shadow-sm transition hover:shadow-md">
+                    <CardContent className="space-y-4 p-6">
+                      <div className="inline-flex rounded-2xl bg-emerald-50 px-3 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                        Insight
+                      </div>
+                      <div className="space-y-3">
+                        <h3 className="text-2xl font-semibold text-slate-900">{item.title}</h3>
+                        <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -516,7 +572,13 @@ export function Homepage() {
                       </div>
                       <p className="text-slate-700 italic">"{testimonial.text}"</p>
                       <div className="flex items-center gap-3 pt-4 border-t">
-                        <img src={testimonial.avatar} alt={testimonial.name} className="h-12 w-12 rounded-full" />
+                        <Image
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          width={48}
+                          height={48}
+                          className="h-12 w-12 rounded-full"
+                        />
                         <div>
                           <p className="font-semibold text-slate-900">{testimonial.name}</p>
                           <p className="text-sm text-slate-600">{testimonial.role}</p>
