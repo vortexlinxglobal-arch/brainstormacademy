@@ -21,9 +21,9 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
         <div className="mx-auto flex flex-col gap-4 px-6 py-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-emerald-300">Brainstorm Academy Portal</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Clean portal workspace</h1>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight">Portal workspace</h1>
             <p className="mt-2 max-w-2xl text-sm text-emerald-200">
-              Unified admin, staff and student control center with a polished green-and-gold identity.
+              Unified admin, staff and student control center.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
