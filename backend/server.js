@@ -299,12 +299,34 @@ app.get('/v1/admissions/my-applications', async (req, res) => {
 
 app.get('/v1/trades', async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from('trade_catalog')
-      .select('*')
-      .order('name');
+    let data = null
+    let error = null
 
-    if (error) return respond(res, { error: error.message }, 400);
+    const catalogQuery = supabase.from('trade_catalog').select('*').order('name');
+    let result = await catalogQuery;
+    data = result.data;
+    error = result.error;
+
+    if (error) {
+      console.warn('trade_catalog lookup failed:', error);
+      const fallbackQuery = supabase
+        .from('trades')
+        .select('id, code, name, description, is_active')
+        .eq('is_active', true)
+        .order('name');
+      result = await fallbackQuery;
+      data = result.data;
+      error = result.error;
+    }
+
+    if (error) {
+      console.warn('trades lookup failed:', error);
+      if (error.code === 'PGRST205' || error.message?.includes('Could not find the table')) {
+        return respond(res, { data: [] });
+      }
+      return respond(res, { error: error.message || 'Unable to load trade programs' }, 500);
+    }
+
     return respond(res, { data });
   } catch (error) {
     return respond(res, { error: error.message }, 500);
@@ -1556,34 +1578,93 @@ app.post('/v1/auth/signup', async (req, res) => {
       );
     }
 
-    // Validate trade exists
-    const { data: trade, error: tradeErr } = await supabase
+    // Validate trade exists when possible
+    let trade = null
+    let tradeLookupUnavailable = false
+    const { data: tradeData, error: tradeErr } = await supabase
       .from('trades')
       .select('id, code, name')
       .eq('code', trade_code)
       .eq('is_active', true)
       .maybeSingle();
 
-    if (tradeErr || !trade) {
+    if (tradeErr) {
+      console.warn('Trade lookup failed during signup:', tradeErr)
+      if (tradeErr.message?.includes('Could not find the table') || tradeErr.code === 'PGRST205') {
+        tradeLookupUnavailable = true
+      } else {
+        return respond(res, { error: 'Trade lookup failed' }, 500)
+      }
+    } else {
+      trade = tradeData
+    }
+
+    if (!tradeLookupUnavailable && !trade) {
       return respond(res, { error: 'Invalid or inactive trade code' }, 400);
     }
 
+    const emailRedirectTo = req.body.email_redirect_to || req.body.emailRedirectTo
+    const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+    let redirectTo = emailRedirectTo || `${defaultAppUrl}/auth/callback`
+    if (!redirectTo.includes('/auth/callback')) {
+      redirectTo = `${redirectTo.replace(/\/$/, '')}/auth/callback`
+    }
+
     // Create user account via Supabase Auth
+    const signUpOptions = {
+      data: {
+        role: 'student',
+        full_name,
+        first_name: first_name || full_name.split(' ')[0],
+        last_name: last_name || full_name.split(' ').slice(1).join(' '),
+      },
+    }
+
+    if (redirectTo) {
+      signUpOptions.emailRedirectTo = redirectTo
+    }
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          role: 'student',
-          full_name,
-          first_name: first_name || full_name.split(' ')[0],
-          last_name: last_name || full_name.split(' ').slice(1).join(' '),
-        },
-      },
+      options: signUpOptions,
     });
 
     if (authError) {
-      return respond(res, { error: authError.message || 'Failed to create account' }, 400);
+      const authMessage = String(authError.message || 'Failed to create account')
+      const normalized = authMessage.toLowerCase()
+
+      if (
+        normalized.includes('rate limit') ||
+        normalized.includes('confirmation email recently') ||
+        normalized.includes('already sent a confirmation email')
+      ) {
+        return respond(
+          res,
+          {
+            error:
+              'A confirmation email was already sent. Please check your inbox or spam folder before trying again.',
+          },
+          429
+        )
+      }
+
+      if (
+        normalized.includes('already registered') ||
+        normalized.includes('duplicate') ||
+        normalized.includes('user already registered')
+      ) {
+        return respond(
+          res,
+          {
+            error:
+              'This email is already registered. Please sign in or check your email for the verification link.',
+          },
+          400
+        )
+      }
+
+      return respond(res, { error: authMessage }, 400)
     }
 
     if (!authData.user) {
@@ -1623,6 +1704,8 @@ app.post('/v1/auth/signup', async (req, res) => {
       if (enrollmentError) {
         console.error('Enrollment creation failed:', enrollmentError);
       }
+    } else if (tradeLookupUnavailable) {
+      console.warn('Skipping trade enrollment because trade lookup is unavailable.');
     }
 
     return respond(

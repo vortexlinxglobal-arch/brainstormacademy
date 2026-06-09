@@ -40,11 +40,14 @@ function ConfirmEmailContent() {
     })
 
     if (error) {
+      const normalized = error.message?.toLowerCase() || ''
       setStatus({
         type: 'error',
-        text: error.message?.toLowerCase().includes('rate limit')
-          ? 'A confirmation email was sent recently. Please wait a few minutes before trying again.'
-          : 'Unable to resend confirmation email. Please try again later.',
+        text:
+          normalized.includes('rate limit') ||
+          normalized.includes('confirmation email recently')
+            ? 'A confirmation email was sent recently. Please wait a few minutes before trying again.'
+            : 'Unable to resend confirmation email. Please try again later.',
       })
     } else {
       setStatus({

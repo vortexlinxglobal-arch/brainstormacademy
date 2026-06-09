@@ -73,7 +73,8 @@ class ApiClient {
       ...options.headers,
     }
 
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+    const apiEndpoint = endpoint.startsWith('/v1') ? endpoint : `/v1${endpoint}`
+    const response = await fetch(`${this.baseUrl}${apiEndpoint}`, {
       ...options,
       headers,
     })

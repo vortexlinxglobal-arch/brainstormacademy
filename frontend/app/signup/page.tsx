@@ -2,12 +2,8 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { FormEvent, useEffect, useState } from 'react'
+import { apiClient, auth } from '@/src/api'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -16,9 +12,28 @@ export default function SignupPage() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [tradeCode, setTradeCode] = useState('')
+  const [trades, setTrades] = useState<{ id: number; code: string; name: string }[]>([])
+  const [loadingTrades, setLoadingTrades] = useState(true)
+  const [tradeLoadError, setTradeLoadError] = useState<string | null>(null)
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  useEffect(() => {
+    const loadTrades = async () => {
+      try {
+        const result = await apiClient.getTrades()
+        setTrades(result.data || [])
+      } catch (error: any) {
+        console.error('Failed to load trade programs', error)
+        setTradeLoadError(error?.message || 'Unable to load trade programs')
+      } finally {
+        setLoadingTrades(false)
+      }
+    }
+
+    loadTrades()
+  }, [])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -40,25 +55,16 @@ export default function SignupPage() {
         typeof window !== 'undefined'
           ? window.location.origin
           : process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${appUrl}/auth/callback`,
-          data: {
-            full_name: fullName,
-            date_of_birth: dateOfBirth,
-            trade_code: tradeCode,
-          },
-        },
+
+      const result = await auth.signUp(email, password, {
+        full_name: fullName,
+        date_of_birth: dateOfBirth,
+        trade_code: tradeCode,
+        email_redirect_to: `${appUrl}/auth/callback`,
       })
 
-      if (error) {
-        const message = error.message?.toLowerCase().includes('rate limit')
-          ? 'We sent a confirmation email recently. Please wait a few minutes and check your inbox or spam folder before trying again.'
-          : error.message || 'Signup failed'
-        setMessage({ type: 'error', text: message })
-        return
+      if (!result || !result.data) {
+        throw new Error('Signup failed')
       }
 
       setMessage({
@@ -66,19 +72,27 @@ export default function SignupPage() {
         text: 'Account created! Check your email to confirm.',
       })
 
-      // Store the access token in localStorage for now
-      if (data?.session?.access_token && data.user) {
-        localStorage.setItem('auth_token', data.session.access_token)
-        localStorage.setItem('user_id', data.user.id)
-      }
-
       setTimeout(() => {
         router.push(`/signup/confirm-email?email=${encodeURIComponent(email)}`)
       }, 1500)
-    } catch (error) {
+    } catch (error: any) {
+      const errorText = String(error?.message || '')
+      const normalized = errorText.toLowerCase()
+
+      const message =
+        normalized.includes('rate limit') ||
+        normalized.includes('confirmation email recently') ||
+        normalized.includes('already sent a confirmation email')
+          ? 'A confirmation email was already sent. Please check your inbox or spam folder before trying again.'
+          : normalized.includes('already registered') ||
+            normalized.includes('duplicate') ||
+            normalized.includes('user already registered')
+          ? 'This email is already registered. Please sign in or check your email for the verification link.'
+          : errorText || 'Unable to create account. Please try again.'
+
       setMessage({
         type: 'error',
-        text: 'Unable to create account. Please try again.',
+        text: message,
       })
       console.error(error)
     } finally {
@@ -220,12 +234,30 @@ export default function SignupPage() {
                   className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 >
                   <option value="">Select a program...</option>
-                  <option value="TRADE001">Electrical Installation (TRADE001)</option>
-                  <option value="TRADE002">Plumbing & Gas Fitting (TRADE002)</option>
-                  <option value="TRADE003">Carpentry & Joinery (TRADE003)</option>
-                  <option value="TRADE004">Welding & Fabrication (TRADE004)</option>
-                  <option value="TRADE005">Automotive Technology (TRADE005)</option>
+                  {loadingTrades ? (
+                    <option value="" disabled>Loading programs...</option>
+                  ) : trades.length > 0 ? (
+                    trades.map((trade) => (
+                      <option key={trade.id} value={trade.code}>
+                        {trade.name} ({trade.code})
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <option value="" disabled>No programs available</option>
+                      <option value="TRADE001">Electrical Installation (TRADE001)</option>
+                      <option value="TRADE002">Plumbing & Gas Fitting (TRADE002)</option>
+                      <option value="TRADE003">Carpentry & Joinery (TRADE003)</option>
+                      <option value="TRADE004">Welding & Fabrication (TRADE004)</option>
+                      <option value="TRADE005">Automotive Technology (TRADE005)</option>
+                    </>
+                  )}
                 </select>
+                {tradeLoadError ? (
+                  <p className="mt-2 text-sm text-amber-300">
+                    Unable to load trade programs: {tradeLoadError}. Please try again later or contact support.
+                  </p>
+                ) : null}
               </div>
 
               {message ? (
