@@ -258,7 +258,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                       <span
                         className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl transition ${
                           active ? 'bg-[#1a6b53] text-white' : 'text-slate-700'
-                        }
+                        }`}
                       >
                         <Icon className="h-5 w-5" />
                       </span>
