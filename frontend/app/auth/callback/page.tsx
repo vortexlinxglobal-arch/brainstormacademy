@@ -4,11 +4,9 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+let supabase: SupabaseClient | null = null
 
 export default function AuthCallbackPage() {
   const router = useRouter()
@@ -18,18 +16,23 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     const processCallback = async () => {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+
       if (!supabaseUrl || !supabaseKey) {
         setStatus({
           type: 'error',
-          text: 'Authentication configuration is missing. Please contact support.',
+          text: 'Authentication configuration is missing. Please ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set. Contact support if the issue persists.',
         })
         setLoading(false)
         return
       }
 
+      if (!supabase) {
+        supabase = createClient(supabaseUrl, supabaseKey)
+      }
+
       try {
-        // Supabase v2 handles the URL parameters automatically after redirect.
-        // We can directly call getSession() to retrieve the session.
         const { data, error } = await supabase.auth.getSession()
 
         if (error) {
@@ -55,8 +58,6 @@ export default function AuthCallbackPage() {
           return
         }
 
-        // If no session but no error, it means the callback was processed but no active session was found.
-        // This can happen if the user just confirmed their email but needs to sign in.
         setStatus({
           type: 'success',
           text: 'Your email has been confirmed. Please sign in to continue.',
