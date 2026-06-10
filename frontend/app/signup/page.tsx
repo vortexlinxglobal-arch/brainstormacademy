@@ -114,7 +114,7 @@ export default function SignupPage() {
               <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
                 Start your Brainstorm Skills journey with a premium green and gold experience.
               </h1>
-              <p className="mt-5 max-w-xl text-slate-300">
+              <p className="mt-5 max-w-xl text-slate-200">
                 Create an account today to access career-ready courses, mentorship, and real-world skills training designed for fast-moving learners.
               </p>
             </div>
@@ -139,8 +139,8 @@ export default function SignupPage() {
             <div className="mb-8 space-y-3 text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Create Account</p>
               <h2 className="text-3xl font-bold text-white">Sign up and start learning today</h2>
-              <p className="text-slate-400">Build your profile, join classes, and access the Brainstorm Academy experience.</p>
-              <p className="text-sm text-slate-400 mt-2">Student accounts can register here. Staff accounts must be created by an administrator and use email + phone number credentials.</p>
+              <p className="text-sm text-slate-300">Build your profile, join classes, and access the Brainstorm Academy experience.</p>
+              <p className="text-sm text-slate-300 mt-2">Student accounts can register here. Staff accounts must be created by an administrator and use email + phone number credentials.</p>
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>

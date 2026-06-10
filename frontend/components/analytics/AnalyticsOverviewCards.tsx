@@ -46,7 +46,7 @@ export function AnalyticsOverviewCards({ metrics }: AnalyticsOverviewCardsProps)
             <CardHeader className="flex flex-col gap-4 px-6 pt-6 pb-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">{metric.label}</p>
+                  <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">{metric.label}</p>
                   <CardTitle className="mt-2 text-3xl text-slate-900 dark:text-slate-100">{metric.value}</CardTitle>
                 </div>
                 <Badge variant="secondary" className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 dark:bg-slate-900 dark:text-slate-200">

@@ -264,9 +264,9 @@ export function Homepage() {
               { label: 'Alumni Network', value: '15K+', description: 'Active across Nigeria' },
             ].map((stat, index) => (
               <motion.div key={index} variants={itemVariants} className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">{stat.label}</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-slate-700">{stat.label}</p>
                 <p className="mt-3 text-5xl font-bold text-slate-900">{stat.value}</p>
-                <p className="mt-2 text-slate-600">{stat.description}</p>
+                <p className="mt-2 text-slate-700">{stat.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -284,7 +284,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Courses built for employment, entrepreneurship and practical mastery.</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Browse our flagship trade categories that combine digital skill and hands-on practice.
               </p>
             </motion.div>
@@ -297,7 +297,7 @@ export function Homepage() {
                       <div className="text-4xl">{program.emoji}</div>
                       <div className="space-y-3">
                         <h3 className="text-xl font-semibold text-slate-900">{program.title}</h3>
-                        <p className="text-sm leading-6 text-slate-600">{program.description}</p>
+                        <p className="text-sm leading-6 text-slate-700">{program.description}</p>
                       </div>
                       <Badge variant="secondary">{program.badge}</Badge>
                     </CardContent>
@@ -321,7 +321,7 @@ export function Homepage() {
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Platform intelligence</p>
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Research-aligned learning and operations.</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 We build a modern learning portal inspired by the latest training management experiences in blended, hybrid, and cohort-based learning.
               </p>
             </motion.div>
@@ -336,7 +336,7 @@ export function Homepage() {
                       </div>
                       <div className="space-y-3">
                         <h3 className="text-2xl font-semibold text-slate-900">{item.title}</h3>
-                        <p className="text-sm leading-6 text-slate-600">{item.description}</p>
+                        <p className="text-sm leading-6 text-slate-700">{item.description}</p>
                       </div>
                     </CardContent>
                   </Card>
@@ -457,7 +457,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Featured Programs</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Industry-standard courses designed for immediate job placement.
               </p>
             </motion.div>
@@ -495,7 +495,7 @@ export function Homepage() {
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                 Why Choose Brainstorm Skills?
               </h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-slate-700 leading-relaxed">
                 We combine expert instruction, practical experience, and career support to deliver real results for ambitious professionals.
               </p>
 
@@ -531,9 +531,9 @@ export function Homepage() {
                       { label: 'Employer Satisfaction', value: '96%', detail: 'Rate our graduates highly' },
                     ].map((metric, idx) => (
                       <div key={idx} className="border-t pt-4">
-                        <p className="text-xs uppercase tracking-wider text-slate-600">{metric.label}</p>
+                        <p className="text-xs uppercase tracking-wider text-slate-700">{metric.label}</p>
                         <p className="mt-2 text-2xl font-bold text-slate-900">{metric.value}</p>
-                        <p className="mt-1 text-sm text-slate-600">{metric.detail}</p>
+                        <p className="mt-1 text-sm text-slate-700">{metric.detail}</p>
                       </div>
                     ))}
                   </div>
@@ -555,7 +555,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Real stories from skills graduates.</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Students who trained with us and launched income-generating careers.
               </p>
             </motion.div>
@@ -581,7 +581,7 @@ export function Homepage() {
                         />
                         <div>
                           <p className="font-semibold text-slate-900">{testimonial.name}</p>
-                          <p className="text-sm text-slate-600">{testimonial.role}</p>
+                          <p className="text-sm text-slate-700">{testimonial.role}</p>
                         </div>
                       </div>
                     </CardContent>

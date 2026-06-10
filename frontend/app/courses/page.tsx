@@ -78,7 +78,7 @@ export default function CoursesPage() {
               <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
                 All Courses
               </h1>
-              <p className="max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
+              <p className="max-w-2xl text-base text-slate-700 dark:text-slate-400 sm:text-lg">
                 Choose a course to empower your future with practical skills and industry-recognized certifications.
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function CoursesPage() {
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-slate-900">Search courses</h3>
-                    <p className="text-sm text-slate-500">Find the right training fast.</p>
+                    <p className="text-sm text-slate-700">Find the right training fast.</p>
                   </div>
                   <button
                     type="button"
@@ -227,14 +227,14 @@ export default function CoursesPage() {
             <div className="space-y-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700 dark:text-slate-400">
                     Showing {filteredCourses.length} of {allCourses.length} courses
                   </p>
                   <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
                     Explore every training path.
                   </h2>
                   {statusLoading ? (
-                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading saved course status…</p>
+                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-400">Loading saved course status…</p>
                   ) : null}
                 </div>
                 <div className="flex flex-wrap gap-3">
@@ -289,7 +289,7 @@ export default function CoursesPage() {
                     <Search className="h-8 w-8" />
                   </div>
                   <h3 className="text-xl font-semibold text-slate-900 dark:text-white">No courses found</h3>
-                  <p className="mt-3 text-slate-600 dark:text-slate-400">Try a different search term or reset your filters.</p>
+                  <p className="mt-3 text-slate-700 dark:text-slate-300">Try a different search term or reset your filters.</p>
                   <Button
                     variant="outline"
                     className="mt-6 w-full max-w-xs rounded-full py-3 text-sm font-semibold"

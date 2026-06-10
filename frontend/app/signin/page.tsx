@@ -80,7 +80,7 @@ export default function SigninPage() {
             <div className="mb-8 space-y-3 text-center">
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Welcome Back</p>
               <h2 className="text-3xl font-bold text-white">Enter your credentials to access your account</h2>
-              <p className="text-slate-400">Sign in and continue your vocational learning journey with Brainstorm Skills.</p>
+              <p className="text-slate-300">Sign in and continue your vocational learning journey with Brainstorm Skills.</p>
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
@@ -152,7 +152,7 @@ export default function SigninPage() {
               </button>
             </form>
 
-            <p className="mt-8 text-center text-sm text-slate-400">
+            <p className="mt-8 text-center text-sm text-slate-300">
               Don&apos;t have an account?{' '}
               <Link href="/signup" className="font-semibold text-[#d4b04f] hover:text-[#f1d87f]">
                 Sign Up

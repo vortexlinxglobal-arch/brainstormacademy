@@ -77,7 +77,7 @@ export default function AboutPage() {
             <div className="space-y-4 rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1a6b53]">Academy profile</p>
               <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">A skills academy with focus on quality, certification, and employability.</h2>
-              <p className="text-base leading-8 text-slate-600">
+              <p className="text-base leading-8 text-slate-700">
                 Brainstorm Skills delivers a balanced combination of basic education and NSQ vocational training. Our National Skills Qualification courses are developed to help learners secure certified trade skills, practical knowledge, and the confidence to thrive in modern workplaces.
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function AboutPage() {
               ].map((item) => (
                 <div key={item.title} className="rounded-3xl border border-slate-200/10 bg-white p-6 shadow-sm">
                   <h3 className="text-xl font-semibold text-slate-900">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
+                  <p className="mt-3 text-sm leading-7 text-slate-700">{item.description}</p>
                 </div>
               ))}
             </div>
@@ -104,7 +104,7 @@ export default function AboutPage() {
           <div className="space-y-8">
             <div className="rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
               <h3 className="text-xl font-semibold text-slate-900">Facilities & Learning Features</h3>
-              <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+              <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
                 <li>• Modern laboratories and practical workshops for every trade.</li>
                 <li>• Fully-equipped computer lab with internet access.</li>
                 <li>• Industry visits and partnership engagements for real-world exposure.</li>
@@ -113,7 +113,7 @@ export default function AboutPage() {
             </div>
             <div className="rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
               <h3 className="text-xl font-semibold text-slate-900">Graduate Guarantee</h3>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
+              <p className="mt-4 text-sm leading-7 text-slate-700">
                 Every learner is supported to achieve the 3Es — Education, Employment, and Economic Independence — through competency-based assessments and coaching that turn acquired skills into income-generating opportunities.
               </p>
             </div>

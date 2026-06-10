@@ -41,7 +41,7 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
               <BookOpen className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm text-slate-500">Portal navigation</p>
+              <p className="text-sm text-slate-700">Portal navigation</p>
               <p className="font-semibold text-slate-900">Workspace sections</p>
             </div>
           </div>

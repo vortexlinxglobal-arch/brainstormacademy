@@ -32,10 +32,10 @@ export function SiteFooter() {
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-gradient-to-br from-[#1a6b53] via-[#4d8b55] to-[#D4AF37] text-lg font-bold text-white shadow-lg shadow-[#1a6b53]/20">
             BA
           </div>
-          <p className="max-w-sm text-sm leading-7 text-slate-400">
+          <p className="max-w-sm text-sm leading-7 text-slate-300">
             Brainstorm Academy Skills is an NBTE-approved skills training center empowering Nigerian youth with practical, industry-relevant skills for successful careers.
           </p>
-          <div className="space-y-3 text-sm text-slate-400">
+          <div className="space-y-3 text-sm text-slate-300">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-[#D4AF37]" />
               No. 22 Ni'ma Road, Hayin Danmani, Kaduna
@@ -53,7 +53,7 @@ export function SiteFooter() {
 
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#D4AF37]">Company</h3>
-          <div className="mt-6 space-y-3 text-sm text-slate-400">
+          <div className="mt-6 space-y-3 text-sm text-slate-300">
             {companyLinks.map((item) => (
               <Link key={item.href} href={item.href} className="block transition hover:text-[#D4AF37]">
                 {item.label}
@@ -85,10 +85,10 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-[#D4AF37]/15 bg-[#061f12]/90 py-5 text-sm text-slate-400">
+      <div className="border-t border-[#D4AF37]/15 bg-[#061f12]/90 py-5 text-sm text-slate-300">
         <div className="container-fluid flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Brainstorm Academy Skills. All rights reserved.</p>
-          <div className="flex flex-wrap items-center gap-4 text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 text-slate-300">
             <Link href="/terms" className="transition hover:text-[#D4AF37]">Terms</Link>
             <Link href="/privacy" className="transition hover:text-[#D4AF37]">Privacy</Link>
             <Link href="/contact" className="inline-flex items-center gap-1 transition hover:text-[#D4AF37]">

@@ -33,7 +33,7 @@ export function LearningPathCard({ pathName, description, steps, completion }: L
             </Badge>
           </div>
           <CardTitle>{pathName}</CardTitle>
-          <p className="max-w-2xl text-sm text-slate-500 dark:text-slate-400">{description}</p>
+          <p className="max-w-2xl text-sm text-slate-700 dark:text-slate-300">{description}</p>
         </div>
       </CardHeader>
       <CardContent className="px-6 pb-6 pt-2">
@@ -59,14 +59,14 @@ export function LearningPathCard({ pathName, description, steps, completion }: L
                       </Badge>
                     ) : null}
                   </div>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{step.subtitle}</p>
+                  <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">{step.subtitle}</p>
                 </div>
               </motion.div>
             ))}
           </div>
 
           <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            <div className="mb-4 flex items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
+            <div className="mb-4 flex items-center justify-between gap-3 text-sm text-slate-700 dark:text-slate-300">
               <span>Path progress</span>
               <span>{completion}% complete</span>
             </div>
@@ -77,7 +77,7 @@ export function LearningPathCard({ pathName, description, steps, completion }: L
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950">
-              <p className="text-sm text-slate-500 dark:text-slate-400">Next activity</p>
+              <p className="text-sm text-slate-700 dark:text-slate-300">Next activity</p>
               <div className="mt-3 flex items-center gap-3 text-slate-900 dark:text-slate-100">
                 <Sparkles className="h-5 w-5 text-emerald-600" />
                 <p className="font-semibold">Complete module 4 assessment</p>

@@ -87,7 +87,7 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
       <main className="min-h-screen bg-slate-50 px-4 py-10">
         <div className="mx-auto max-w-3xl rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
           <h1 className="text-3xl font-semibold text-slate-900">Portal access required</h1>
-          <p className="mt-4 text-base leading-7 text-slate-600">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             You need to sign in to view this portal section. If you do not have a staff account, ask your administrator to provision one with your email and phone number.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -114,10 +114,10 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
       <main className="min-h-screen bg-slate-50 px-4 py-10">
         <div className="mx-auto max-w-3xl rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
           <h1 className="text-3xl font-semibold text-slate-900">Access denied</h1>
-          <p className="mt-4 text-base leading-7 text-slate-600">
+          <p className="mt-4 text-base leading-7 text-slate-700">
             Your account role does not have permission to access this section.
           </p>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-slate-700">
             Current role: <span className="font-semibold text-slate-900">{profile?.role || 'Unknown'}</span>
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -145,7 +145,7 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
       <main className="min-h-screen bg-slate-50 px-4 py-10">
         <div className="mx-auto max-w-3xl rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
           <h1 className="text-3xl font-semibold text-slate-900">Unable to load portal</h1>
-          <p className="mt-4 text-base leading-7 text-slate-600">{message || 'There was a problem loading your profile.'}</p>
+          <p className="mt-4 text-base leading-7 text-slate-700">{message || 'There was a problem loading your profile.'}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/signin"
@@ -172,14 +172,14 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
         <section className="rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.24em] text-slate-500">{title}</p>
+              <p className="text-sm uppercase tracking-[0.24em] text-slate-700">{title}</p>
               <h1 className="mt-2 text-3xl font-bold text-slate-900">{description}</h1>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
+              <p className="mt-4 text-sm leading-7 text-slate-700">
                 Welcome back, {profile?.first_name ?? profile?.email ?? 'member'}. Use the workspace below to manage your portal tasks.
               </p>
             </div>
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-700">
-              <p className="text-slate-500">Portal role</p>
+              <p className="text-slate-700">Portal role</p>
               <p className="mt-2 text-lg font-semibold text-slate-900">{profile?.role}</p>
             </div>
           </div>

@@ -42,7 +42,7 @@ export default function StudentProgressPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Overall Progress</p>
+                  <p className="text-sm text-slate-700 font-medium">Overall Progress</p>
                   <p className="mt-2 text-3xl font-bold text-emerald-600">60%</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-emerald-600 opacity-20" />
@@ -53,7 +53,7 @@ export default function StudentProgressPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Lessons Completed</p>
+                  <p className="text-sm text-slate-700 font-medium">Lessons Completed</p>
                   <p className="mt-2 text-3xl font-bold text-blue-600">20</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-blue-600 opacity-20" />
@@ -64,7 +64,7 @@ export default function StudentProgressPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Certificates Earned</p>
+                  <p className="text-sm text-slate-700 font-medium">Certificates Earned</p>
                   <p className="mt-2 text-3xl font-bold text-purple-600">1</p>
                 </div>
                 <Award className="h-8 w-8 text-purple-600 opacity-20" />
@@ -91,7 +91,7 @@ export default function StudentProgressPage() {
                       style={{ width: `${item.progress}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-xs text-slate-600">
+                  <div className="flex justify-between text-xs text-slate-700">
                     <span>{item.completedLessons}/{item.totalLessons} lessons</span>
                     <span>Last accessed: {item.lastAccessed}</span>
                   </div>

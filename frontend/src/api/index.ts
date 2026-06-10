@@ -60,7 +60,7 @@ function getSupabaseClient() {
   return supabaseClient
 }
 
-export const supabase = getSupabaseClient()
+export const supabase = typeof window === 'undefined' ? null : getSupabaseClient()
 
 // API Client class for backend functions
 class ApiClient {

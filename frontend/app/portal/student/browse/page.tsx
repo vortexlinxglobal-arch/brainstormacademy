@@ -96,7 +96,7 @@ export default function BrowseCoursesPage() {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="text-center">
           <Loader className="h-12 w-12 animate-spin text-emerald-600 mx-auto mb-4" />
-          <p className="text-slate-600">Loading course catalog...</p>
+          <p className="text-slate-700">Loading course catalog...</p>
         </div>
       </div>
     )
@@ -125,12 +125,12 @@ export default function BrowseCoursesPage() {
                       <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">{course.code}</p>
                       <h3 className="mt-2 font-bold text-lg text-slate-900">{course.title}</h3>
                     </div>
-                    <BookOpen className="h-6 w-6 text-slate-400 flex-shrink-0" />
+                    <BookOpen className="h-6 w-6 text-slate-500 flex-shrink-0" />
                   </div>
 
-                  <p className="text-sm text-slate-600 mb-4">{course.description}</p>
+                  <p className="text-sm text-slate-700 mb-4">{course.description}</p>
 
-                  <div className="flex gap-4 text-sm text-slate-600 mb-6">
+                  <div className="flex gap-4 text-sm text-slate-700 mb-6">
                     {course.duration_months && (
                       <div className="flex items-center gap-1">
                         <Clock className="h-4 w-4" />

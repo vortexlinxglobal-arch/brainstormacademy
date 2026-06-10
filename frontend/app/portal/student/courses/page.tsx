@@ -76,7 +76,7 @@ export default function StudentCoursesPage() {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="text-center">
           <Loader className="h-12 w-12 animate-spin text-emerald-600 mx-auto mb-4" />
-          <p className="text-slate-600">Loading your courses...</p>
+          <p className="text-slate-700">Loading your courses...</p>
         </div>
       </div>
     )
@@ -115,12 +115,12 @@ export default function StudentCoursesPage() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
                         <h3 className="font-bold text-lg text-slate-900">{course.title}</h3>
-                        <p className="mt-2 text-sm text-slate-600">{course.description}</p>
+                        <p className="mt-2 text-sm text-slate-700">{course.description}</p>
                       </div>
                       <BookOpen className="h-6 w-6 text-emerald-600 flex-shrink-0 ml-4" />
                     </div>
 
-                    <div className="flex gap-4 text-sm text-slate-600 mb-4">
+                    <div className="flex gap-4 text-sm text-slate-700 mb-4">
                       {course.duration_months && (
                         <div className="flex items-center gap-1">
                           <Clock className="h-4 w-4" />
@@ -138,7 +138,7 @@ export default function StudentCoursesPage() {
                     {course.progress !== undefined && (
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-xs font-semibold text-slate-600">Progress</span>
+                          <span className="text-xs font-semibold text-slate-700">Progress</span>
                           <span className="text-xs font-bold text-emerald-600">{course.progress}%</span>
                         </div>
                         <div className="w-full bg-slate-100 rounded-full h-2">
@@ -156,7 +156,7 @@ export default function StudentCoursesPage() {
 
             {courses.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-slate-600 mb-4">You haven't enrolled in any courses yet</p>
+                <p className="text-slate-700 mb-4">You haven't enrolled in any courses yet</p>
                 <Link href="/portal/student/browse">
                   <Button>Browse Available Courses</Button>
                 </Link>

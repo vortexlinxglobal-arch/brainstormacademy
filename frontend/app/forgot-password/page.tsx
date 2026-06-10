@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
           <div className="mb-8 space-y-4 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Forgot password</p>
             <h1 className="text-3xl font-bold text-white">Reset your access</h1>
-            <p className="text-slate-400">Enter your email and we&apos;ll send a secure reset link so you can sign back in.</p>
+            <p className="text-slate-300">Enter your email and we&apos;ll send a secure reset link so you can sign back in.</p>
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-400">
+          <p className="mt-6 text-center text-sm text-slate-300">
             Back to{' '}
             <Link href="/signin" className="font-semibold text-[#d4b04f] hover:text-[#f1d87f]">
               Sign In

@@ -97,7 +97,7 @@ export function DataTable<Row extends Record<string, unknown>>({
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <CardTitle>{title}</CardTitle>
-            {subtitle ? <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{subtitle}</p> : null}
+            {subtitle ? <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">{subtitle}</p> : null}
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative w-full max-w-[240px]">
@@ -143,7 +143,7 @@ export function DataTable<Row extends Record<string, unknown>>({
         ) : null}
 
         <table className="min-w-full border-separate border-spacing-0 text-left text-sm md:text-base">
-          <thead className="bg-slate-50 text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+          <thead className="bg-slate-50 text-slate-700 dark:bg-slate-900 dark:text-slate-400">
             <tr>
               <th className="w-16 px-6 py-4">
                 <label className="inline-flex cursor-pointer items-center gap-2 text-slate-700 dark:text-slate-300">
@@ -157,7 +157,7 @@ export function DataTable<Row extends Record<string, unknown>>({
                 </label>
               </th>
               {columns.map((column) => (
-                <th key={column.key} className="px-6 py-4 font-semibold text-slate-600 dark:text-slate-300">
+                <th key={column.key} className="px-6 py-4 font-semibold text-slate-700 dark:text-slate-300">
                   <button
                     type="button"
                     className="inline-flex items-center gap-2 text-left leading-none transition hover:text-slate-900 dark:hover:text-white"
@@ -215,7 +215,7 @@ export function DataTable<Row extends Record<string, unknown>>({
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length + 1} className="px-6 py-16 text-center text-slate-500 dark:text-slate-400">
+                <td colSpan={columns.length + 1} className="px-6 py-16 text-center text-slate-700 dark:text-slate-400">
                   <div className="space-y-2">
                     <p className="text-lg font-semibold">No records found</p>
                     <p className="text-sm">Try adjusting your search or filter criteria.</p>
@@ -227,7 +227,7 @@ export function DataTable<Row extends Record<string, unknown>>({
         </table>
       </CardContent>
 
-      <div className="flex flex-col gap-3 border-t border-slate-200 px-6 py-4 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 border-t border-slate-200 px-6 py-4 text-sm text-slate-700 dark:border-slate-800 dark:text-slate-400 sm:flex-row sm:items-center sm:justify-between">
         <div>
           Showing {paginatedData.length} of {filteredData.length} results
         </div>

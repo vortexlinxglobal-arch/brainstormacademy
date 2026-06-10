@@ -120,7 +120,7 @@ export default function ContactPage() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-8 rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
             <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Send us a message</h2>
-            <p className="text-base leading-8 text-slate-600">
+            <p className="text-base leading-8 text-slate-700">
               Fill out the form below and our team will respond within 24 hours. Include your course interest, preferred start date, and any questions you have about admissions or financing.
             </p>
 
@@ -204,7 +204,7 @@ export default function ContactPage() {
           <div className="space-y-8">
             <div className="rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
               <h3 className="text-xl font-semibold text-slate-900">How can we help?</h3>
-              <div className="mt-6 space-y-4 text-sm leading-7 text-slate-600">
+              <div className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
                 <div>
                   <p className="font-semibold text-slate-900">Course Inquiry</p>
                   <p>Learn more about available NSQ programs and schedules.</p>
@@ -225,7 +225,7 @@ export default function ContactPage() {
             </div>
             <div className="rounded-3xl border border-slate-200/10 bg-white p-8 shadow-lg shadow-slate-900/5">
               <h3 className="text-xl font-semibold text-slate-900">Need answers faster?</h3>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
+              <p className="mt-4 text-sm leading-7 text-slate-700">
                 You can also reach us by phone, email, or visit our campus in Kaduna for a guided tour and registration support.
               </p>
               <div className="mt-6 space-y-3 text-sm text-slate-700">

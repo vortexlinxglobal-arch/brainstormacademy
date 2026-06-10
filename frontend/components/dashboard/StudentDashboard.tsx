@@ -108,14 +108,14 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="space-y-3">
-                <div className="flex items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-between gap-4 text-sm text-slate-700 dark:text-slate-300">
                   <span>Course completion</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-100">68%</span>
                 </div>
                 <Progress value={68} className="h-3 rounded-full" />
               </div>
               <div className="space-y-3">
-                <div className="flex items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-between gap-4 text-sm text-slate-700 dark:text-slate-300">
                   <span>NSQ level competency</span>
                   <span className="font-semibold text-slate-900 dark:text-slate-100">Advanced</span>
                 </div>
@@ -140,13 +140,13 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="font-semibold text-slate-900 dark:text-slate-100">{deadline.title}</h3>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">{deadline.course}</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-300">{deadline.course}</p>
                     </div>
                     <Badge variant="outline" className="rounded-full border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
                       {deadline.status}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm text-slate-600 dark:text-slate-400">Due {deadline.dueDate}</p>
+                  <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">Due {deadline.dueDate}</p>
                 </div>
               ))}
             </CardContent>
@@ -158,7 +158,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Continue learning</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Resume your highest-priority practical courses.</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300">Resume your highest-priority practical courses.</p>
           </div>
           <Button variant="secondary" size="lg">View all courses</Button>
         </div>
@@ -181,7 +181,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
                 <img src={course.thumbnail} alt={course.title} className="h-full w-full object-cover" />
               </div>
               <div className="mt-5 space-y-3">
-                <div className="flex items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
+                <div className="flex items-center justify-between gap-3 text-sm text-slate-700 dark:text-slate-300">
                   <span>{course.module}</span>
                   <span>{course.progress}% complete</span>
                 </div>
@@ -199,7 +199,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Recommended for you</h2>
-            <p className="text-sm text-slate-500 dark:text-slate-400">Courses aligned with your career pathway and certification goals.</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300">Courses aligned with your career pathway and certification goals.</p>
           </div>
           <Button variant="default" size="lg">Browse all tracks</Button>
         </div>
@@ -228,7 +228,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
                   </span>
                   <div>
                     <h3 className="font-semibold text-slate-900 dark:text-slate-100">{achievement.title}</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{achievement.description}</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">{achievement.description}</p>
                   </div>
                 </div>
               </div>
@@ -247,14 +247,14 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Live class</p>
+                  <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Live class</p>
                   <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Practical Business Center Review</h3>
                 </div>
                 <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300">
                   Today
                 </Badge>
               </div>
-              <div className="mt-4 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+              <div className="mt-4 flex items-center justify-between text-sm text-slate-700 dark:text-slate-300">
                 <span>9:00 AM - 11:00 AM</span>
                 <span>Zoom session</span>
               </div>
@@ -262,7 +262,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
             <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Assignment</p>
+                  <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Assignment</p>
                   <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">Module 3 Practicum</h3>
                 </div>
                 <Badge variant="outline" className="rounded-full border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">

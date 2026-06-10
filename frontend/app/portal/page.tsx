@@ -78,9 +78,9 @@ export default function PortalLandingPage() {
     <main className="min-h-screen bg-slate-50 px-4 py-10">
       <div className="mx-auto max-w-6xl space-y-8">
         <section className="rounded-3xl bg-white p-10 shadow-sm shadow-slate-200">
-          <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Portal</p>
+          <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Portal</p>
           <h1 className="mt-3 text-4xl font-bold text-slate-900">Brainstorm Academy Portal</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
+          <p className="mt-4 max-w-3xl text-base leading-7 text-slate-700">
             Access your workspace based on your assigned role. If you are already signed in, you will be routed to the correct portal section automatically.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -105,27 +105,27 @@ export default function PortalLandingPage() {
             href="/portal/admin"
             className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:border-emerald-500 hover:shadow-lg"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Admin Portal</p>
+            <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Admin Portal</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Management & operations</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">View reports, manage programs, and oversee student and instructor workflows.</p>
+            <p className="mt-4 text-sm leading-7 text-slate-700">View reports, manage programs, and oversee student and instructor workflows.</p>
           </Link>
 
           <Link
             href="/portal/instructor"
             className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:border-emerald-500 hover:shadow-lg"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Instructor Portal</p>
+            <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Instructor Portal</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Teaching & course management</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Manage your classes, assignments, and student progress in one place.</p>
+            <p className="mt-4 text-sm leading-7 text-slate-700">Manage your classes, assignments, and student progress in one place.</p>
           </Link>
 
           <Link
             href="/portal/student"
             className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:border-emerald-500 hover:shadow-lg"
           >
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Student Portal</p>
+            <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Student Portal</p>
             <h2 className="mt-3 text-2xl font-semibold text-slate-900">Learning & progress</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">Browse courses, track your progress, and stay connected with your learning plan.</p>
+            <p className="mt-4 text-sm leading-7 text-slate-700">Browse courses, track your progress, and stay connected with your learning plan.</p>
           </Link>
         </div>
 
@@ -150,7 +150,7 @@ export default function PortalLandingPage() {
             <div key={card.title} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-lg">
               <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-600">Portal design</p>
               <h3 className="mt-3 text-2xl font-semibold text-slate-900">{card.title}</h3>
-              <p className="mt-4 text-sm leading-7 text-slate-600">{card.description}</p>
+              <p className="mt-4 text-sm leading-7 text-slate-700">{card.description}</p>
             </div>
           ))}
         </div>

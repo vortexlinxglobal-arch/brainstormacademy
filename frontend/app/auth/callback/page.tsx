@@ -1,12 +1,13 @@
-
 'use client'
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
-let supabase: SupabaseClient | null = null
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default function AuthCallbackPage() {
   const router = useRouter()
@@ -16,30 +17,22 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     const processCallback = async () => {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-
       if (!supabaseUrl || !supabaseKey) {
         setStatus({
           type: 'error',
-          text: 'Authentication configuration is missing. Please ensure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY are set. Contact support if the issue persists.',
+          text: 'Authentication configuration is missing. Please contact support.',
         })
         setLoading(false)
         return
-      }
-
-      if (!supabase) {
-        supabase = createClient(supabaseUrl, supabaseKey)
       }
 
       try {
         const { data, error } = await supabase.auth.getSession()
 
         if (error) {
-          console.error('Supabase getSession error:', error)
           setStatus({
             type: 'error',
-            text: 'Unable to retrieve session. Please try signing in again.',
+            text: 'Unable to verify session. Please sign in manually.',
           })
           setLoading(false)
           return
@@ -86,7 +79,7 @@ export default function AuthCallbackPage() {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-white">Email confirmation complete</h1>
-          <p className="mt-3 text-sm text-slate-400">
+          <p className="mt-3 text-sm text-slate-300">
             {loading ? 'Finishing your sign-in flow…' : status?.text}
           </p>
         </div>
@@ -113,7 +106,7 @@ export default function AuthCallbackPage() {
         </div>
 
         {!loading && signedIn && (
-          <div className="mt-6 text-center text-sm text-slate-400">
+          <div className="mt-6 text-center text-sm text-slate-300">
             If you are not redirected automatically, <Link href="/portal" className="font-semibold text-[#d4b04f] hover:text-[#f1d87f]">go to your portal</Link>.
           </div>
         )}

@@ -262,11 +262,11 @@ export function CourseDetailPage({
               <div className="space-y-6 lg:col-span-2">
                 {/* Breadcrumb */}
                 <div className="flex flex-wrap items-center gap-2 text-sm">
-                  <Link href="/courses" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200">
+                  <Link href="/courses" className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-200">
                     Courses
                   </Link>
                   <span className="text-slate-400">/</span>
-                  <Link href={`/courses?category=${category}`} className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200">
+                  <Link href={`/courses?category=${category}`} className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-200">
                     {category}
                   </Link>
                   <span className="text-slate-400">/</span>
@@ -278,21 +278,21 @@ export function CourseDetailPage({
                   <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                     {title}
                   </h1>
-                  <p className="text-lg text-slate-600 dark:text-slate-300">
+                  <p className="text-lg text-slate-700 dark:text-slate-300">
                     {description}
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge className="rounded-full bg-[#1a6b53] px-4 py-2 text-white">
                       {level}
                     </Badge>
-                    <Badge className="rounded-full border-[#D4AF37]/50 bg-[#FEF7E7] text-[#7C5F15] dark:border-[#D4AF37]/30 dark:bg-slate-900 dark:text-[#F5E3A4]">
+                    <Badge className="rounded-full border-[#D4AF37]/50 bg-[#FEF7E7] text-slate-900 dark:border-[#D4AF37]/30 dark:bg-slate-900 dark:text-slate-200">
                       {category}
                     </Badge>
                     {tags.map((tag) => (
                       <Badge
                         key={tag}
                         variant="outline"
-                        className="rounded-full border-[#D4AF37]/40 text-[#8E6F18] hover:bg-[#FEF7E7] dark:border-[#D4AF37]/30 dark:text-[#E6C56D]"
+                        className="rounded-full border-[#D4AF37]/40 text-slate-700 hover:bg-[#FEF7E7] dark:border-[#D4AF37]/30 dark:text-slate-200"
                       >
                         {tag}
                       </Badge>
@@ -305,32 +305,32 @@ export function CourseDetailPage({
                   <div className="flex items-center gap-3">
                     <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                     <div>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Rating</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-400">Rating</p>
                       <p className="font-semibold text-slate-900 dark:text-white">
                         {rating} ({ratingCount})
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Users className="h-5 w-5 text-slate-500" />
+                    <Users className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Students</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-400">Students</p>
                       <p className="font-semibold text-slate-900 dark:text-white">
                         {studentCount.toLocaleString()}+
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="h-5 w-5 text-slate-500" />
+                    <Clock className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Duration</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-400">Duration</p>
                       <p className="font-semibold text-slate-900 dark:text-white">{duration}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <BookOpen className="h-5 w-5 text-slate-500" />
+                    <BookOpen className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Lessons</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-400">Lessons</p>
                       <p className="font-semibold text-slate-900 dark:text-white">
                         {totalLessons}
                       </p>
@@ -342,11 +342,11 @@ export function CourseDetailPage({
                 <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900">
                   <Avatar imageSrc={instructor.avatar} name={instructor.name} size="lg" />
                   <div className="flex-1">
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Instructor</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-400">Instructor</p>
                     <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                       {instructor.name}
                     </h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                    <p className="text-sm text-slate-700 dark:text-slate-400">
                       {instructor.students.toLocaleString()}+ students
                     </p>
                   </div>
@@ -377,7 +377,7 @@ export function CourseDetailPage({
                     {/* Price and CTA */}
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm text-slate-600 dark:text-slate-400">Price</p>
+                        <p className="text-sm text-slate-700 dark:text-slate-400">Price</p>
                         <p className="text-3xl font-bold text-slate-900 dark:text-white">
                           {price}
                         </p>
@@ -390,7 +390,7 @@ export function CourseDetailPage({
                               <span className="font-medium text-slate-700 dark:text-slate-300">
                                 Progress
                               </span>
-                              <span className="text-slate-600 dark:text-slate-400">
+                              <span className="text-slate-700 dark:text-slate-400">
                                 {progress}%
                               </span>
                             </div>
@@ -522,7 +522,7 @@ export function CourseDetailPage({
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-sm uppercase tracking-[0.24em] text-slate-500">What you'll master</p>
+                        <p className="text-sm uppercase tracking-[0.24em] text-slate-700">What you'll master</p>
                         <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
                           <li>Practical skills for in-demand careers</li>
                           <li>Certification-ready project work</li>
@@ -530,7 +530,7 @@ export function CourseDetailPage({
                         </ul>
                       </div>
                       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Who it's for</p>
+                        <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Who it's for</p>
                         <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
                           <li>New learners seeking a strong foundation</li>
                           <li>Career switchers needing practical training</li>
@@ -540,11 +540,11 @@ export function CourseDetailPage({
                     </div>
                   </div>
                   <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Why this course</p>
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">Why this course</p>
                     <p className="mt-4 text-slate-700 dark:text-slate-300 leading-7">
                       Structured for confident progress, this course balances hands-on training with certification readiness and real-world mentorship. You leave with practical experience and a clear next step.
                     </p>
-                    <div className="mt-6 space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                    <div className="mt-6 space-y-3 text-sm text-slate-700 dark:text-slate-400">
                       <div className="flex items-start gap-3">
                         <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
                         <span>Fast-moving modules with practical focus.</span>
@@ -583,7 +583,7 @@ export function CourseDetailPage({
                               'Build professional networks with peers',
                               'Gain real-world work experience',
                             ].map((obj, idx) => (
-                              <li key={idx} className="flex items-start gap-2 text-slate-600 dark:text-slate-400">
+                              <li key={idx} className="flex items-start gap-2 text-slate-700 dark:text-slate-400">
                                 <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
                                 {obj}
                               </li>
@@ -607,7 +607,7 @@ export function CourseDetailPage({
                         <h4 className="font-semibold text-slate-900 dark:text-white">
                           {instructor.name}
                         </h4>
-                        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                        <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
                           {instructor.title}
                         </p>
                       </div>
@@ -646,7 +646,7 @@ export function CourseDetailPage({
                           <p className="font-semibold text-slate-900 dark:text-white">
                             {module.title}
                           </p>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">
+                          <p className="text-sm text-slate-700 dark:text-slate-400">
                             {module.lessons.length} lessons • {module.duration}
                           </p>
                         </div>
@@ -668,7 +668,7 @@ export function CourseDetailPage({
                               <p className="font-medium text-slate-900 dark:text-white">
                                 {lesson.title}
                               </p>
-                              <p className="text-xs text-slate-600 dark:text-slate-400">
+                              <p className="text-xs text-slate-700 dark:text-slate-400">
                                 {lesson.duration}
                               </p>
                             </div>
@@ -694,7 +694,7 @@ export function CourseDetailPage({
                   <CardTitle>Student Reviews</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-slate-700 dark:text-slate-400">
                     Reviews section coming soon. Current average rating: {rating}/5.0 from {ratingCount} reviews
                   </p>
                 </CardContent>
@@ -743,7 +743,7 @@ export function CourseDetailPage({
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-slate-700 dark:text-slate-400">
                     Discussions section coming soon. Connect with fellow students and instructors here.
                   </p>
                 </CardContent>
@@ -763,7 +763,7 @@ export function CourseDetailPage({
             <p className="text-sm font-semibold text-slate-900 dark:text-white">
               {isEnrolled ? 'Keep going with this course' : 'Ready to start learning?'}
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-700 dark:text-slate-400">
               {isEnrolled ? 'Continue where you left off.' : 'Secure your spot in the next session.'}
             </p>
           </div>

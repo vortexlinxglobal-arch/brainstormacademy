@@ -42,22 +42,22 @@ export default function StudentCertificatesPage() {
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="font-bold text-lg text-slate-900">{cert.name}</h3>
-                        <p className="text-sm text-slate-600 mt-1">Credential ID: {cert.credential}</p>
+                        <p className="text-sm text-slate-700 mt-1">Credential ID: {cert.credential}</p>
                       </div>
                       <Award className="h-8 w-8 text-purple-600" />
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3 mb-6">
                       <div>
-                        <p className="text-xs text-slate-600 font-medium">Issued Date</p>
+                        <p className="text-xs text-slate-700 font-medium">Issued Date</p>
                         <p className="mt-1 font-semibold text-slate-900">{cert.date}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-slate-600 font-medium">Grade</p>
+                        <p className="text-xs text-slate-700 font-medium">Grade</p>
                         <p className="mt-1 font-semibold text-emerald-600">{cert.grade}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-slate-600 font-medium">Status</p>
+                        <p className="text-xs text-slate-700 font-medium">Status</p>
                         <p className="mt-1 font-semibold text-slate-900">Verified</p>
                       </div>
                     </div>
@@ -78,7 +78,7 @@ export default function StudentCertificatesPage() {
             ) : (
               <div className="text-center py-12">
                 <Award className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                <p className="text-slate-600 mb-4">You haven't earned any certificates yet</p>
+                <p className="text-slate-700 mb-4">You haven't earned any certificates yet</p>
                 <Link href="/portal/student/courses">
                   <Button>View Available Courses</Button>
                 </Link>
@@ -92,7 +92,7 @@ export default function StudentCertificatesPage() {
             <CardTitle>Certificate Information</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4 text-sm text-slate-600">
+            <div className="space-y-4 text-sm text-slate-700">
               <p>
                 <span className="font-semibold text-slate-900">How certificates work:</span> Upon completing a course and achieving the minimum required grade, you
                 will automatically receive a digital certificate.

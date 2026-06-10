@@ -120,7 +120,7 @@ export default function AdminDashboardMetrics() {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="text-center">
           <Loader className="h-12 w-12 animate-spin text-emerald-600 mx-auto mb-4" />
-          <p className="text-slate-600">Loading dashboard metrics...</p>
+          <p className="text-slate-700">Loading dashboard metrics...</p>
         </div>
       </div>
     )
@@ -133,9 +133,9 @@ export default function AdminDashboardMetrics() {
         <section className="rounded-3xl bg-white p-10 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Admin Dashboard</p>
+              <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Admin Dashboard</p>
               <h1 className="mt-2 text-3xl font-bold text-slate-900">Operations Overview</h1>
-              <p className="mt-4 text-sm leading-7 text-slate-600 max-w-2xl">
+              <p className="mt-4 text-sm leading-7 text-slate-700 max-w-2xl">
                 Monitor key metrics, manage programs and staff, and track student progress across the academy.
               </p>
             </div>
@@ -165,7 +165,7 @@ export default function AdminDashboardMetrics() {
                   <CardContent className="pt-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-slate-600 font-medium">{card.title}</p>
+                        <p className="text-sm text-slate-700 font-medium">{card.title}</p>
                         <p className="mt-3 text-3xl font-bold text-slate-900">{card.value.toLocaleString()}</p>
                       </div>
                       <div className={`rounded-2xl p-4 ${card.color}`}>
@@ -196,7 +196,7 @@ export default function AdminDashboardMetrics() {
                     <Button variant="outline" className="w-full justify-start text-left h-auto py-4">
                       <div className="text-left">
                         <p className="font-semibold text-slate-900">Enroll Student</p>
-                        <p className="text-xs text-slate-600">Register new learner</p>
+                        <p className="text-xs text-slate-700">Register new learner</p>
                       </div>
                     </Button>
                   </Link>
@@ -204,7 +204,7 @@ export default function AdminDashboardMetrics() {
                     <Button variant="outline" className="w-full justify-start text-left h-auto py-4">
                       <div className="text-left">
                         <p className="font-semibold text-slate-900">Create Program</p>
-                        <p className="text-xs text-slate-600">Add new trade/course</p>
+                        <p className="text-xs text-slate-700">Add new trade/course</p>
                       </div>
                     </Button>
                   </Link>
@@ -212,7 +212,7 @@ export default function AdminDashboardMetrics() {
                     <Button variant="outline" className="w-full justify-start text-left h-auto py-4">
                       <div className="text-left">
                         <p className="font-semibold text-slate-900">Add Staff</p>
-                        <p className="text-xs text-slate-600">Onboard instructor/admin</p>
+                        <p className="text-xs text-slate-700">Onboard instructor/admin</p>
                       </div>
                     </Button>
                   </Link>
@@ -220,7 +220,7 @@ export default function AdminDashboardMetrics() {
                     <Button variant="outline" className="w-full justify-start text-left h-auto py-4">
                       <div className="text-left">
                         <p className="font-semibold text-slate-900">Review Admissions</p>
-                        <p className="text-xs text-slate-600">{metrics?.pendingAdmissions} pending</p>
+                        <p className="text-xs text-slate-700">{metrics?.pendingAdmissions} pending</p>
                       </div>
                     </Button>
                   </Link>
@@ -242,11 +242,11 @@ export default function AdminDashboardMetrics() {
                 {metrics?.recentActivity.map((activity) => (
                   <div key={activity.id} className="rounded-2xl border border-slate-200 p-3">
                     <p className="text-sm font-medium text-slate-900">{activity.message}</p>
-                    <p className="text-xs text-slate-500 mt-1">{activity.timestamp}</p>
+                    <p className="text-xs text-slate-700 mt-1">{activity.timestamp}</p>
                   </div>
                 ))}
                 {(!metrics?.recentActivity || metrics.recentActivity.length === 0) && (
-                  <p className="text-sm text-slate-500">No recent activity</p>
+                  <p className="text-sm text-slate-700">No recent activity</p>
                 )}
               </div>
             </CardContent>
@@ -260,7 +260,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <Users className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Student Management</h3>
-                <p className="mt-2 text-sm text-slate-600">Manage enrollments, profiles, and academic progress</p>
+                <p className="mt-2 text-sm text-slate-700">Manage enrollments, profiles, and academic progress</p>
               </CardContent>
             </Card>
           </Link>
@@ -270,7 +270,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <Users className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Staff Management</h3>
-                <p className="mt-2 text-sm text-slate-600">Attendance, ID cards, performance, and payroll</p>
+                <p className="mt-2 text-sm text-slate-700">Attendance, ID cards, performance, and payroll</p>
               </CardContent>
             </Card>
           </Link>
@@ -280,7 +280,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <BookOpen className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Program Management</h3>
-                <p className="mt-2 text-sm text-slate-600">Manage trades, courses, and curricula</p>
+                <p className="mt-2 text-sm text-slate-700">Manage trades, courses, and curricula</p>
               </CardContent>
             </Card>
           </Link>
@@ -290,7 +290,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <BarChart3 className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Analytics & Reports</h3>
-                <p className="mt-2 text-sm text-slate-600">View statistics, trends, and performance insights</p>
+                <p className="mt-2 text-sm text-slate-700">View statistics, trends, and performance insights</p>
               </CardContent>
             </Card>
           </Link>
@@ -300,7 +300,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <Users className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Inventory & Resources</h3>
-                <p className="mt-2 text-sm text-slate-600">Track equipment, materials, and facilities</p>
+                <p className="mt-2 text-sm text-slate-700">Track equipment, materials, and facilities</p>
               </CardContent>
             </Card>
           </Link>
@@ -310,7 +310,7 @@ export default function AdminDashboardMetrics() {
               <CardContent className="pt-8">
                 <Users className="h-8 w-8 text-slate-400 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-900">Meetings & Records</h3>
-                <p className="mt-2 text-sm text-slate-600">Management and standardization meetings</p>
+                <p className="mt-2 text-sm text-slate-700">Management and standardization meetings</p>
               </CardContent>
             </Card>
           </Link>

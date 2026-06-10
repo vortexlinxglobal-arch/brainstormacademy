@@ -42,7 +42,7 @@ export default async function Page() {
             </li>
           ))
         ) : (
-          <li className="text-slate-500">No profiles found</li>
+          <li className="text-slate-700">No profiles found</li>
         )}
       </ul>
     </main>

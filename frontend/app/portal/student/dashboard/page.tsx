@@ -90,7 +90,7 @@ export default function StudentDashboardPage() {
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
         <div className="text-center">
           <Loader className="h-12 w-12 animate-spin text-emerald-600 mx-auto mb-4" />
-          <p className="text-slate-600">Loading your learning dashboard...</p>
+          <p className="text-slate-700">Loading your learning dashboard...</p>
         </div>
       </div>
     )
@@ -109,7 +109,7 @@ export default function StudentDashboardPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Enrolled Courses</p>
+                  <p className="text-sm text-slate-700 font-medium">Enrolled Courses</p>
                   <p className="mt-2 text-3xl font-bold text-emerald-600">{metrics?.enrolledCourses || 0}</p>
                 </div>
                 <BookOpen className="h-8 w-8 text-emerald-600 opacity-20" />
@@ -120,7 +120,7 @@ export default function StudentDashboardPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Completed</p>
+                  <p className="text-sm text-slate-700 font-medium">Completed</p>
                   <p className="mt-2 text-3xl font-bold text-blue-600">{metrics?.completedCourses || 0}</p>
                 </div>
                 <CheckCircle className="h-8 w-8 text-blue-600 opacity-20" />
@@ -131,7 +131,7 @@ export default function StudentDashboardPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Certificates</p>
+                  <p className="text-sm text-slate-700 font-medium">Certificates</p>
                   <p className="mt-2 text-3xl font-bold text-purple-600">{metrics?.certificatesEarned || 0}</p>
                 </div>
                 <Award className="h-8 w-8 text-purple-600 opacity-20" />
@@ -142,7 +142,7 @@ export default function StudentDashboardPage() {
             <CardContent className="pt-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-slate-600 font-medium">Avg. Progress</p>
+                  <p className="text-sm text-slate-700 font-medium">Avg. Progress</p>
                   <p className="mt-2 text-3xl font-bold text-orange-600">{metrics?.averageProgress || 0}%</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-orange-600 opacity-20" />
@@ -156,7 +156,7 @@ export default function StudentDashboardPage() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-slate-600" />
+                <Clock className="h-5 w-5 text-slate-700" />
                 Continue Learning
               </CardTitle>
               <Link href="/portal/student/courses">
@@ -175,7 +175,7 @@ export default function StudentDashboardPage() {
                     <div className="rounded-2xl border border-slate-200 p-6 hover:border-emerald-500 hover:shadow-lg transition cursor-pointer">
                       <div className="flex items-start justify-between mb-4">
                         <h3 className="font-semibold text-slate-900">{course.title}</h3>
-                        <span className="text-sm font-medium text-slate-600">{course.progress || 0}%</span>
+                        <span className="text-sm font-medium text-slate-700">{course.progress || 0}%</span>
                       </div>
                       <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
@@ -189,7 +189,7 @@ export default function StudentDashboardPage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-slate-600 mb-4">No courses in progress yet</p>
+                <p className="text-slate-700 mb-4">No courses in progress yet</p>
                 <Link href="/portal/student/browse">
                   <Button>Browse Courses</Button>
                 </Link>
@@ -202,33 +202,33 @@ export default function StudentDashboardPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Link href="/portal/student/courses">
             <div className="rounded-2xl border border-slate-200 p-6 hover:border-slate-300 cursor-pointer transition">
-              <BookOpen className="h-6 w-6 text-slate-400 mb-3" />
+              <BookOpen className="h-6 w-6 text-slate-500 mb-3" />
               <h3 className="font-semibold text-slate-900">My Courses</h3>
-              <p className="mt-1 text-xs text-slate-600">View all enrolled courses</p>
+              <p className="mt-1 text-xs text-slate-700">View all enrolled courses</p>
             </div>
           </Link>
 
           <Link href="/portal/student/browse">
             <div className="rounded-2xl border border-slate-200 p-6 hover:border-slate-300 cursor-pointer transition">
-              <TrendingUp className="h-6 w-6 text-slate-400 mb-3" />
+              <TrendingUp className="h-6 w-6 text-slate-500 mb-3" />
               <h3 className="font-semibold text-slate-900">Browse Catalog</h3>
-              <p className="mt-1 text-xs text-slate-600">Explore available programs</p>
+              <p className="mt-1 text-xs text-slate-700">Explore available programs</p>
             </div>
           </Link>
 
           <Link href="/portal/student/progress">
             <div className="rounded-2xl border border-slate-200 p-6 hover:border-slate-300 cursor-pointer transition">
-              <CheckCircle className="h-6 w-6 text-slate-400 mb-3" />
+              <CheckCircle className="h-6 w-6 text-slate-500 mb-3" />
               <h3 className="font-semibold text-slate-900">My Progress</h3>
-              <p className="mt-1 text-xs text-slate-600">Track your achievements</p>
+              <p className="mt-1 text-xs text-slate-700">Track your achievements</p>
             </div>
           </Link>
 
           <Link href="/portal/student/certificates">
             <div className="rounded-2xl border border-slate-200 p-6 hover:border-slate-300 cursor-pointer transition">
-              <Award className="h-6 w-6 text-slate-400 mb-3" />
+              <Award className="h-6 w-6 text-slate-500 mb-3" />
               <h3 className="font-semibold text-slate-900">Certificates</h3>
-              <p className="mt-1 text-xs text-slate-600">View earned credentials</p>
+              <p className="mt-1 text-xs text-slate-700">View earned credentials</p>
             </div>
           </Link>
         </div>

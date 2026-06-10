@@ -115,7 +115,7 @@ export function SiteHeader() {
             />
           </div>
           <div className="hidden sm:block">
-            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-500">Brainstorm</p>
+            <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-slate-700">Brainstorm</p>
             <p className="text-xs sm:text-sm font-bold text-slate-900">Skills Academy</p>
           </div>
         </Link>
@@ -172,7 +172,7 @@ export function SiteHeader() {
           </button>
 
           {loadingAuth ? (
-            <div className="inline-flex h-10 lg:h-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-600">Loading…</div>
+            <div className="inline-flex h-10 lg:h-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-700">Loading…</div>
           ) : user ? (
             <div className="relative">
               <button
@@ -209,7 +209,7 @@ export function SiteHeader() {
                         className="inline-flex items-center gap-2 rounded-3xl px-3 py-3 text-sm text-slate-700 transition hover:bg-slate-100"
                         onClick={() => setUserMenuOpen(false)}
                       >
-                        <ArrowRight className="h-4 w-4 text-slate-500" />
+                        <ArrowRight className="h-4 w-4 text-slate-700" />
                         Courses
                       </Link>
                       <button
@@ -287,7 +287,7 @@ export function SiteHeader() {
                 </Link>
               )}
               {loadingAuth ? (
-                <div className="rounded-3xl border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-600">Loading auth state…</div>
+                <div className="rounded-3xl border border-slate-200 bg-slate-100 px-4 py-3 text-sm text-slate-700">Loading auth state…</div>
               ) : user ? (
                 <div className="space-y-2 px-4">
                   <Link

@@ -119,7 +119,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                 </div>
                 {sidebarOpen ? (
                   <div>
-                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700 dark:text-slate-300">
                       Brainstorm
                     </p>
                     <p className="text-xl font-bold text-slate-900 dark:text-slate-100">Skills Academy</p>
@@ -137,7 +137,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                           'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-colors ' +
                           (active
                             ? 'bg-[#1a6b53] text-white shadow-sm'
-                            : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900')
+                            : 'text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900')
                         }
                         aria-current={active ? 'page' : undefined}
                       >
@@ -153,7 +153,7 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
             </div>
             <div className="mt-6 flex items-center gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-4 text-sm dark:border-slate-800 dark:bg-slate-900">
               <div className="flex-1">
-                <p className="text-slate-500 dark:text-slate-400">Sidebar</p>
+                <p className="text-slate-700 dark:text-slate-300">Sidebar</p>
                 {sidebarOpen ? <p className="font-semibold text-slate-900 dark:text-slate-100">{sidebarOpen ? 'Expanded' : 'Compact'}</p> : null}
               </div>
               <Button
@@ -257,12 +257,12 @@ export function MainLayout({ children, profile, activePath = '/dashboard' }: Mai
                     <div className="flex flex-col items-center gap-1 text-xs">
                       <span
                         className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl transition ${
-                          active ? 'bg-[#1a6b53] text-white' : 'text-slate-500'
-                        }`}
+                          active ? 'bg-[#1a6b53] text-white' : 'text-slate-700'
+                        }
                       >
                         <Icon className="h-5 w-5" />
                       </span>
-                      <span className={active ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500'}>{item.label}</span>
+                      <span className={active ? 'text-slate-900 dark:text-slate-100' : 'text-slate-700'}>{item.label}</span>
                     </div>
                   </Link>
                 )
