@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+export const dynamic = 'force-dynamic'
 
 export default function AuthCallbackPage() {
   const router = useRouter()
@@ -15,9 +13,23 @@ export default function AuthCallbackPage() {
   const [loading, setLoading] = useState(true)
   const [signedIn, setSignedIn] = useState(false)
 
+  const supabase = useMemo(() => {
+    if (typeof window === 'undefined') return null
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+
+    if (!supabaseUrl || !supabaseKey) return null
+
+    return createClient(supabaseUrl, supabaseKey)
+  }, [])
+
   useEffect(() => {
     const processCallback = async () => {
-      if (!supabaseUrl || !supabaseKey) {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+
+      if (!supabaseUrl || !supabaseKey || !supabase) {
         setStatus({
           type: 'error',
           text: 'Authentication configuration is missing. Please contact support.',
@@ -67,7 +79,7 @@ export default function AuthCallbackPage() {
     }
 
     processCallback()
-  }, [router])
+  }, [router, supabase])
 
   return (
     <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(212,176,79,0.14),_transparent_35%),#06170f] flex items-center justify-center px-4 py-10 text-slate-100">
