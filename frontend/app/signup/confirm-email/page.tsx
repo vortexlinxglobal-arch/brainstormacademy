@@ -5,10 +5,20 @@ import { createClient } from '@supabase/supabase-js'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || ''
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
-const supabase = createClient(supabaseUrl, supabaseKey)
+
+const getSupabaseClient = () => {
+  if (typeof window === 'undefined') return null
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (!supabaseUrl || !supabaseKey) return null
+
+  return createClient(supabaseUrl, supabaseKey)
+}
 
 function ConfirmEmailContent() {
   const router = useRouter()
@@ -24,10 +34,19 @@ function ConfirmEmailContent() {
       return
     }
 
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      setStatus({
+        type: 'error',
+        text: 'Authentication configuration is missing. Please contact support.',
+      })
+      return
+    }
+
     const currentOrigin =
       typeof window !== 'undefined'
         ? window.location.origin
-        : process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+        : appUrl
 
     setResending(true)
     setStatus(null)
