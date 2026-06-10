@@ -37,20 +37,36 @@ serve(async (req) => {
         return json({ error: "Missing required fields" }, 400);
       }
 
-      // Submit application
-      const { data: application, error } = await supabase.rpc('submit_admissions_application', {
-        p_applicant_name: applicant_name,
-        p_applicant_email: applicant_email,
-        p_phone: phone,
-        p_date_of_birth: date_of_birth,
-        p_address: address,
-        p_education_background: education_background,
-        p_trade_interest: trade_interest,
-        p_previous_experience: previous_experience,
-        p_motivation_statement: motivation_statement,
-        p_special_needs: special_needs,
-        p_emergency_contact: emergency_contact,
-      });
+      // Validate trade selection
+      const { data: trade, error: tradeError } = await supabase
+        .from('trades')
+        .select('code')
+        .eq('code', trade_interest)
+        .eq('is_active', true)
+        .single();
+
+      if (tradeError) return json({ error: tradeError.message }, 400);
+      if (!trade) return json({ error: 'Invalid trade selection' }, 400);
+
+      const applicationPayload = {
+        applicant_name,
+        applicant_email,
+        phone,
+        date_of_birth,
+        address,
+        education_background,
+        trade_interest,
+        previous_experience,
+        motivation_statement,
+        special_needs,
+        emergency_contact,
+      };
+
+      const { data: application, error } = await supabase
+        .from('admissions_applications')
+        .insert([applicationPayload])
+        .select('id')
+        .single();
 
       if (error) return json({ error: error.message }, 400);
 

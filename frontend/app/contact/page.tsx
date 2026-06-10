@@ -1,6 +1,57 @@
+'use client'
+
 import Link from 'next/link'
+import { FormEvent, useState } from 'react'
+import { apiClient } from '@/src/api'
 
 export default function ContactPage() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setStatus(null)
+
+    if (!name.trim() || !email.trim() || !subject.trim()) {
+      setStatus({ type: 'error', text: 'Please provide your name, email, and what you are interested in.' })
+      return
+    }
+
+    setLoading(true)
+    try {
+      await apiClient.submitAdmissionsApplication({
+        applicant_name: name.trim(),
+        applicant_email: email.trim(),
+        phone: phone.trim() || undefined,
+        trade_interest: subject.trim(),
+        motivation_statement: message.trim() || undefined,
+      })
+
+      setStatus({ type: 'success', text: 'Thank you! Your inquiry has been sent. Our admissions team will be in touch soon.' })
+      setName('')
+      setEmail('')
+      setPhone('')
+      setSubject('')
+      setMessage('')
+    } catch (error: any) {
+      setStatus({
+        type: 'error',
+        text:
+          error?.message?.includes('Unable to connect') || error?.message?.includes('Network error')
+            ? 'Unable to submit your inquiry. Please check your connection and try again.'
+            : error?.message || 'Something went wrong while sending your inquiry.',
+      })
+      console.error('Admissions inquiry error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="bg-slate-50 text-slate-900">
       <section className="bg-[#071410] text-white">
@@ -72,13 +123,28 @@ export default function ContactPage() {
             <p className="text-base leading-8 text-slate-600">
               Fill out the form below and our team will respond within 24 hours. Include your course interest, preferred start date, and any questions you have about admissions or financing.
             </p>
-            <form className="grid gap-6">
+
+            {status ? (
+              <div
+                className={`rounded-3xl border px-5 py-4 text-sm font-semibold ${
+                  status.type === 'success'
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                    : 'border-rose-200 bg-rose-50 text-rose-700'
+                }`}
+              >
+                {status.text}
+              </div>
+            ) : null}
+
+            <form className="grid gap-6" onSubmit={handleSubmit}>
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="space-y-2 text-sm text-slate-700">
                   Full name
                   <input
                     type="text"
                     placeholder="Your name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                     className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-1 ring-transparent transition focus:border-[#1a6b53] focus:ring-[#1a6b53]/20"
                   />
                 </label>
@@ -87,6 +153,8 @@ export default function ContactPage() {
                   <input
                     type="email"
                     placeholder="you@example.com"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-1 ring-transparent transition focus:border-[#1a6b53] focus:ring-[#1a6b53]/20"
                   />
                 </label>
@@ -97,6 +165,8 @@ export default function ContactPage() {
                   <input
                     type="tel"
                     placeholder="+234 901 883 7909"
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
                     className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-1 ring-transparent transition focus:border-[#1a6b53] focus:ring-[#1a6b53]/20"
                   />
                 </label>
@@ -105,6 +175,8 @@ export default function ContactPage() {
                   <input
                     type="text"
                     placeholder="What would you like to discuss?"
+                    value={subject}
+                    onChange={(event) => setSubject(event.target.value)}
                     className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-1 ring-transparent transition focus:border-[#1a6b53] focus:ring-[#1a6b53]/20"
                   />
                 </label>
@@ -114,14 +186,17 @@ export default function ContactPage() {
                 <textarea
                   rows={5}
                   placeholder="Tell us about your questions or course interests"
+                  value={message}
+                  onChange={(event) => setMessage(event.target.value)}
                   className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none ring-1 ring-transparent transition focus:border-[#1a6b53] focus:ring-[#1a6b53]/20"
                 />
               </label>
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center rounded-full bg-[#1a6b53] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#1a6b53]/20 transition hover:bg-[#0f6f44]"
+                disabled={loading}
+                className="inline-flex w-full items-center justify-center rounded-full bg-[#1a6b53] px-6 py-3 text-sm font-semibold text-white shadow-xl shadow-[#1a6b53]/20 transition hover:bg-[#0f6f44] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Send message
+                {loading ? 'Sending…' : 'Send message'}
               </button>
             </form>
           </div>

@@ -74,27 +74,27 @@ export function CourseCard({
       </Link>
 
       <div className="space-y-4 p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-3 text-sm text-[#5a5138]">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#f7efe0] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#4f422c]">
+        <div className="flex items-center justify-between gap-3 text-sm text-slate-600">
+          <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
             {level}
           </span>
-          <span className="font-semibold text-[#8b6d30]">{price}</span>
+          <span className="font-semibold text-slate-900">{price}</span>
         </div>
 
         <div className="space-y-3">
-          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-[#113821] transition-colors group-hover:text-[#a57e3f]">
+          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-[#1a6b53]">
             {title}
           </h3>
           <div className="flex items-center gap-3">
             <Avatar imageSrc={instructor.avatarUrl} name={instructor.name} size="sm" />
             <div>
-              <p className="text-sm font-medium text-[#153a27]">{instructor.name}</p>
-              {instructor.title ? <p className="text-xs text-[#6d6550]">{instructor.title}</p> : null}
+              <p className="text-sm font-medium text-slate-900">{instructor.name}</p>
+              {instructor.title ? <p className="text-xs text-slate-500">{instructor.title}</p> : null}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm font-medium text-[#5a5138]">
+        <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
           <div className="flex items-center gap-1">
             {stars.map((star) => (
               <Star
@@ -106,12 +106,12 @@ export function CourseCard({
           <span>{rating.toFixed(1)} ({ratingCount})</span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 text-xs text-[#5a5138]">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#f7efe0] px-2.5 py-1 text-[#4f422c]">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">
             <Clock3 className="h-3.5 w-3.5" />
             {duration}
           </span>
-          <Badge variant="outline" className="border-[#d4a873]/30 bg-[#faf2d7] text-[#5f4f2f]">
+          <Badge variant="outline" className="border-slate-200 bg-slate-100 text-slate-700">
             {enrolled ? 'Enrolled' : 'Open'}
           </Badge>
         </div>

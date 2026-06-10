@@ -30,9 +30,12 @@ export default function SigninPage() {
         router.push('/portal')
       }, 600)
     } catch (error: any) {
+      const message = error?.message?.toString?.() || 'Unable to sign in. Please try again.'
       setMessage({
         type: 'error',
-        text: error?.message || 'Unable to sign in. Please try again.',
+        text: message.includes('Failed to fetch')
+          ? 'Unable to connect to the login service. Please check your network or try again later.'
+          : message,
       })
       console.error(error)
     } finally {

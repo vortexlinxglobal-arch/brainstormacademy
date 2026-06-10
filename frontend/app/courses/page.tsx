@@ -139,37 +139,37 @@ export default function CoursesPage() {
               animate={{ opacity: 1, x: 0 }}
               className={`md:block ${showFilters ? 'block' : 'hidden'} space-y-6 sm:space-y-8`}
             >
-              <div className="rounded-3xl border border-[#d4a873]/30 bg-[#f9f3e8] p-6 shadow-sm">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-[#163920]">Search courses</h3>
-                    <p className="text-sm text-[#5d563f]">Find the right training fast.</p>
+                    <h3 className="text-lg font-semibold text-slate-900">Search courses</h3>
+                    <p className="text-sm text-slate-500">Find the right training fast.</p>
                   </div>
                   <button
                     type="button"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#e7dfc9] text-[#4b4728] transition hover:bg-[#ddd3b0] lg:hidden"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 lg:hidden"
                     onClick={() => setShowFilters(false)}
                   >
                     <X className="h-5 w-5" />
                   </button>
                 </div>
                 <div className="mt-6">
-                  <label className="block text-sm font-medium text-[#4d4228]">Search</label>
+                  <label className="block text-sm font-medium text-slate-700">Search</label>
                   <div className="mt-3 relative">
-                    <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#7c6f4f]" />
+                    <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search by course, instructor, or skill"
-                      className="w-full rounded-3xl border border-[#d4a873]/40 bg-white py-3 pl-12 pr-4 text-sm text-[#1d3825] outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
+                      className="w-full rounded-3xl border border-slate-200 bg-white py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-[#d4a873]/30 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-[#163920]">Filter by category</h3>
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-900">Filter by category</h3>
                 <div className="mt-5 space-y-2">
                   {categories.map((category) => (
                     <button
@@ -179,7 +179,7 @@ export default function CoursesPage() {
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedCategory === category
                           ? 'bg-[#1a6b53] text-white shadow-sm'
-                          : 'bg-[#f3ede3] text-[#4a462f] hover:bg-[#e7dec4]'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       {category}
@@ -188,8 +188,8 @@ export default function CoursesPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-[#d4a873]/30 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-[#163920]">Filter by level</h3>
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-900">Filter by level</h3>
                 <div className="mt-5 space-y-2">
                   {levels.map((level) => (
                     <button
@@ -199,7 +199,7 @@ export default function CoursesPage() {
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedLevel === level
                           ? 'bg-[#1a6b53] text-white shadow-sm'
-                          : 'bg-[#f3ede3] text-[#4a462f] hover:bg-[#e7dec4]'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       {level}

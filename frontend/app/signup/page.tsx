@@ -88,6 +88,8 @@ export default function SignupPage() {
             normalized.includes('duplicate') ||
             normalized.includes('user already registered')
           ? 'This email is already registered. Please sign in or check your email for the verification link.'
+          : normalized.includes('failed to fetch')
+          ? 'Unable to connect to the signup service. Please check your network or try again later.'
           : errorText || 'Unable to create account. Please try again.'
 
       setMessage({

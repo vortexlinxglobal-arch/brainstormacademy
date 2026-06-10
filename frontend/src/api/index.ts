@@ -20,11 +20,22 @@ const buildBackendHeaders = (headers: Record<string, string> = {}) => ({
 })
 
 async function fetchBackend(endpoint: string, options: RequestInit = {}) {
-  const response = await fetch(`${getBackendUrl()}${endpoint}`, {
-    credentials: 'include',
-    headers: buildBackendHeaders(options.headers as Record<string, string>),
-    ...options,
-  })
+  const client = getSupabaseClient()
+  const token = client ? (await client.auth.getSession()).data.session?.access_token : null
+
+  let response: Response
+  try {
+    response = await fetch(`${getBackendUrl()}${endpoint}`, {
+      credentials: 'include',
+      headers: buildBackendHeaders({
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers as Record<string, string>),
+      }),
+      ...options,
+    })
+  } catch (error: any) {
+    throw new Error(error?.message || 'Unable to connect to backend')
+  }
 
   const data = await response.json().catch(() => ({ error: 'Invalid JSON response' }))
   if (!response.ok) {
@@ -600,10 +611,21 @@ export const auth = {
 
   async getCurrentUser() {
     const sessionResult = await this.getSession()
-    return { data: { user: sessionResult.data.session?.user } }
+    return { data: { user: sessionResult.data.session?.user ?? null } }
   },
 
   async getSession() {
+    const client = getSupabaseClient()
+    if (!client) {
+      throw new Error('Supabase client is unavailable')
+    }
+
+    const sessionResult = await client.auth.getSession()
+    const session = sessionResult.data.session
+    if (session?.user) {
+      return { data: { session } }
+    }
+
     try {
       const result = await fetchBackend('/v1/auth/verify')
       return {

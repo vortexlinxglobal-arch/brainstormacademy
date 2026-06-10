@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar } from '@/components/ui/avatar'
 import { Progress } from '@/components/ui/progress'
+import { Modal } from '@/components/ui/modal'
+import { apiClient } from '@/src/api'
 import {
   BookOpen,
   CheckCircle2,
@@ -101,6 +103,13 @@ export function CourseDetailPage({
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [isEnrolled, setIsEnrolled] = useState(enrolled)
   const [isStatusLoading, setIsStatusLoading] = useState(true)
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false)
+  const [registrationName, setRegistrationName] = useState('')
+  const [registrationEmail, setRegistrationEmail] = useState('')
+  const [registrationPhone, setRegistrationPhone] = useState('')
+  const [registrationMessage, setRegistrationMessage] = useState('')
+  const [registrationStatus, setRegistrationStatus] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [registrationLoading, setRegistrationLoading] = useState(false)
 
   useEffect(() => {
     let mounted = true
@@ -160,6 +169,63 @@ export function CourseDetailPage({
       console.error(error)
     } finally {
       setIsStatusLoading(false)
+    }
+  }
+
+  const openEnrollModal = () => {
+    setRegistrationStatus(null)
+    setIsEnrollModalOpen(true)
+  }
+
+  const closeEnrollModal = () => {
+    setIsEnrollModalOpen(false)
+  }
+
+  const handleSubmitRegistration = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setRegistrationStatus(null)
+    setRegistrationLoading(true)
+
+    if (!registrationName.trim() || !registrationEmail.trim()) {
+      setRegistrationStatus({ type: 'error', text: 'Please enter your name and email to register.' })
+      setRegistrationLoading(false)
+      return
+    }
+
+    try {
+      await apiClient.submitAdmissionsApplication({
+        applicant_name: registrationName.trim(),
+        applicant_email: registrationEmail.trim(),
+        phone: registrationPhone.trim() || undefined,
+        trade_interest: title,
+        motivation_statement: registrationMessage.trim() || `I am interested in registering for ${title}.`,
+      })
+
+      await handleToggleStatus('toggle-enroll')
+      setIsEnrolled(true)
+      setRegistrationStatus({
+        type: 'success',
+        text: 'Your registration has been sent. Admissions will contact you shortly.',
+      })
+      setRegistrationName('')
+      setRegistrationEmail('')
+      setRegistrationPhone('')
+      setRegistrationMessage('')
+
+      setTimeout(() => {
+        closeEnrollModal()
+      }, 1800)
+    } catch (error: any) {
+      console.error('Enrollment registration failed:', error)
+      setRegistrationStatus({
+        type: 'error',
+        text:
+          error?.message?.includes('Unable to connect') || String(error?.message).includes('Network')
+            ? 'Unable to register right now. Please try again later.'
+            : error?.message || 'Unable to complete registration.',
+      })
+    } finally {
+      setRegistrationLoading(false)
     }
   }
 
@@ -344,7 +410,7 @@ export function CourseDetailPage({
                           variant="brand"
                           size="lg"
                           className="w-full rounded-xl text-base font-semibold"
-                          onClick={() => handleToggleStatus('toggle-enroll')}
+                          onClick={openEnrollModal}
                           disabled={isStatusLoading}
                         >
                           {isStatusLoading ? 'Loading…' : 'Enroll Now'}
@@ -438,24 +504,61 @@ export function CourseDetailPage({
 
             {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-6">
-              {/* Video Player */}
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 animate={activeTab === 'overview' ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4 }}
-                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95"
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950/95"
               >
-                <div className="relative aspect-video w-full bg-black">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={videoUrl}
-                    title={title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="h-full w-full"
-                  />
+                <div className="grid gap-6 p-6 lg:grid-cols-[1.3fr_0.95fr]">
+                  <div className="space-y-5">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[#E9F7EF] px-4 py-2 text-sm font-semibold text-[#1A6B53]">
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
+                      Course overview
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-lg font-semibold text-slate-900 dark:text-white">A practical, career-ready program built for fast results.</p>
+                      <p className="text-slate-700 dark:text-slate-300 leading-8">{description}</p>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <p className="text-sm uppercase tracking-[0.24em] text-slate-500">What you'll master</p>
+                        <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
+                          <li>Practical skills for in-demand careers</li>
+                          <li>Certification-ready project work</li>
+                          <li>Industry-standard tools and processes</li>
+                        </ul>
+                      </div>
+                      <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                        <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Who it's for</p>
+                        <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
+                          <li>New learners seeking a strong foundation</li>
+                          <li>Career switchers needing practical training</li>
+                          <li>Students preparing for certification success</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Why this course</p>
+                    <p className="mt-4 text-slate-700 dark:text-slate-300 leading-7">
+                      Structured for confident progress, this course balances hands-on training with certification readiness and real-world mentorship. You leave with practical experience and a clear next step.
+                    </p>
+                    <div className="mt-6 space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                      <div className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
+                        <span>Fast-moving modules with practical focus.</span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
+                        <span>Mentor-led guidance and career-forward feedback.</span>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
+                        <span>Designed to help you move from learning to earning.</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
 
@@ -668,13 +771,108 @@ export function CourseDetailPage({
             variant="brand"
             size="lg"
             className="min-w-[10rem] rounded-2xl"
-            onClick={() => handleToggleStatus('toggle-enroll')}
+            onClick={isEnrolled ? undefined : openEnrollModal}
             disabled={isStatusLoading}
           >
             {isStatusLoading ? 'Loading…' : isEnrolled ? 'Continue' : 'Enroll Now'}
           </Button>
         </div>
       </div>
+
+      <Modal
+        open={isEnrollModalOpen}
+        title={`Register for ${title}`}
+        description="Complete this quick registration form and our admissions team will contact you."
+        onClose={closeEnrollModal}
+      >
+        <form className="space-y-5" onSubmit={handleSubmitRegistration}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+              Name
+              <input
+                value={registrationName}
+                onChange={(event) => setRegistrationName(event.target.value)}
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                placeholder="Your full name"
+              />
+            </label>
+            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+              Email
+              <input
+                type="email"
+                value={registrationEmail}
+                onChange={(event) => setRegistrationEmail(event.target.value)}
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                placeholder="Your email address"
+              />
+            </label>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+              Phone
+              <input
+                value={registrationPhone}
+                onChange={(event) => setRegistrationPhone(event.target.value)}
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                placeholder="Phone number"
+              />
+            </label>
+            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+              Course
+              <input
+                value={title}
+                readOnly
+                className="h-12 rounded-2xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+              />
+            </label>
+          </div>
+
+          <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+            Why you're interested
+            <textarea
+              value={registrationMessage}
+              onChange={(event) => setRegistrationMessage(event.target.value)}
+              rows={4}
+              className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+              placeholder="Tell us what you want to achieve with this course."
+            />
+          </label>
+
+          {registrationStatus ? (
+            <div
+              className={`rounded-2xl px-4 py-3 text-sm ${
+                registrationStatus.type === 'success'
+                  ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                  : 'bg-rose-50 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
+              }`}
+            >
+              {registrationStatus.text}
+            </div>
+          ) : null}
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              className="w-full rounded-2xl sm:w-auto"
+              onClick={closeEnrollModal}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="brand"
+              size="lg"
+              className="w-full rounded-2xl sm:w-auto"
+              disabled={registrationLoading}
+            >
+              {registrationLoading ? 'Submitting…' : 'Submit Registration'}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   )
 }

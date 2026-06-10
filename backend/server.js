@@ -38,7 +38,7 @@ const setRefreshTokenCookie = (res, refresh_token) => {
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   };
   res.cookie('sb_refresh_token', refresh_token, cookieOptions);
@@ -84,7 +84,7 @@ const requireAuth = async (req, res) => {
   return user;
 };
 
-const requireRole = async (req, res, allowedRoles = ['staff', 'admin']) => {
+const requireRole = async (req, res, allowedRoles = ['staff', 'admin', 'super_admin']) => {
   const user = await requireAuth(req, res);
   if (!user) return null;
 
@@ -173,19 +173,35 @@ app.post('/v1/admissions', async (req, res) => {
       return respond(res, { error: 'Missing required fields' }, 400);
     }
 
-    const { data, error } = await supabase.rpc('submit_admissions_application', {
-      p_applicant_name: applicant_name,
-      p_applicant_email: applicant_email,
-      p_phone: phone,
-      p_date_of_birth: date_of_birth,
-      p_address: address,
-      p_education_background: education_background,
-      p_trade_interest: trade_interest,
-      p_previous_experience: previous_experience,
-      p_motivation_statement: motivation_statement,
-      p_special_needs: special_needs,
-      p_emergency_contact: emergency_contact,
-    });
+    const { data: trade, error: tradeError } = await supabase
+      .from('trades')
+      .select('code')
+      .eq('code', trade_interest)
+      .eq('is_active', true)
+      .single();
+
+    if (tradeError) return respond(res, { error: tradeError.message }, 400);
+    if (!trade) return respond(res, { error: 'Invalid trade selection' }, 400);
+
+    const applicationPayload = {
+      applicant_name,
+      applicant_email,
+      phone,
+      date_of_birth,
+      address,
+      education_background,
+      trade_interest,
+      previous_experience,
+      motivation_statement,
+      special_needs,
+      emergency_contact,
+    };
+
+    const { data, error } = await supabase
+      .from('admissions_applications')
+      .insert([applicationPayload])
+      .select('id')
+      .single();
 
     if (error) return respond(res, { error: error.message }, 400);
     return respond(res, {
@@ -1671,6 +1687,26 @@ app.post('/v1/auth/signup', async (req, res) => {
       return respond(res, { error: 'Failed to create user account' }, 400);
     }
 
+    // Create or update user profile row
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert(
+        {
+          id: authData.user.id,
+          email,
+          full_name,
+          role: 'student',
+          is_active: true,
+        },
+        { onConflict: 'id' }
+      )
+      .select()
+      .single();
+
+    if (profileError) {
+      console.error('Profile creation failed:', profileError)
+    }
+
     // Create student profile
     const { data: student, error: studentError } = await supabase
       .from('students')
@@ -1756,7 +1792,7 @@ app.post('/v1/auth/signin', async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       };
       res.cookie('sb_refresh_token', authData.session.refresh_token, cookieOptions);
@@ -1897,7 +1933,7 @@ app.post('/v1/auth/refresh', async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         maxAge: 30 * 24 * 60 * 60 * 1000,
       };
       res.cookie('sb_refresh_token', authData.session.refresh_token, cookieOptions);
