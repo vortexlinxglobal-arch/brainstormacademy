@@ -1,3 +1,4 @@
+
 'use client'
 
 import Link from 'next/link'
@@ -27,25 +28,16 @@ export default function AuthCallbackPage() {
       }
 
       try {
-        const currentHref = window.location.href
-        const { data, error } = await supabase.auth.getSessionFromUrl({
-          storeSession: true,
-          url: currentHref,
-        })
+        // Supabase v2 handles the URL parameters automatically after redirect.
+        // We can directly call getSession() to retrieve the session.
+        const { data, error } = await supabase.auth.getSession()
 
         if (error) {
-          const normalized = String(error.message || '').toLowerCase()
-          if (normalized.includes('no auth session') || normalized.includes('url does not contain auth params')) {
-            setStatus({
-              type: 'success',
-              text: 'Your email is confirmed. Please sign in to continue to the portal.',
-            })
-          } else {
-            setStatus({
-              type: 'error',
-              text: 'Unable to complete authentication. Please sign in manually.',
-            })
-          }
+          console.error('Supabase getSession error:', error)
+          setStatus({
+            type: 'error',
+            text: 'Unable to retrieve session. Please try signing in again.',
+          })
           setLoading(false)
           return
         }
@@ -63,6 +55,8 @@ export default function AuthCallbackPage() {
           return
         }
 
+        // If no session but no error, it means the callback was processed but no active session was found.
+        // This can happen if the user just confirmed their email but needs to sign in.
         setStatus({
           type: 'success',
           text: 'Your email has been confirmed. Please sign in to continue.',
