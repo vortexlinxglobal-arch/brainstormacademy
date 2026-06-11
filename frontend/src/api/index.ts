@@ -50,10 +50,7 @@ let supabaseClient: SupabaseClient | null = null
 function getSupabaseClient() {
   if (!supabaseClient) {
     if (!supabaseUrl || !supabaseAnonKey) {
-      if (typeof window === 'undefined') {
-        return null
-      }
-      throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY')
+      return null
     }
     supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
   }
@@ -617,7 +614,13 @@ export const auth = {
   async getSession() {
     const client = getSupabaseClient()
     if (!client) {
-      throw new Error('Supabase client is unavailable')
+      return {
+        data: {
+          session: {
+            user: null,
+          },
+        },
+      }
     }
 
     const sessionResult = await client.auth.getSession()
