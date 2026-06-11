@@ -15,7 +15,25 @@ const { createClient } = require('@supabase/supabase-js');
 
 const cookieParser = require('cookie-parser');
 const app = express();
-app.use(cors({ origin: true, credentials: true }));
+
+const corsOptions = {
+  origin: true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Origin',
+    'Accept',
+    'X-Requested-With',
+    'next-router-prefetch',
+  ],
+  exposedHeaders: ['Content-Length', 'ETag'],
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
