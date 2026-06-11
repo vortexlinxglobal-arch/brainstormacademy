@@ -25,10 +25,13 @@ const portalMap: Record<string, string> = {
   public: '/portal',
 }
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://brainstormacademy.ng'
+
 export function SiteHeader() {
   const pathname = usePathname()
   const router = useRouter()
   const isPortalPath = pathname?.startsWith('/portal') || pathname?.startsWith('/dashboard')
+  const logoHref = isPortalPath ? appUrl : '/'
   const [menuOpen, setMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [loadingAuth, setLoadingAuth] = useState(true)
@@ -83,7 +86,7 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#D4AF37]/15 bg-white/95 backdrop-blur-xl shadow-sm">
       <div className="container-fluid flex flex-wrap items-center justify-between gap-4 py-2.5 sm:py-3 md:py-4 lg:py-5">
-        <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 transition-transform hover:scale-105">
+        <Link href={logoHref} className="flex items-center gap-2 sm:gap-3 flex-shrink-0 transition-transform hover:scale-105">
           <div className="h-8 w-auto sm:hidden">
             <Image
               src="/assets/images/logo.png"
@@ -145,7 +148,7 @@ export function SiteHeader() {
         {isPortalPath && (
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="/"
+              href={appUrl}
               className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-[#1a6b53] hover:text-[#1a6b53]"
             >
               <ArrowRight className="h-4 w-4" />
@@ -279,7 +282,7 @@ export function SiteHeader() {
               )}
               {isPortalPath && (
                 <Link
-                  href="/"
+                  href={appUrl}
                   className="block rounded-2xl px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
                   onClick={() => setMenuOpen(false)}
                 >

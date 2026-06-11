@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
@@ -44,47 +45,58 @@ export default function SigninPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(212,176,79,0.12),_transparent_35%),#06170f] text-slate-100">
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-12">
-          <section className="rounded-[2rem] border border-[#334d3a] bg-slate-950/60 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.18)] backdrop-blur-xl">
-            <div className="mb-10">
-              <span className="inline-flex rounded-full bg-[#d4b04f]/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-[#e0c56e]">
-                Transform Your Future
-              </span>
-              <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                Access quality training with a refined green and gold experience.
-              </h1>
-              <p className="mt-5 max-w-xl text-slate-300">
-                Secure your account and continue learning with career-ready trade pathways, modern classroom support, and 24/7 reliability.
+    <main className="min-h-screen bg-[#08110d] text-slate-100">
+      <div className="mx-auto flex min-h-screen max-w-[1320px] items-center px-4 py-10 sm:px-6 lg:px-8">
+        <div className="grid w-full gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
+          <aside className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1c14]/80 p-10 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(212,176,79,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.16),_transparent_25%)]" />
+            <div className="relative z-10 flex h-full flex-col justify-between gap-8">
+              <div>
+                <div className="mb-10 flex items-center gap-3">
+                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-[#d4b04f]/15 text-[#d4b04f]">
+                    <Image src="/assets/images/logo.png" alt="Brainstorm Skills" width={36} height={36} className="h-auto w-auto" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-[#d4b04f]">Brainstorm Skills</p>
+                    <p className="text-sm text-slate-300">Industry-focused learning</p>
+                  </div>
+                </div>
+
+                <h1 className="text-4xl font-bold text-white sm:text-5xl">Welcome back</h1>
+                <p className="mt-5 max-w-xl text-slate-300">
+                  Sign in to access your training dashboard, course progress, and portal tools with a smoother, modern experience.
+                </p>
+              </div>
+
+              <div className="grid gap-4">
+                {[
+                  { title: 'Fast access', description: 'One secure login to connect learners, staff, and admins instantly.' },
+                  { title: 'Smart experience', description: 'Minimal distractions with a clear path to what matters most.' },
+                  { title: 'Trusted security', description: 'Session-safe authentication built for Brainstorm Skills users.' },
+                ].map((item) => (
+                  <div key={item.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                    <p className="text-sm font-semibold text-white">{item.title}</p>
+                    <p className="mt-2 text-sm text-slate-300">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          <section className="rounded-[2rem] border border-white/10 bg-[#0f241a]/90 p-10 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="mb-8 flex flex-col gap-3 text-center">
+              <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-[#d4b04f]/15 text-[#d4b04f] shadow-sm shadow-[#d4b04f]/10">
+                <Image src="/assets/images/logo.png" alt="Brainstorm Skills" width={32} height={32} className="h-auto w-auto" />
+              </div>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Sign in</p>
+              <h2 className="text-3xl font-bold text-white">Access your portal with one secure login</h2>
+              <p className="max-w-xl text-sm text-slate-400">
+                Enter your email and password to continue your training, view your dashboard, or manage course access.
               </p>
             </div>
 
-            <div className="grid gap-4">
-              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Secure Access</p>
-                <p className="mt-3 text-slate-200">Protected sign-in, encrypted sessions, and fast credential validation for your learning account.</p>
-              </div>
-              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Staff Login</p>
-                <p className="mt-3 text-slate-200">Staff accounts are provisioned by a portal administrator. Use your registered email and phone number as your password.</p>
-              </div>
-              <div className="rounded-3xl border border-[#4c6d54] bg-[#0f2a1f]/80 p-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#d4b04f]">Fast & Reliable</p>
-                <p className="mt-3 text-slate-200">Experience a polished login journey that stays true to the Brainstorm Skills brand.</p>
-              </div>
-            </div>
-          </section>
-
-          <section className="rounded-[2rem] border border-[#4b6b4d] bg-slate-950/95 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
-            <div className="mb-8 space-y-3 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#d4b04f]">Welcome Back</p>
-              <h2 className="text-3xl font-bold text-white">Enter your credentials to access your account</h2>
-              <p className="text-slate-300">Sign in and continue your vocational learning journey with Brainstorm Skills.</p>
-            </div>
-
-            <form className="space-y-5" onSubmit={handleSubmit}>
-              <div>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="space-y-3">
                 <label htmlFor="email" className="block text-sm font-medium text-slate-300">
                   Email address
                 </label>
@@ -96,11 +108,11 @@ export default function SigninPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
+                  className="w-full rounded-3xl border border-white/10 bg-slate-950/80 px-5 py-4 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
               </div>
 
-              <div>
+              <div className="space-y-3">
                 <label htmlFor="password" className="block text-sm font-medium text-slate-300">
                   Password
                 </label>
@@ -112,22 +124,22 @@ export default function SigninPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="mt-3 w-full rounded-3xl border border-[#3f5f47] bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
+                  className="w-full rounded-3xl border border-white/10 bg-slate-950/80 px-5 py-4 text-white outline-none transition focus:border-[#d4b04f] focus:ring-2 focus:ring-[#d4b04f]/20"
                 />
               </div>
 
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <label className="inline-flex items-center gap-2 text-sm text-slate-300">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <label className="inline-flex items-center gap-3 text-sm text-slate-300">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="h-4 w-4 rounded border-[#3f5f47] bg-slate-900 text-[#d4b04f] focus:ring-[#d4b04f]"
+                    className="h-4 w-4 rounded border-white/15 bg-slate-900 text-[#d4b04f] focus:ring-[#d4b04f]"
                   />
-                  Remember me
+                  Remember this device
                 </label>
                 <Link href="/forgot-password" className="text-sm font-semibold text-[#d4b04f] transition hover:text-[#f1d87f]">
-                  Forgot Password?
+                  Forgot password?
                 </Link>
               </div>
 
@@ -146,16 +158,22 @@ export default function SigninPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex w-full items-center justify-center rounded-3xl bg-gradient-to-r from-[#c8ad4d] via-[#e0c56e] to-[#d19f38] px-5 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-slate-950 shadow-[0_18px_30px_rgba(210,176,79,0.22)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex w-full items-center justify-center rounded-3xl bg-gradient-to-r from-[#c8ad4d] via-[#e0c56e] to-[#d19f38] px-6 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-slate-950 shadow-[0_18px_30px_rgba(210,176,79,0.22)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? 'Signing in…' : 'Sign In'}
               </button>
             </form>
 
-            <p className="mt-8 text-center text-sm text-slate-300">
-              Don&apos;t have an account?{' '}
+            <div className="mt-8 flex items-center justify-center gap-3 text-sm text-slate-500">
+              <span className="h-[1px] flex-1 bg-white/10" />
+              <span>New to Brainstorm?</span>
+              <span className="h-[1px] flex-1 bg-white/10" />
+            </div>
+
+            <p className="mt-6 text-center text-sm text-slate-300">
+              <span>Start learning today.</span>{' '}
               <Link href="/signup" className="font-semibold text-[#d4b04f] hover:text-[#f1d87f]">
-                Sign Up
+                Create an account
               </Link>
             </p>
           </section>

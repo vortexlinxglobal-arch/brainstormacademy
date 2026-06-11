@@ -21,9 +21,15 @@ export default function PortalLandingPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (portalUrl && typeof window !== 'undefined' && window.location.origin !== portalUrl) {
-      window.location.assign(`${portalUrl}/portal`)
-      return
+    if (portalUrl && typeof window !== 'undefined') {
+      const portalUrlObj = new URL(portalUrl)
+      const portalHost = `${portalUrlObj.protocol}//${portalUrlObj.host}`
+      const portalPath = portalUrlObj.pathname.replace(/\/$/, '') || '/portal'
+
+      if (window.location.origin !== portalHost || window.location.pathname !== portalPath) {
+        window.location.assign(`${portalHost}${portalPath}`)
+        return
+      }
     }
 
     async function load() {

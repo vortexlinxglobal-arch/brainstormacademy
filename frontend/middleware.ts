@@ -25,7 +25,11 @@ export function middleware(request: NextRequest) {
   if (hostname === 'brainstormacademy.ng' || hostname === 'www.brainstormacademy.ng') {
     if (pathname.startsWith('/portal')) {
       const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || 'https://portal.brainstormacademy.ng'
-      return NextResponse.redirect(`${portalUrl}${pathname}`)
+      const portalUrlObj = new URL(portalUrl)
+      const portalOrigin = `${portalUrlObj.protocol}//${portalUrlObj.host}`
+      const portalBasePath = portalUrlObj.pathname.replace(/\/$/, '')
+      const suffix = pathname === '/portal' ? '' : pathname.replace(/^\/portal/, '')
+      return NextResponse.redirect(`${portalOrigin}${portalBasePath}${suffix}`)
     }
   }
 
