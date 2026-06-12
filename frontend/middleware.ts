@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const hostname = request.headers.get('host') || ''
+  const rawHost = request.headers.get('host') || ''
+  const hostname = rawHost.split(':')[0].toLowerCase()
   const { pathname } = request.nextUrl
 
   const portalOnlyRoutes = ['/admin', '/instructor', '/student']
@@ -21,11 +22,22 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // If accessing main domain (not portal), redirect /portal to the portal subdomain
+  // If accessing main domain (not portal), redirect /portal to the portal subdomain.
   if (hostname === 'brainstormacademy.ng' || hostname === 'www.brainstormacademy.ng') {
     if (pathname.startsWith('/portal')) {
-      const portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL || 'https://portal.brainstormacademy.ng'
-      const portalUrlObj = new URL(portalUrl)
+      let portalUrl = process.env.NEXT_PUBLIC_PORTAL_URL?.trim() || 'https://portal.brainstormacademy.ng'
+      if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(portalUrl)) {
+        portalUrl = `https://${portalUrl}`
+      }
+
+      let portalUrlObj: URL
+      try {
+        portalUrlObj = new URL(portalUrl)
+      } catch (error) {
+        console.error('[middleware] invalid NEXT_PUBLIC_PORTAL_URL:', portalUrl, error)
+        portalUrlObj = new URL('https://portal.brainstormacademy.ng')
+      }
+
       const portalOrigin = `${portalUrlObj.protocol}//${portalUrlObj.host}`
       const portalBasePath = portalUrlObj.pathname.replace(/\/$/, '')
       const suffix = pathname === '/portal' ? '' : pathname.replace(/^\/portal/, '')
