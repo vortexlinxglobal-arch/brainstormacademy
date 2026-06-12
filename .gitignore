@@ -3,3 +3,4 @@ frontend/.next
 backend/.env
 frontend/.env.local
 .vercel
+.env*
