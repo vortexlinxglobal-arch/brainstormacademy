@@ -8,13 +8,14 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { HeroSection } from '@/components/sections/HeroSection'
+import { CertificationPathway } from '@/components/sections/CertificationPathway'
 import { CourseCard } from '@/components/cards/CourseCard'
 import { Star, ArrowRight, CheckCircle } from 'lucide-react'
 
 const featuredCourses = [
   {
     id: '1',
-    title: 'Nursing Sciences Level 1',
+    title: 'Catering & Hospitality Training',
     category: 'Healthcare',
     thumbnail: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=300&fit=crop',
     instructor: {
@@ -92,7 +93,7 @@ const testimonials = [
   },
   {
     name: 'Folake Ogunleye',
-    role: 'Business Center Manager',
+    role: 'Computer Hardware and GSM Repair & Maintenance',
     text: 'Exceptional training with industry experts. The Business Center Management course transformed my career trajectory.',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Folake',
     rating: 5,
@@ -108,7 +109,7 @@ const testimonials = [
 
 const programCategories = [
   {
-    title: 'Beauty & Wellness',
+    title: 'Cosmetology & Beauty Therapy',
     description: 'Professional salon training & entrepreneurship',
     badge: 'Online + practical',
     emoji: '💄',
@@ -120,25 +121,25 @@ const programCategories = [
     emoji: '💡',
   },
   {
-    title: 'ICT & Networking',
+    title: 'Networking & System Security Installation',
     description: 'Computer networking, hardware, and software support',
     badge: 'Online & hybrid',
     emoji: '💻',
   },
   {
-    title: 'Fashion Design',
+    title: 'Fashion Design & Garment Making',
     description: 'Design, tailoring, and style business coaching',
     badge: 'In-person studio',
     emoji: '👗',
   },
   {
-    title: 'Painting & Interior Design',
+    title: 'Painting, Decoration & Interior Design',
     description: 'Creative decor, finishing and space styling',
     badge: 'Hands-on practical',
     emoji: '🎨',
   },
   {
-    title: 'Catering & Hospitality',
+    title: 'Catering & Hospitality Training',
     description: 'Hospitality service, catering and event skills',
     badge: 'Blended programs',
     emoji: '🍽️',
@@ -203,9 +204,68 @@ const FALLBACK_PROGRAMS = [
   },
 ]
 
+const quizQuestions = [
+  {
+    id: 'interest',
+    question: 'What type of work interests you most?',
+    options: [
+      { label: 'Building digital systems', value: 'tech' },
+      { label: 'Launching a business', value: 'business' },
+      { label: 'Creative design work', value: 'creative' },
+      { label: 'Service and hospitality', value: 'service' },
+    ],
+  },
+  {
+    id: 'learningStyle',
+    question: 'How do you prefer to learn?',
+    options: [
+      { label: 'Hands-on practice', value: 'handsOn' },
+      { label: 'Strategy and planning', value: 'business' },
+      { label: 'Creative project work', value: 'creative' },
+      { label: 'Technical systems', value: 'tech' },
+    ],
+  },
+  {
+    id: 'goal',
+    question: 'What is your main goal?',
+    options: [
+      { label: 'Start a business', value: 'business' },
+      { label: 'Join a tech team', value: 'tech' },
+      { label: 'Create a portfolio', value: 'creative' },
+      { label: 'Lead hospitality operations', value: 'service' },
+    ],
+  },
+]
+
+const quizRecommendations: Record<string, { title: string; description: string; course: string }> = {
+  tech: {
+    title: 'ICT Fundamentals & Digital Literacy',
+    description: 'A course built for learners who want to build technical confidence and enter digital roles.',
+    course: 'ICT Fundamentals',
+  },
+  business: {
+    title: 'Business Center Management Professional',
+    description: 'Perfect for future business leaders and operations managers ready to lead teams.',
+    course: 'Business Center Management',
+  },
+  creative: {
+    title: 'Fashion Design & Garment Making',
+    description: 'Designed for creative learners who want to build a powerful portfolio and hands-on skills.',
+    course: 'Fashion Design',
+  },
+  service: {
+    title: 'Catering & Hospitality Training',
+    description: 'Ideal for service-focused learners aiming for practical hospitality and operations roles.',
+    course: 'Hospitality Training',
+  },
+}
+
 export function Homepage() {
   const [recentPrograms, setRecentPrograms] = useState(FALLBACK_PROGRAMS)
   const [isLoading, setIsLoading] = useState(true)
+  const [activeQuestion, setActiveQuestion] = useState(0)
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({})
+  const [showQuizResult, setShowQuizResult] = useState(false)
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -248,6 +308,150 @@ export function Homepage() {
         onBrowseClick={() => console.log('Browse courses')}
         onEnrollClick={() => console.log('Enroll now')}
       />
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 max-w-3xl space-y-4 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Skill Assessment</p>
+            <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Find the course best suited to your goals.</h2>
+            <p className="text-base leading-8 text-slate-600 sm:text-lg">
+              Answer three quick questions and get a tailored recommendation in seconds.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <motion.div
+                key={activeQuestion}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Question {Math.min(activeQuestion + 1, quizQuestions.length)} of {quizQuestions.length}</p>
+                <h3 className="mt-3 text-2xl font-semibold text-slate-900">{quizQuestions[activeQuestion]?.question}</h3>
+                <div className="mt-6 space-y-4">
+                  {quizQuestions[activeQuestion]?.options.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setQuizAnswers((prev) => ({ ...prev, [quizQuestions[activeQuestion].id]: option.value }))}
+                      className={`w-full rounded-3xl border p-4 text-left text-sm font-medium transition ${
+                        quizAnswers[quizQuestions[activeQuestion].id] === option.value
+                          ? 'border-emerald-600 bg-emerald-50 text-slate-900'
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-200 hover:bg-slate-50'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
+                  <button
+                    type="button"
+                    disabled={activeQuestion === 0}
+                    onClick={() => {
+                      setShowQuizResult(false)
+                      setActiveQuestion((current) => Math.max(0, current - 1))
+                    }}
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (activeQuestion < quizQuestions.length - 1) {
+                        setActiveQuestion((current) => current + 1)
+                      } else {
+                        setShowQuizResult(true)
+                      }
+                    }}
+                    disabled={!quizAnswers[quizQuestions[activeQuestion].id]}
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {activeQuestion < quizQuestions.length - 1 ? 'Next Question' : 'See Recommendation'}
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              {showQuizResult ? (
+                <motion.div
+                  key="result"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-6"
+                >
+                  <p className="text-sm uppercase tracking-[0.24em] text-emerald-600">Recommended for you</p>
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
+                    <h3 className="text-2xl font-semibold text-slate-900">{(() => {
+                      const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                        acc[value] = (acc[value] || 0) + 1
+                        return acc
+                      }, {})
+                      const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                      return quizRecommendations[highest]?.title || quizRecommendations.business.title
+                    })()}</h3>
+                    <p className="mt-4 text-slate-600">
+                      {(() => {
+                        const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                          acc[value] = (acc[value] || 0) + 1
+                          return acc
+                        }, {})
+                        const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                        return quizRecommendations[highest]?.description || quizRecommendations.business.description
+                      })()}
+                    </p>
+                    <div className="mt-6 rounded-3xl bg-emerald-600 p-5 text-white">
+                      <p className="text-sm uppercase tracking-[0.24em] text-emerald-200">Best match</p>
+                      <p className="mt-2 text-xl font-semibold">{(() => {
+                        const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                          acc[value] = (acc[value] || 0) + 1
+                          return acc
+                        }, {})
+                        const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                        return quizRecommendations[highest]?.course || quizRecommendations.business.course
+                      })()}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveQuestion(0)
+                      setQuizAnswers({})
+                      setShowQuizResult(false)
+                    }}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    Retake Quiz
+                  </button>
+                </motion.div>
+              ) : (
+                <div className="space-y-6 text-slate-700">
+                  <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Insight</p>
+                  <h3 className="text-2xl font-semibold text-slate-900">Personalized course guidance</h3>
+                  <p className="text-sm leading-6 text-slate-600">
+                    Use this quick quiz to discover the course path that best matches your interests, learning style, and career goals.
+                  </p>
+                  <div className="space-y-4 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold text-slate-900">Why this matters</p>
+                    <ul className="space-y-3 text-sm leading-6 text-slate-600">
+                      <li>• Align your next course with your goals.</li>
+                      <li>• Match your preferred learning style.</li>
+                      <li>• Get a recommendation instantly.</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CertificationPathway />
 
       <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
