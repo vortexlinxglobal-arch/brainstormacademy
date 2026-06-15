@@ -17,6 +17,8 @@ const featuredCourses = [
   {
     id: '1',
     title: 'Catering & Hospitality Training',
+    outcome: 'Become a Certified Hospitality Operations Lead',
+    skillTags: ['Guest service', 'Event coordination', 'Team leadership'],
     category: 'Healthcare',
     thumbnail: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=300&fit=crop',
     instructor: {
@@ -34,6 +36,8 @@ const featuredCourses = [
   {
     id: '2',
     title: 'Business Center Management Professional',
+    outcome: 'Lead a Modern Business Center with Confidence',
+    skillTags: ['Operations planning', 'Customer experience', 'Financial control'],
     category: 'Business',
     thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
     instructor: {
@@ -51,6 +55,8 @@ const featuredCourses = [
   {
     id: '3',
     title: 'ICT Fundamentals & Digital Literacy',
+    outcome: 'Build Practical IT Systems and Support Skills',
+    skillTags: ['Networking', 'Desktop support', 'Systems setup'],
     category: 'Technology',
     thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop',
     instructor: {
@@ -68,6 +74,8 @@ const featuredCourses = [
   {
     id: '4',
     title: 'Entrepreneurship & Business Startup',
+    outcome: 'Launch Your Own Tech-enabled Business',
+    skillTags: ['Business model', 'Pitching', 'Market validation'],
     category: 'Entrepreneurship',
     thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
     instructor: {
@@ -192,42 +200,64 @@ const workShowcase = [
   },
 ]
 
-const careerTargets = [
-  'Cybersecurity Analyst',
-  'Hospitality Manager',
-  'Creative Designer',
-  'Business Operations Lead',
-]
-
-const careerSkills: Record<string, string[]> = {
-  'Cybersecurity Analyst': ['Network security', 'Threat analysis', 'System protection'],
-  'Hospitality Manager': ['Service leadership', 'Event planning', 'Customer operations'],
-  'Creative Designer': ['Visual design', 'Brand storytelling', 'Portfolio creation'],
-  'Business Operations Lead': ['Workflow strategy', 'Resource planning', 'Performance metrics'],
-}
-
-const careerRecommendations: Record<string, { course: string; detail: string }> = {
+const careerProfiles: Record<
+  string,
+  {
+    skills: { name: string; progress: number; courses: string[] }[]
+    recommendation: { course: string; detail: string }
+  }
+> = {
   'Cybersecurity Analyst': {
-    course: 'Networking & System Security Installation',
-    detail:
-      'This path helps you develop the technical skills employers want for entry-level cybersecurity and infrastructure roles.',
+    skills: [
+      { name: 'Network security', progress: 80, courses: ['ICT Fundamentals', 'Networking & System Security Installation'] },
+      { name: 'Threat analysis', progress: 65, courses: ['Networking & System Security Installation'] },
+      { name: 'System protection', progress: 70, courses: ['ICT Fundamentals', 'Networking & System Security Installation'] },
+    ],
+    recommendation: {
+      course: 'Networking & System Security Installation',
+      detail:
+        'This path helps you develop the technical skills employers want for entry-level cybersecurity and infrastructure roles.',
+    },
   },
   'Hospitality Manager': {
-    course: 'Catering & Hospitality Training',
-    detail:
-      'Designed for learners who want to lead service teams, manage venues, and deliver excellent guest experiences.',
+    skills: [
+      { name: 'Service leadership', progress: 75, courses: ['Catering & Hospitality Training'] },
+      { name: 'Event planning', progress: 70, courses: ['Catering & Hospitality Training'] },
+      { name: 'Customer operations', progress: 85, courses: ['Catering & Hospitality Training'] },
+    ],
+    recommendation: {
+      course: 'Catering & Hospitality Training',
+      detail:
+        'Designed for learners who want to lead service teams, manage venues, and deliver excellent guest experiences.',
+    },
   },
   'Creative Designer': {
-    course: 'Fashion Design & Garment Making',
-    detail:
-      'A practical pathway for learners who want to build creative portfolios and launch design services.',
+    skills: [
+      { name: 'Visual design', progress: 80, courses: ['Fashion Design & Garment Making'] },
+      { name: 'Brand storytelling', progress: 65, courses: ['Fashion Design & Garment Making'] },
+      { name: 'Portfolio creation', progress: 60, courses: ['Fashion Design & Garment Making'] },
+    ],
+    recommendation: {
+      course: 'Fashion Design & Garment Making',
+      detail:
+        'A practical pathway for learners who want to build creative portfolios and launch design services.',
+    },
   },
   'Business Operations Lead': {
-    course: 'Business Center Management Professional',
-    detail:
-      'Learn the operations, planning, and leadership skills needed to run modern service or trade programs.',
+    skills: [
+      { name: 'Workflow strategy', progress: 75, courses: ['Business Center Management Professional'] },
+      { name: 'Resource planning', progress: 80, courses: ['Business Center Management Professional'] },
+      { name: 'Performance metrics', progress: 70, courses: ['Business Center Management Professional'] },
+    ],
+    recommendation: {
+      course: 'Business Center Management Professional',
+      detail:
+        'Learn the operations, planning, and leadership skills needed to run modern service or trade programs.',
+    },
   },
 }
+
+const careerTargets = Object.keys(careerProfiles)
 
 const credentialBadges = [
   {
@@ -373,7 +403,9 @@ const quizRecommendations: Record<string, { title: string; description: string; 
 
 export function Homepage() {
   const [recentPrograms, setRecentPrograms] = useState(FALLBACK_PROGRAMS)
+  const [successTickerItems, setSuccessTickerItems] = useState<string[]>(successTicker)
   const [isLoading, setIsLoading] = useState(true)
+  const [isTickerLoading, setIsTickerLoading] = useState(true)
   const [activeQuestion, setActiveQuestion] = useState(0)
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({})
   const [showQuizResult, setShowQuizResult] = useState(false)
@@ -401,7 +433,24 @@ export function Homepage() {
       }
     }
 
+    const fetchSuccessTicker = async () => {
+      try {
+        const response = await fetch('/api/v1/success-ticker')
+        if (!response.ok) throw new Error('Failed to fetch success ticker')
+        const result = await response.json()
+        if (Array.isArray(result.data) && result.data.length > 0) {
+          setSuccessTickerItems(result.data)
+        }
+      } catch (error) {
+        console.error('Error fetching success ticker:', error)
+        setSuccessTickerItems(successTicker)
+      } finally {
+        setIsTickerLoading(false)
+      }
+    }
+
     fetchPrograms()
+    fetchSuccessTicker()
   }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -462,7 +511,7 @@ export function Homepage() {
               <div className="mt-8 space-y-6">
                 <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
                   <label htmlFor="career-select" className="text-sm font-semibold text-slate-700">
-                    Target career
+                    Your target career
                   </label>
                   <select
                     id="career-select"
@@ -476,24 +525,43 @@ export function Homepage() {
                   </select>
                 </div>
 
-                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Required skills</p>
-                  <ul className="mt-4 space-y-3">
-                    {careerSkills[selectedCareer].map((skill) => (
-                      <li key={skill} className="rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Recommended course</p>
-                  <div className="mt-4 rounded-3xl bg-white p-5">
-                    <h3 className="text-lg font-semibold text-slate-900">{careerRecommendations[selectedCareer].course}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">{careerRecommendations[selectedCareer].detail}</p>
+                <motion.div
+                  key={selectedCareer}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-6"
+                >
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Required skills</p>
+                    <div className="mt-4 space-y-4">
+                      {careerProfiles[selectedCareer].skills.map((skill) => (
+                        <div key={skill.name} className="space-y-3 rounded-3xl border border-slate-200 bg-white p-4">
+                          <div className="flex items-center justify-between gap-4 text-sm font-medium text-slate-900">
+                            <span>{skill.name}</span>
+                            <span className="text-slate-500">{skill.progress}%</span>
+                          </div>
+                          <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                            <div className="h-full rounded-full bg-emerald-600 transition-all duration-500"
+                              style={{ width: `${skill.progress}%` }}
+                            />
+                          </div>
+                          <p className="text-sm text-slate-600">
+                            Courses that support this skill: {skill.courses.join(', ')}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Recommended course</p>
+                    <div className="mt-4 rounded-3xl bg-white p-5">
+                      <h3 className="text-lg font-semibold text-slate-900">{careerProfiles[selectedCareer].recommendation.course}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{careerProfiles[selectedCareer].recommendation.detail}</p>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -545,11 +613,21 @@ export function Homepage() {
               </div>
 
               <div className="mt-8 space-y-4 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-5">
-                {successTicker.map((item, index) => (
-                  <div key={index} className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
-                    {item}
+                {isTickerLoading ? (
+                  <div className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-400 shadow-sm">
+                    Loading recent outcomes...
                   </div>
-                ))}
+                ) : successTickerItems.length > 0 ? (
+                  successTickerItems.map((item, index) => (
+                    <div key={index} className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
+                      {item}
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
+                    No recent learner outcomes are available right now.
+                  </div>
+                )}
               </div>
             </div>
           </div>

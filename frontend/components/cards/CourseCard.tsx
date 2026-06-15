@@ -28,6 +28,8 @@ export interface CourseCardProps {
   level: 'Beginner' | 'Intermediate' | 'Advanced'
   progress?: number
   enrolled?: boolean
+  outcome?: string
+  skillTags?: string[]
   href: string
 }
 
@@ -44,8 +46,11 @@ export function CourseCard({
   level,
   progress,
   enrolled = false,
+  outcome,
+  skillTags,
   href,
 }: CourseCardProps) {
+  const headline = outcome ?? title
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
   const progressValue = progress ?? 0
 
@@ -83,8 +88,11 @@ export function CourseCard({
 
         <div className="space-y-3">
           <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-[#1a6b53]">
-            {title}
+            {headline}
           </h3>
+          {outcome ? (
+            <p className="text-sm text-slate-600">{title}</p>
+          ) : null}
           <div className="flex items-center gap-3">
             <Avatar imageSrc={instructor.avatarUrl} name={instructor.name} size="sm" />
             <div>
@@ -123,6 +131,19 @@ export function CourseCard({
               <span>{progressValue}%</span>
             </div>
             <Progress value={progressValue} className="h-3 rounded-full bg-slate-200" />
+          </div>
+        ) : null}
+
+        {skillTags?.length ? (
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Skill tags</p>
+            <div className="flex flex-wrap gap-2">
+              {skillTags.map((tag) => (
+                <span key={tag} className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         ) : null}
 

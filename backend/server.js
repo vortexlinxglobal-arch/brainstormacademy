@@ -171,6 +171,32 @@ app.get('/v1/programs', async (req, res) => {
   }
 });
 
+app.get('/v1/success-ticker', async (req, res) => {
+  try {
+    const limit = Number(req.query.limit) || 8;
+    const { data, error } = await supabase
+      .from('students')
+      .select('id, first_name, last_name, enrollment_status, updated_at, enrollments!left(trade_id, trades(name))')
+      .eq('enrollment_status', 'graduated')
+      .order('updated_at', { ascending: false })
+      .limit(limit);
+
+    if (error) return respond(res, { error: error.message }, 400);
+
+    const messages = (data || []).map((student) => {
+      const name = `${student.first_name || 'A learner'} ${student.last_name || ''}`.trim();
+      const tradeName = Array.isArray(student.enrollments) && student.enrollments[0]?.trade?.name
+        ? student.enrollments[0].trade.name
+        : 'program';
+      return `${name} just earned their ${tradeName} certification.`;
+    });
+
+    return respond(res, { data: messages });
+  } catch (error) {
+    return respond(res, { error: error.message }, 500);
+  }
+});
+
 app.post('/v1/admissions', async (req, res) => {
   try {
     const {
