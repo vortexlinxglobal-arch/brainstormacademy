@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Modal } from '@/components/ui/modal'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { CertificationPathway } from '@/components/sections/CertificationPathway'
 import { CourseCard } from '@/components/cards/CourseCard'
@@ -164,6 +165,116 @@ const platformHighlights = [
   },
 ]
 
+const workShowcase = [
+  {
+    id: '1',
+    title: 'Electrical systems prototype',
+    caption: 'A student-built wiring dashboard for real installations.',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop',
+  },
+  {
+    id: '2',
+    title: 'Hospitality operations plan',
+    caption: 'A live service blueprint used in training cohorts.',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop',
+  },
+  {
+    id: '3',
+    title: 'Digital business case study',
+    caption: 'A course capstone project aligned to employer needs.',
+    image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=600&fit=crop',
+  },
+  {
+    id: '4',
+    title: 'Creative portfolio showcase',
+    caption: 'Student work that demonstrates real creative skills.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop',
+  },
+]
+
+const careerTargets = [
+  'Cybersecurity Analyst',
+  'Hospitality Manager',
+  'Creative Designer',
+  'Business Operations Lead',
+]
+
+const careerSkills: Record<string, string[]> = {
+  'Cybersecurity Analyst': ['Network security', 'Threat analysis', 'System protection'],
+  'Hospitality Manager': ['Service leadership', 'Event planning', 'Customer operations'],
+  'Creative Designer': ['Visual design', 'Brand storytelling', 'Portfolio creation'],
+  'Business Operations Lead': ['Workflow strategy', 'Resource planning', 'Performance metrics'],
+}
+
+const careerRecommendations: Record<string, { course: string; detail: string }> = {
+  'Cybersecurity Analyst': {
+    course: 'Networking & System Security Installation',
+    detail:
+      'This path helps you develop the technical skills employers want for entry-level cybersecurity and infrastructure roles.',
+  },
+  'Hospitality Manager': {
+    course: 'Catering & Hospitality Training',
+    detail:
+      'Designed for learners who want to lead service teams, manage venues, and deliver excellent guest experiences.',
+  },
+  'Creative Designer': {
+    course: 'Fashion Design & Garment Making',
+    detail:
+      'A practical pathway for learners who want to build creative portfolios and launch design services.',
+  },
+  'Business Operations Lead': {
+    course: 'Business Center Management Professional',
+    detail:
+      'Learn the operations, planning, and leadership skills needed to run modern service or trade programs.',
+  },
+}
+
+const credentialBadges = [
+  {
+    id: '1',
+    title: 'NSQ Accredited',
+    issuer: 'National Skills Council',
+    description: 'Nationally recognized competency-based certification for skilled training pathways.',
+  },
+  {
+    id: '2',
+    title: 'Industry-Backed',
+    issuer: 'Employer Partners',
+    description: 'Designed with employer input so your credential maps to real job requirements.',
+  },
+  {
+    id: '3',
+    title: 'Practical Competency',
+    issuer: 'Certification Board',
+    description: 'Focuses on demonstrable skill mastery rather than time spent in class.',
+  },
+]
+
+const outcomePrograms = [
+  {
+    id: '1',
+    outcome: 'Become a certified hospitality leader',
+    skills: ['Guest service', 'Event flow', 'Team leadership'],
+  },
+  {
+    id: '2',
+    outcome: 'Launch a modern business operations career',
+    skills: ['Business systems', 'Process design', 'Performance tracking'],
+  },
+  {
+    id: '3',
+    outcome: 'Build strong digital and network skills',
+    skills: ['Hardware support', 'Security basics', 'System setup'],
+  },
+]
+
+const successTicker = [
+  'Aisha just earned her Hospitality Certification.',
+  'John secured a role as a Junior Network Technician.',
+  'Folake completed a creative portfolio with industry feedback.',
+  'Emeka launched a business-ready operations plan.',
+]
+
 // Fallback data in case API fails
 const FALLBACK_PROGRAMS = [
   {
@@ -266,6 +377,9 @@ export function Homepage() {
   const [activeQuestion, setActiveQuestion] = useState(0)
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({})
   const [showQuizResult, setShowQuizResult] = useState(false)
+  const [selectedCareer, setSelectedCareer] = useState(careerTargets[0])
+  const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false)
+  const [selectedBadge, setSelectedBadge] = useState(credentialBadges[0])
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -311,7 +425,172 @@ export function Homepage() {
 
       <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 max-w-3xl space-y-4 text-center">
+          <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Competency Evidence Gallery</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">See student work that proves our outcomes.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Real course projects and practical work examples showing the skills learners build in our programs.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {workShowcase.map((item) => (
+                  <div key={item.id} className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-950/5 shadow-sm transition hover:shadow-md">
+                    <div className="relative h-40 overflow-hidden bg-slate-100">
+                      <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
+                      <p className="mt-2 text-sm text-slate-600">{item.caption}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Dream Job Mapper</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Match a career to the skills and courses you need.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Select a target career to see the job-critical skills and the Brainstorm courses that support them.
+                </p>
+              </div>
+
+              <div className="mt-8 space-y-6">
+                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                  <label htmlFor="career-select" className="text-sm font-semibold text-slate-700">
+                    Target career
+                  </label>
+                  <select
+                    id="career-select"
+                    value={selectedCareer}
+                    onChange={(event) => setSelectedCareer(event.target.value)}
+                    className="mt-3 w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                  >
+                    {careerTargets.map((career) => (
+                      <option key={career} value={career}>{career}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Required skills</p>
+                  <ul className="mt-4 space-y-3">
+                    {careerSkills[selectedCareer].map((skill) => (
+                      <li key={skill} className="rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Recommended course</p>
+                  <div className="mt-4 rounded-3xl bg-white p-5">
+                    <h3 className="text-lg font-semibold text-slate-900">{careerRecommendations[selectedCareer].course}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-600">{careerRecommendations[selectedCareer].detail}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Credential Showcase</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Verified badges that prove your training.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Showcasing the credentials and quality signals that build trust with learners and employers.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {credentialBadges.map((badge) => (
+                  <div key={badge.id} className="rounded-[1.75rem] border border-slate-200 bg-white p-5 text-center shadow-sm">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 mx-auto text-xl font-bold">
+                      ✓
+                    </div>
+                    <h3 className="mt-4 text-base font-semibold text-slate-900">{badge.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{badge.issuer}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedBadge(badge)
+                        setIsBadgeModalOpen(true)
+                      }}
+                      className="mt-4 inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      Verify
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">Live Success Ticker</p>
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Recent learner outcomes</h2>
+                <p className="text-base leading-8 text-slate-300">
+                  Real learner milestones that reinforce trust and show the specific outcomes our programs deliver.
+                </p>
+              </div>
+
+              <div className="mt-8 space-y-4 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-5">
+                {successTicker.map((item, index) => (
+                  <div key={index} className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="space-y-6 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Outcome-Based Pathways</p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Programs designed around what you will achieve.</h2>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {outcomePrograms.map((program) => (
+              <div key={program.id} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-xl font-semibold text-slate-900">{program.outcome}</h3>
+                <div className="mt-5 space-y-3">
+                  {program.skills.map((skill) => (
+                    <span key={skill} className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-700">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Modal
+        open={isBadgeModalOpen}
+        title={selectedBadge.title}
+        description={selectedBadge.issuer}
+        onClose={() => setIsBadgeModalOpen(false)}
+      >
+        <p className="text-sm text-slate-700">{selectedBadge.description}</p>
+      </Modal>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 max-w-3xl space-y-4 text-center mx-auto">
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Skill Assessment</p>
             <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Find the course best suited to your goals.</h2>
             <p className="text-base leading-8 text-slate-600 sm:text-lg">
