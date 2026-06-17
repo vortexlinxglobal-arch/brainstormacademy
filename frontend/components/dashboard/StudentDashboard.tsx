@@ -82,7 +82,7 @@ export function StudentDashboard({ profile, continueLearning, recommendedCourses
                 </div>
                 <div className="rounded-3xl border border-white/10 bg-white/10 p-5 shadow-xl shadow-black/10 backdrop-blur-xl">
                   <p className="text-xs uppercase tracking-[0.28em] text-emerald-100/70">Current program</p>
-                  <p className="mt-2 text-3xl font-semibold">Business Center Management</p>
+                  <p className="mt-2 text-3xl font-semibold">Network System & Security Installation</p>
                 </div>
                 <div className="rounded-3xl border border-white/10 bg-white/10 p-5 shadow-xl shadow-black/10 backdrop-blur-xl">
                   <p className="text-xs uppercase tracking-[0.28em] text-emerald-100/70">Next live class</p>

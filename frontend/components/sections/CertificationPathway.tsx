@@ -47,25 +47,25 @@ const sampleProgress = 68
 const liveCourseSchedule = [
   {
     id: '1',
-    name: 'Catering & Hospitality Training',
+    name: 'Network System & Security Installation',
     nextStart: 'July 8, 2026',
     duration: '12 weeks',
   },
   {
     id: '2',
-    name: 'Cosmetology & Beauty Therapy',
+    name: 'Computer Hardware Repair & Maintenance',
     nextStart: 'July 15, 2026',
     duration: '14 weeks',
   },
   {
     id: '3',
-    name: 'Fashion Design & Garment Making',
+    name: 'Web Applications Development (Frontend, Backend, Full-Stack)',
     nextStart: 'July 22, 2026',
     duration: '10 weeks',
   },
   {
     id: '4',
-    name: 'Networking & System Security Installation',
+    name: 'Catering & Hospitality Training',
     nextStart: 'August 1, 2026',
     duration: '8 weeks',
   },

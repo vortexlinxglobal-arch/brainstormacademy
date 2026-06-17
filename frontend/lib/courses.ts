@@ -64,7 +64,7 @@ export interface CourseDetailData {
 export const courseCatalog: CourseListItem[] = [
   {
     id: 'networking-system-security',
-    title: 'Networking and System Security Installation',
+    title: 'Network System & Security Installation',
     category: 'Technology',
     thumbnail: '/assets/course-thumbnails/Networking_result.webp',
     instructor: {
@@ -81,7 +81,7 @@ export const courseCatalog: CourseListItem[] = [
   },
   {
     id: 'website-design-development',
-    title: 'Website Design & Development',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
     category: 'Web Development',
     thumbnail: '/assets/course-thumbnails/web-design_result.webp',
     instructor: {
@@ -99,7 +99,7 @@ export const courseCatalog: CourseListItem[] = [
   {
     id: 'mobile-phone-repair',
     title: 'Mobile Phone Repair',
-    category: 'Electronics',
+    category: 'ICT & Digital Skills',
     thumbnail: '/assets/course-thumbnails/mobile-repair_result.webp',
     instructor: {
       name: 'Ashiru Ahamd Rufai',
@@ -115,7 +115,7 @@ export const courseCatalog: CourseListItem[] = [
   },
   {
     id: 'electrical-installations',
-    title: 'Electrical Installations',
+    title: 'Electrical Installation',
     category: 'Engineering',
     thumbnail: '/assets/course-thumbnails/electrical_result.webp',
     instructor: {
@@ -234,7 +234,7 @@ export const courseCatalog: CourseListItem[] = [
   },
   {
     id: 'hospitality-catering',
-    title: 'Hospitality & Catering',
+    title: 'Catering & Hospitality Training',
     category: 'Service',
     thumbnail: '/assets/course-thumbnails/hospitality_result.webp',
     instructor: {
@@ -285,8 +285,8 @@ export const courseCatalog: CourseListItem[] = [
   },
   {
     id: 'hardware-maintenance',
-    title: 'Hardware Maintenance',
-    category: 'Technology',
+    title: 'Computer Hardware Repair & Maintenance',
+    category: 'ICT & Digital Skills',
     thumbnail: '/assets/course-thumbnails/hardware_result.webp',
     instructor: {
       name: 'Ashiru Ahmad',
@@ -404,7 +404,7 @@ const baseModules: CourseDetailModule[] = [
 export const courseDetails: Record<string, CourseDetailData> = {
   'networking-system-security': {
     id: 'networking-system-security',
-    title: 'Networking and System Security Installation',
+    title: 'Network System & Security Installation',
     description:
       'Learn modern networking, secure installation, and access controls with a practical focus on real workplace deployments and NBTE certification readiness.',
     thumbnail: '/assets/course-thumbnails/Networking_result.webp',
@@ -431,7 +431,7 @@ export const courseDetails: Record<string, CourseDetailData> = {
   },
   'website-design-development': {
     id: 'website-design-development',
-    title: 'Website Design & Development',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
     description:
       'Build responsive, modern websites with practical design systems, HTML/CSS, JavaScript, and deployment workflows for business-ready digital studios.',
     thumbnail: '/assets/course-thumbnails/web-design_result.webp',
@@ -485,7 +485,7 @@ export const courseDetails: Record<string, CourseDetailData> = {
   },
   'electrical-installations': {
     id: 'electrical-installations',
-    title: 'Electrical Installations',
+    title: 'Electrical Installation',
     description:
       'Learn electrical wiring, installations, and systems troubleshooting with industry-aligned training for residential and commercial projects.',
     thumbnail: '/assets/course-thumbnails/electrical_result.webp',

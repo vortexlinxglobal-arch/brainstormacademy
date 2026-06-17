@@ -248,10 +248,10 @@ export default function SignupPage() {
                     <>
                       <option value="" disabled>No programs available</option>
                       <option value="TRADE001">Electrical Installation (TRADE001)</option>
-                      <option value="TRADE002">Plumbing & Gas Fitting (TRADE002)</option>
-                      <option value="TRADE003">Carpentry & Joinery (TRADE003)</option>
-                      <option value="TRADE004">Welding & Fabrication (TRADE004)</option>
-                      <option value="TRADE005">Automotive Technology (TRADE005)</option>
+                      <option value="TRADE002">Welding & Fabrication (TRADE002)</option>
+                      <option value="TRADE003">Carpentry, Upholstery & Joinery (TRADE003)</option>
+                      <option value="TRADE004">Fashion Design & Garment Making (TRADE004)</option>
+                      <option value="TRADE005">Catering & Hospitality Training (TRADE005)</option>
                     </>
                   )}
                 </select>

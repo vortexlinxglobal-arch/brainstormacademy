@@ -13,82 +13,142 @@ import { CertificationPathway } from '@/components/sections/CertificationPathway
 import { CourseCard } from '@/components/cards/CourseCard'
 import { Star, ArrowRight, CheckCircle } from 'lucide-react'
 
+type Program = {
+  id: string
+  title: string
+  category: string
+  image_url: string
+}
+
+const marqueeProgramItems = (programs: Program[]) => [...programs, ...programs]
+
+function ProgramCard({ program }: { program: Program }) {
+  return (
+    <div className="overflow-hidden rounded-[1.5rem] h-full">
+      <div className="relative h-80 overflow-hidden">
+        <Image
+          src={program.image_url}
+          alt={program.title}
+          fill
+          className="object-cover transition duration-700 hover:scale-105"
+        />
+          id: '4',
+          title: 'Fashion Design & Garment Making',
+        <p className="text-xs uppercase tracking-[0.28em] text-sky-500">{program.category}</p>
+        <h3 className="mt-2 text-base font-semibold text-slate-900 line-clamp-2">{program.title}</h3>
+      </div>
+    </div>
+  )
+}
+
+function ProgramMarqueeRow({
+  programs,
+  reverse = false,
+  duration = 35,
+}: {
+  programs: Program[]
+  reverse?: boolean
+  duration?: number
+}) {
+  return (
+    <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-0 shadow-sm">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent z-10" />
+        <div
+          className="flex items-stretch flex-nowrap gap-0"
+          style={{
+            animation: `${reverse ? 'marqueeReverse' : 'marquee'} ${duration}s linear infinite`,
+            willChange: 'transform',
+          }}
+        >
+          {marqueeProgramItems(programs).map((program, index) => (
+            <div key={`${program.id}-${reverse ? 'bottom' : 'top'}-${index}`} className="min-w-[304px] flex-shrink-0 px-1.5 py-4">
+              <ProgramCard program={program} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const featuredCourses = [
   {
-    id: '1',
-    title: 'Catering & Hospitality Training',
-    outcome: 'Become a Certified Hospitality Operations Lead',
-    skillTags: ['Guest service', 'Event coordination', 'Team leadership'],
-    category: 'Healthcare',
-    thumbnail: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=300&fit=crop',
+    id: 'networking-system-security',
+    title: 'Network System & Security Installation',
+    outcome: 'Build and protect modern computer networks with practical skills',
+    skillTags: ['Network setup', 'Security hardening', 'Systems troubleshooting'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Dr. Chioma Okafor',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chioma',
-      title: 'MD, FWACS',
-    },
-    rating: 4.8,
-    ratingCount: 342,
-    price: '₦45,000',
-    duration: '12 weeks',
-    level: 'Beginner' as const,
-    href: '/courses/nursing-1',
-  },
-  {
-    id: '2',
-    title: 'Business Center Management Professional',
-    outcome: 'Lead a Modern Business Center with Confidence',
-    skillTags: ['Operations planning', 'Customer experience', 'Financial control'],
-    category: 'Business',
-    thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
-    instructor: {
-      name: 'Mr. Aminu Lagos',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aminu',
-      title: 'Business Consultant',
+      name: 'Eng. Adebayo Oluwafemi',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Adebayo',
+      title: 'Network Specialist',
     },
     rating: 4.9,
     ratingCount: 521,
     price: '₦52,000',
-    duration: '14 weeks',
+    duration: '12 weeks',
     level: 'Intermediate' as const,
-    href: '/courses/bcm-pro',
+    href: '/courses/network-system-security',
   },
   {
-    id: '3',
-    title: 'ICT Fundamentals & Digital Literacy',
-    outcome: 'Build Practical IT Systems and Support Skills',
-    skillTags: ['Networking', 'Desktop support', 'Systems setup'],
-    category: 'Technology',
-    thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop',
+    id: 'computer-hardware-maintenance',
+    title: 'Computer Hardware Repair & Maintenance',
+    outcome: 'Diagnose and fix computer systems with confidence',
+    skillTags: ['Hardware repair', 'System diagnostics', 'Preventive maintenance'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Eng. Adebayo Oluwafemi',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Adebayo',
-      title: 'Software Engineer',
+      name: 'Eng. Kemi Adebayo',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kemi',
+      title: 'Hardware Technician',
     },
-    rating: 4.7,
-    ratingCount: 428,
-    price: '₦38,000',
+    rating: 4.8,
+    ratingCount: 398,
+    price: '₦45,000',
     duration: '10 weeks',
     level: 'Beginner' as const,
-    href: '/courses/ict-fundamentals',
+    href: '/courses/computer-hardware-maintenance',
   },
   {
-    id: '4',
-    title: 'Entrepreneurship & Business Startup',
-    outcome: 'Launch Your Own Tech-enabled Business',
-    skillTags: ['Business model', 'Pitching', 'Market validation'],
-    category: 'Entrepreneurship',
-    thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
+    id: 'web-applications-development',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    outcome: 'Build modern web applications with a complete full-stack workflow',
+    skillTags: ['Frontend', 'Backend', 'APIs'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Mrs. Zainab Hassan',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zainab',
-      title: 'Business Coach',
+      name: 'Ms. Sade Ogundele',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sade',
+      title: 'Software Architect',
     },
-    rating: 4.6,
-    ratingCount: 289,
-    price: '₦35,000',
-    duration: '8 weeks',
+    rating: 4.9,
+    ratingCount: 467,
+    price: '₦48,000',
+    duration: '14 weeks',
+    level: 'Intermediate' as const,
+    href: '/courses/web-applications-development',
+  },
+  {
+    id: 'catering-hospitality-training',
+    title: 'Catering & Hospitality Training',
+    outcome: 'Lead hospitality operations and service excellence',
+    skillTags: ['Service design', 'Food preparation', 'Guest experience'],
+    category: 'Vocational Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=500&h=300&fit=crop',
+    instructor: {
+      name: 'Chef Tunde Ade',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Tunde',
+      title: 'Hospitality Trainer',
+    },
+    rating: 4.8,
+    ratingCount: 389,
+    price: '₦42,000',
+    duration: '12 weeks',
     level: 'Beginner' as const,
-    href: '/courses/entrepreneurship',
+    href: '/courses/catering-hospitality-training',
   },
 ]
 
@@ -118,40 +178,40 @@ const testimonials = [
 
 const programCategories = [
   {
-    title: 'Cosmetology & Beauty Therapy',
-    description: 'Professional salon training & entrepreneurship',
-    badge: 'Online + practical',
-    emoji: '💄',
-  },
-  {
-    title: 'Electrical Installation',
-    description: 'Industry-ready practical electrical skills',
-    badge: 'Blended learning',
-    emoji: '💡',
-  },
-  {
-    title: 'Networking & System Security Installation',
-    description: 'Computer networking, hardware, and software support',
-    badge: 'Online & hybrid',
+    title: 'Network System & Security Installation',
+    description: 'Build and protect local and cloud-based networks with practical security skills.',
+    badge: 'Hybrid training',
     emoji: '💻',
   },
   {
-    title: 'Fashion Design & Garment Making',
-    description: 'Design, tailoring, and style business coaching',
-    badge: 'In-person studio',
-    emoji: '👗',
+    title: 'Computer Hardware Repair & Maintenance',
+    description: 'Hands-on system repair, diagnostics, and preventive maintenance for computing devices.',
+    badge: 'Practical labs',
+    emoji: '🛠️',
   },
   {
-    title: 'Painting, Decoration & Interior Design',
-    description: 'Creative decor, finishing and space styling',
-    badge: 'Hands-on practical',
-    emoji: '🎨',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    description: 'Create full-stack web applications with modern tools and deployment workflows.',
+    badge: 'Project-based',
+    emoji: '🌐',
   },
   {
     title: 'Catering & Hospitality Training',
-    description: 'Hospitality service, catering and event skills',
-    badge: 'Blended programs',
+    description: 'Prepare for hospitality operations, event service, and catering management roles.',
+    badge: 'Service-focused',
     emoji: '🍽️',
+  },
+  {
+    title: 'Cosmetology & Beauty Therapy',
+    description: 'Develop salon skills, beauty therapy techniques, and client-care best practices.',
+    badge: 'Studio practice',
+    emoji: '💄',
+  },
+  {
+    title: 'Fashion Design & Garment Making',
+    description: 'Learn design, pattern making, and tailoring for modern fashion production.',
+    badge: 'Creative studio',
+    emoji: '👗',
   },
 ]
 
@@ -209,12 +269,12 @@ const careerProfiles: Record<
 > = {
   'Cybersecurity Analyst': {
     skills: [
-      { name: 'Network security', progress: 80, courses: ['ICT Fundamentals', 'Networking & System Security Installation'] },
-      { name: 'Threat analysis', progress: 65, courses: ['Networking & System Security Installation'] },
-      { name: 'System protection', progress: 70, courses: ['ICT Fundamentals', 'Networking & System Security Installation'] },
+      { name: 'Network security', progress: 80, courses: ['Network System & Security Installation'] },
+      { name: 'Threat analysis', progress: 65, courses: ['Network System & Security Installation'] },
+      { name: 'System protection', progress: 70, courses: ['Network System & Security Installation'] },
     ],
     recommendation: {
-      course: 'Networking & System Security Installation',
+      course: 'Network System & Security Installation',
       detail:
         'This path helps you develop the technical skills employers want for entry-level cybersecurity and infrastructure roles.',
     },
@@ -243,19 +303,19 @@ const careerProfiles: Record<
         'A practical pathway for learners who want to build creative portfolios and launch design services.',
     },
   },
-  'Business Operations Lead': {
+  'Technical Support Lead': {
     skills: [
-      { name: 'Workflow strategy', progress: 75, courses: ['Business Center Management Professional'] },
-      { name: 'Resource planning', progress: 80, courses: ['Business Center Management Professional'] },
-      { name: 'Performance metrics', progress: 70, courses: ['Business Center Management Professional'] },
+      { name: 'System maintenance', progress: 75, courses: ['Computer Hardware Repair & Maintenance'] },
+      { name: 'Troubleshooting', progress: 80, courses: ['Computer Hardware Repair & Maintenance'] },
+      { name: 'Operation reliability', progress: 70, courses: ['Computer Hardware Repair & Maintenance'] },
     ],
     recommendation: {
-      course: 'Business Center Management Professional',
+      course: 'Computer Hardware Repair & Maintenance',
       detail:
-        'Learn the operations, planning, and leadership skills needed to run modern service or trade programs.',
+        'Develop the practical skills needed to maintain and repair computer systems for small businesses and service centers.',
     },
   },
-}
+} 
 
 const careerTargets = Object.keys(careerProfiles)
 
@@ -309,38 +369,38 @@ const successTicker = [
 const FALLBACK_PROGRAMS = [
   {
     id: '1',
-    title: 'Woodwork & Craftsmanship',
-    category: 'Creative Trade',
+    title: 'Network System & Security Installation',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/painting-1.jpg',
   },
   {
     id: '2',
-    title: 'Digital Media Production',
-    category: 'Creative Tech',
+    title: 'Computer Hardware Repair & Maintenance',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/hospitality-1.jpg',
   },
   {
     id: '3',
-    title: 'Hospitality & Event Styling',
-    category: 'Service Skills',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/hospitality-4.jpg',
   },
   {
     id: '4',
-    title: 'Electrical & Solar Installation',
-    category: 'Energy Trade',
+    title: 'Mobile Phone Repair',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/painting-5.jpg',
   },
   {
     id: '5',
-    title: 'Fashion Design Labs',
-    category: 'Creative Enterprise',
+    title: 'Catering & Hospitality Training',
+    category: 'Vocational Skills',
     image_url: '/images/gallery/painting-3.jpg',
   },
   {
     id: '6',
-    title: 'ICT & Network Cabling',
-    category: 'Digital Skills',
+    title: 'Cosmetology & Beauty Therapy',
+    category: 'Vocational Skills',
     image_url: '/images/gallery/hospitality-6.jpg',
   },
 ]
@@ -380,26 +440,26 @@ const quizQuestions = [
 
 const quizRecommendations: Record<string, { title: string; description: string; course: string }> = {
   tech: {
-    title: 'ICT Fundamentals & Digital Literacy',
-    description: 'A course built for learners who want to build technical confidence and enter digital roles.',
-    course: 'ICT Fundamentals',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    description: 'A course built for learners who want to build full-stack web applications and digital products.',
+    course: 'Web Applications Development (Frontend, Backend, Full-Stack)',
   },
   business: {
-    title: 'Business Center Management Professional',
-    description: 'Perfect for future business leaders and operations managers ready to lead teams.',
-    course: 'Business Center Management',
+    title: 'Computer Hardware Repair & Maintenance',
+    description: 'Ideal for learners who want to manage and maintain computing systems in business environments.',
+    course: 'Computer Hardware Repair & Maintenance',
   },
   creative: {
     title: 'Fashion Design & Garment Making',
-    description: 'Designed for creative learners who want to build a powerful portfolio and hands-on skills.',
-    course: 'Fashion Design',
+    description: 'Designed for creative learners who want to build a powerful portfolio and hands-on tailoring skills.',
+    course: 'Fashion Design & Garment Making',
   },
   service: {
     title: 'Catering & Hospitality Training',
     description: 'Ideal for service-focused learners aiming for practical hospitality and operations roles.',
-    course: 'Hospitality Training',
+    course: 'Catering & Hospitality Training',
   },
-}
+} 
 
 export function Homepage() {
   const [recentPrograms, setRecentPrograms] = useState(FALLBACK_PROGRAMS)
@@ -908,7 +968,7 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-slate-950 text-white">
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
@@ -918,89 +978,40 @@ export function Homepage() {
             className="space-y-10"
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center mx-auto max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-500">
                 Recent Programs
               </p>
-              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                 Discover the latest programs in motion.
               </h2>
-              <p className="text-base leading-7 text-slate-300 sm:text-lg">
-                A living gallery of recent program launches, designed with smooth flow and responsive polish for every screen.
+              <p className="text-base leading-7 text-slate-600 sm:text-lg">
+                Continuous flow of recent launches with elegant, seamless motion across mirrored tracks.
               </p>
             </motion.div>
 
             <motion.div variants={itemVariants} className="space-y-6">
               <div className="grid gap-4 lg:hidden">
                 {recentPrograms.map((program) => (
-                  <div key={program.id} className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
+                  <div key={program.id} className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm">
                     <div className="relative h-64 overflow-hidden">
                       <Image
                         src={program.image_url}
                         alt={program.title}
                         fill
-                        className="object-cover transition duration-700 group-hover:scale-105"
+                        className="object-cover transition duration-700 hover:scale-105"
                       />
                     </div>
-                    <div className="space-y-2 p-5">
-                      <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                      <h3 className="text-xl font-semibold text-white">{program.title}</h3>
+                    <div className="p-5 bg-white">
+                      <p className="text-xs uppercase tracking-[0.28em] text-sky-500">{program.category}</p>
+                      <h3 className="mt-3 text-xl font-semibold text-slate-900">{program.title}</h3>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="hidden lg:space-y-6">
-                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
-                  <div className="relative overflow-hidden">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
-                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marquee 30s linear infinite' }}>
-                      {[...recentPrograms, ...recentPrograms].map((program, index) => (
-                        <div key={`${program.id}-top-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
-                          <div className="relative h-64 overflow-hidden">
-                            <Image
-                              src={program.image_url}
-                              alt={program.title}
-                              fill
-                              className="object-cover transition duration-700 hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
-                          </div>
-                          <div className="p-5">
-                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
-                  <div className="relative overflow-hidden">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
-                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marqueeReverse 32s linear infinite' }}>
-                      {[...recentPrograms.slice().reverse(), ...recentPrograms.slice().reverse()].map((program, index) => (
-                        <div key={`${program.id}-bottom-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
-                          <div className="relative h-64 overflow-hidden">
-                            <Image
-                              src={program.image_url}
-                              alt={program.title}
-                              fill
-                              className="object-cover transition duration-700 hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
-                          </div>
-                          <div className="p-5">
-                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+              <div className="hidden lg:grid gap-6">
+                <ProgramMarqueeRow programs={recentPrograms} duration={35} />
+                <ProgramMarqueeRow programs={recentPrograms} reverse duration={35} />
               </div>
             </motion.div>
           </motion.div>
