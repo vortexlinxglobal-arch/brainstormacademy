@@ -74,27 +74,27 @@ const liveCourseSchedule = [
 const expertInstructors = [
   {
     id: '1',
-    name: 'Aisha Bello',
-    specialty: 'Senior Cloud Architect',
-    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=Aisha',
+    name: "Sa'adatu Muhammad",
+    specialty: 'Beauty Therapist Facilitator',
+    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=saadatu',
   },
   {
     id: '2',
-    name: 'Kemi Adeyemi',
-    specialty: 'Lead Data Science Mentor',
-    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=Kemi',
+    name: "Ashir Rufa'i",
+    specialty: 'Computer Hardware Facilitator',
+    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=ashir',
   },
   {
     id: '3',
-    name: 'Emeka Nwosu',
-    specialty: 'Cybersecurity Program Director',
-    avatar: 'https://api.dicebear.com/7.x/male/svg?seed=Emeka',
+    name: 'Fatima Suleiman',
+    specialty: 'Hospitality & Catering Facilitator',
+    avatar: 'https://api.dicebear.com/7.x/male/svg?seed=fatima',
   },
   {
     id: '4',
-    name: 'Sade Ogundele',
-    specialty: 'Digital Business Strategist',
-    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=Sade',
+    name: 'Lukman Ibrahim',
+    specialty: 'Lead Networking & Systems Security',
+    avatar: 'https://api.dicebear.com/7.x/female/svg?seed=lukman',
   },
 ]
 

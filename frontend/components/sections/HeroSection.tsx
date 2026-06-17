@@ -101,7 +101,7 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
                   </Link>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-3">
+                {/* <div className="grid gap-4 sm:grid-cols-3">
                   <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5 text-center shadow-sm shadow-slate-200/60">
                     <p className="text-xs uppercase tracking-[0.34em] text-slate-500">Outcome</p>
                     <p className="mt-3 text-3xl font-semibold text-slate-950">98%</p>
@@ -117,7 +117,7 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
                     <p className="mt-3 text-3xl font-semibold text-slate-950">15K+</p>
                     <p className="mt-2 text-sm text-slate-500">Skilled graduates</p>
                   </div>
-                </div>
+                </div> */}
               </motion.div>
             </AnimatePresence>
           </div>

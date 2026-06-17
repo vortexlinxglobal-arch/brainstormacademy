@@ -246,10 +246,9 @@ export function CourseDetailPage({
   const totalDuration = modules.length * 2
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(10,108,63,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.14),transparent_45%)] bg-white dark:bg-slate-950">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a6b53]/20 to-transparent" />
+      <section className="relative overflow-hidden bg-white">
         <div className="relative px-4 py-10 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <motion.div
@@ -262,38 +261,34 @@ export function CourseDetailPage({
               <div className="space-y-6 lg:col-span-2">
                 {/* Breadcrumb */}
                 <div className="flex flex-wrap items-center gap-2 text-sm">
-                  <Link href="/courses" className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-200">
+                  <Link href="/courses" className="text-slate-700 hover:text-slate-900">
                     Courses
                   </Link>
                   <span className="text-slate-400">/</span>
-                  <Link href={`/courses?category=${category}`} className="text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-200">
+                  <Link href={`/courses?category=${category}`} className="text-slate-700 hover:text-slate-900">
                     {category}
                   </Link>
                   <span className="text-slate-400">/</span>
-                  <span className="text-slate-900 dark:text-slate-100">{title}</span>
+                  <span className="text-slate-900">{title}</span>
                 </div>
 
                 {/* Title and Badges */}
                 <div className="space-y-4">
-                  <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                  <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                     {title}
                   </h1>
-                  <p className="text-lg text-slate-700 dark:text-slate-300">
+                  <p className="text-lg text-slate-700">
                     {description}
                   </p>
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge className="rounded-full bg-[#1a6b53] px-4 py-2 text-white">
                       {level}
                     </Badge>
-                    <Badge className="rounded-full border-[#D4AF37]/50 bg-[#FEF7E7] text-slate-900 dark:border-[#D4AF37]/30 dark:bg-slate-900 dark:text-slate-200">
+                    <Badge className="rounded-full border-[#D4AF37]/50 bg-[#FEF7E7] text-slate-900">
                       {category}
                     </Badge>
                     {tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="outline"
-                        className="rounded-full border-[#D4AF37]/40 text-slate-700 hover:bg-[#FEF7E7] dark:border-[#D4AF37]/30 dark:text-slate-200"
-                      >
+                      <Badge key={tag} variant="outline" className="rounded-full border-[#D4AF37]/40 text-slate-700 hover:bg-[#FEF7E7]">
                         {tag}
                       </Badge>
                     ))}
@@ -305,48 +300,42 @@ export function CourseDetailPage({
                   <div className="flex items-center gap-3">
                     <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                     <div>
-                      <p className="text-sm text-slate-700 dark:text-slate-400">Rating</p>
-                      <p className="font-semibold text-slate-900 dark:text-white">
-                        {rating} ({ratingCount})
-                      </p>
+                      <p className="text-sm text-slate-700">Rating</p>
+                      <p className="font-semibold text-slate-900">{rating} ({ratingCount})</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Users className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-700 dark:text-slate-400">Students</p>
-                      <p className="font-semibold text-slate-900 dark:text-white">
-                        {studentCount.toLocaleString()}+
-                      </p>
+                      <p className="text-sm text-slate-700">Students</p>
+                      <p className="font-semibold text-slate-900">{studentCount.toLocaleString()}+</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Clock className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-700 dark:text-slate-400">Duration</p>
-                      <p className="font-semibold text-slate-900 dark:text-white">{duration}</p>
+                      <p className="text-sm text-slate-700">Duration</p>
+                      <p className="font-semibold text-slate-900">{duration}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <BookOpen className="h-5 w-5 text-slate-700" />
                     <div>
-                      <p className="text-sm text-slate-700 dark:text-slate-400">Lessons</p>
-                      <p className="font-semibold text-slate-900 dark:text-white">
-                        {totalLessons}
-                      </p>
+                      <p className="text-sm text-slate-700">Lessons</p>
+                      <p className="font-semibold text-slate-900">{totalLessons}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Instructor */}
-                <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6 dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-6">
                   <Avatar imageSrc={instructor.avatar} name={instructor.name} size="lg" />
                   <div className="flex-1">
-                    <p className="text-sm text-slate-700 dark:text-slate-400">Instructor</p>
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    <p className="text-sm text-slate-700">Instructor</p>
+                    <h3 className="text-lg font-semibold text-slate-900">
                       {instructor.name}
                     </h3>
-                    <p className="text-sm text-slate-700 dark:text-slate-400">
+                    <p className="text-sm text-slate-700">
                       {instructor.students.toLocaleString()}+ students
                     </p>
                   </div>
@@ -354,14 +343,11 @@ export function CourseDetailPage({
               </div>
 
               {/* Sidebar CTA */}
-              <motion.div
-                variants={itemVariants}
-                className="space-y-4 lg:sticky lg:top-6 lg:h-fit lg:self-start"
-              >
-                <Card className="rounded-2xl border-slate-200 shadow-lg dark:border-slate-800">
+                <motion.div variants={itemVariants} className="space-y-4 lg:sticky lg:top-6 lg:h-fit lg:self-start">
+                <Card className="rounded-2xl border-slate-200 shadow-lg">
                   <CardContent className="space-y-6 p-6">
                     {/* Thumbnail */}
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-900 sm:aspect-[16/9]">
+                      <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100 sm:aspect-[16/9]">
                       <Image
                         src={thumbnail}
                         alt={title}
@@ -369,7 +355,7 @@ export function CourseDetailPage({
                         height={450}
                         className="h-full w-full object-cover"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 transition hover:bg-black/40">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition hover:bg-black/30">
                         <Play className="h-12 w-12 fill-white text-white" />
                       </div>
                     </div>
@@ -377,20 +363,18 @@ export function CourseDetailPage({
                     {/* Price and CTA */}
                     <div className="space-y-4">
                       <div>
-                        <p className="text-sm text-slate-700 dark:text-slate-400">Price</p>
-                        <p className="text-3xl font-bold text-slate-900 dark:text-white">
-                          {price}
-                        </p>
+                        <p className="text-sm text-slate-700">Price</p>
+                        <p className="text-3xl font-bold text-slate-900">{price}</p>
                       </div>
 
                       {isEnrolled ? (
                         <>
                           <div className="space-y-2">
                             <div className="flex items-center justify-between text-sm">
-                              <span className="font-medium text-slate-700 dark:text-slate-300">
+                              <span className="font-medium text-slate-700">
                                 Progress
                               </span>
-                              <span className="text-slate-700 dark:text-slate-400">
+                              <span className="text-slate-700">
                                 {progress}%
                               </span>
                             </div>
@@ -419,7 +403,7 @@ export function CourseDetailPage({
                     </div>
 
                     {/* Actions */}
-                    <div className="space-y-2 border-t border-slate-200 pt-6 dark:border-slate-800">
+                    <div className="space-y-2 border-t border-slate-200 pt-6">
                       <Button
                         variant="outline"
                         size="lg"
@@ -439,7 +423,7 @@ export function CourseDetailPage({
                     </div>
 
                     {/* What You'll Learn */}
-                    <div className="space-y-3 border-t border-slate-200 pt-6 dark:border-slate-800">
+                    <div className="space-y-3 border-t border-slate-200 pt-6">
                       <p className="font-semibold text-slate-900 dark:text-white">
                         What you'll learn
                       </p>
@@ -452,7 +436,7 @@ export function CourseDetailPage({
                         ].map((item, index) => (
                           <li key={index} className="flex items-start gap-3 text-sm">
                             <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
-                            <span className="text-slate-700 dark:text-slate-300">{item}</span>
+                            <span className="text-slate-700">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -469,10 +453,10 @@ export function CourseDetailPage({
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-            <TabsList className="relative flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto rounded-full bg-slate-100 px-2 py-2 text-left shadow-sm shadow-slate-200/50 dark:bg-slate-900 dark:shadow-none lg:w-auto">
+            <TabsList className="relative flex w-full snap-x snap-mandatory items-center gap-3 overflow-x-auto rounded-full bg-slate-100 px-2 py-2 text-left shadow-sm shadow-slate-200/50 lg:w-auto">
               <TabsTrigger
                 value="overview"
-                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white dark:bg-slate-900/95 dark:text-slate-200 dark:hover:border-slate-700 dark:hover:bg-slate-950 data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg data-[state=active]:dark:bg-slate-700 data-[state=active]:dark:text-white"
+                className="min-w-[9rem] rounded-full border border-transparent bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-white data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-lg"
               >
                 Overview
               </TabsTrigger>
@@ -508,7 +492,7 @@ export function CourseDetailPage({
                 initial={{ opacity: 0, y: 24 }}
                 animate={activeTab === 'overview' ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4 }}
-                className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-950/95"
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-sm"
               >
                 <div className="grid gap-6 p-6 lg:grid-cols-[1.3fr_0.95fr]">
                   <div className="space-y-5">
@@ -517,8 +501,8 @@ export function CourseDetailPage({
                       Course overview
                     </div>
                     <div className="space-y-4">
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">A practical, career-ready program built for fast results.</p>
-                      <p className="text-slate-700 dark:text-slate-300 leading-8">{description}</p>
+                      <p className="text-lg font-semibold text-slate-900">A practical, career-ready program built for fast results.</p>
+                      <p className="text-slate-700 leading-8">{description}</p>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -539,9 +523,9 @@ export function CourseDetailPage({
                       </div>
                     </div>
                   </div>
-                  <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                     <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">Why this course</p>
-                    <p className="mt-4 text-slate-700 dark:text-slate-300 leading-7">
+                        <p className="mt-4 text-slate-700 leading-7">
                       Structured for confident progress, this course balances hands-on training with certification readiness and real-world mentorship. You leave with practical experience and a clear next step.
                     </p>
                     <div className="mt-6 space-y-3 text-sm text-slate-700 dark:text-slate-400">
@@ -565,15 +549,16 @@ export function CourseDetailPage({
               {/* Course Description */}
               <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
                 <div className="space-y-6 lg:col-span-2">
-                  <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95">
+                  <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm">
                     <CardHeader>
                       <CardTitle>About this course</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4 divide-y divide-slate-200 dark:divide-slate-800">
-                      <p className="text-slate-700 dark:text-slate-300">{description}</p>
+                    <CardContent className="space-y-4 divide-y divide-slate-200">
+                      <p className="text-slate-700">{description}</p>
                       <div className="space-y-4">
                         <div>
                           <h4 className="font-semibold text-slate-900 dark:text-white">
+                          <h4 className="font-semibold text-slate-900">
                             Course Objectives
                           </h4>
                           <ul className="mt-3 space-y-2">
@@ -583,7 +568,7 @@ export function CourseDetailPage({
                               'Build professional networks with peers',
                               'Gain real-world work experience',
                             ].map((obj, idx) => (
-                              <li key={idx} className="flex items-start gap-2 text-slate-700 dark:text-slate-400">
+                              <li key={idx} className="flex items-start gap-2 text-slate-700">
                                 <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-600" />
                                 {obj}
                               </li>
@@ -597,7 +582,7 @@ export function CourseDetailPage({
 
                 {/* Instructor Details Sidebar */}
                 <div className="space-y-6">
-                  <Card className="rounded-2xl border-slate-200 dark:border-slate-800">
+                  <Card className="rounded-2xl border-slate-200">
                     <CardHeader>
                       <CardTitle className="text-lg">Instructor</CardTitle>
                     </CardHeader>
@@ -625,17 +610,17 @@ export function CourseDetailPage({
 
             {/* Curriculum Tab */}
             <TabsContent value="curriculum" className="space-y-6">
-              <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950/95">
+              <Card className="rounded-3xl border border-slate-200 bg-white shadow-sm">
                 <CardHeader>
                   <CardTitle>Curriculum</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3 divide-y divide-slate-200 dark:divide-slate-800">
+                <CardContent className="space-y-3 divide-y divide-slate-200">
                   <Accordion type="single" collapsible className="space-y-3">
                     {modules.map((module, idx) => (
                       <AccordionItem
                         key={module.id}
                         value={module.id}
-                        className="rounded-3xl border border-slate-200 px-6 dark:border-slate-800"
+                        className="rounded-3xl border border-slate-200 px-6"
                       >
                     <AccordionTrigger className="hover:no-underline">
                       <div className="flex items-center gap-4">
@@ -654,10 +639,7 @@ export function CourseDetailPage({
                     </AccordionTrigger>
                     <AccordionContent className="space-y-2 pt-4">
                       {module.lessons.map((lesson) => (
-                        <div
-                          key={lesson.id}
-                          className="flex items-center gap-3 rounded-xl p-3 hover:bg-slate-50 dark:hover:bg-slate-900"
-                        >
+                        <div key={lesson.id} className="flex items-center gap-3 rounded-xl p-3 hover:bg-slate-50">
                           <div className="flex-1 flex items-center gap-3">
                             {lesson.type === 'video' && <Play className="h-5 w-5 text-[#1a6b53]" />}
                             {lesson.type === 'resource' && (
@@ -735,7 +717,7 @@ export function CourseDetailPage({
 
             {/* Discussions Tab */}
             <TabsContent value="discussions" className="space-y-6">
-              <Card className="rounded-2xl border-slate-200 dark:border-slate-800">
+              <Card className="rounded-2xl border-slate-200">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <MessageCircle className="h-5 w-5" />
@@ -743,7 +725,7 @@ export function CourseDetailPage({
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-700 dark:text-slate-400">
+                  <p className="text-slate-700">
                     Discussions section coming soon. Connect with fellow students and instructors here.
                   </p>
                 </CardContent>
@@ -757,13 +739,13 @@ export function CourseDetailPage({
         </div>
       </section>
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-xl shadow-slate-200/20 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95 lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-xl shadow-slate-200/20 backdrop-blur lg:hidden">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+            <p className="text-sm font-semibold text-slate-900">
               {isEnrolled ? 'Keep going with this course' : 'Ready to start learning?'}
             </p>
-            <p className="text-xs text-slate-700 dark:text-slate-400">
+            <p className="text-xs text-slate-700">
               {isEnrolled ? 'Continue where you left off.' : 'Secure your spot in the next session.'}
             </p>
           </div>
@@ -787,34 +769,34 @@ export function CourseDetailPage({
       >
         <form className="space-y-5" onSubmit={handleSubmitRegistration}>
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+            <label className="grid gap-2 text-sm text-slate-700">
               Name
               <input
                 value={registrationName}
                 onChange={(event) => setRegistrationName(event.target.value)}
-                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
                 placeholder="Your full name"
               />
             </label>
-            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+            <label className="grid gap-2 text-sm text-slate-700">
               Email
               <input
                 type="email"
                 value={registrationEmail}
                 onChange={(event) => setRegistrationEmail(event.target.value)}
-                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
                 placeholder="Your email address"
               />
             </label>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+            <label className="grid gap-2 text-sm text-slate-700">
               Phone
               <input
                 value={registrationPhone}
                 onChange={(event) => setRegistrationPhone(event.target.value)}
-                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+                className="h-12 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
                 placeholder="Phone number"
               />
             </label>
@@ -823,30 +805,24 @@ export function CourseDetailPage({
               <input
                 value={title}
                 readOnly
-                className="h-12 rounded-2xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-700 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+                className="h-12 rounded-2xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-700 shadow-sm"
               />
             </label>
           </div>
 
-          <label className="grid gap-2 text-sm text-slate-700 dark:text-slate-300">
+          <label className="grid gap-2 text-sm text-slate-700">
             Why you're interested
             <textarea
               value={registrationMessage}
               onChange={(event) => setRegistrationMessage(event.target.value)}
               rows={4}
-              className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-white"
+              className="min-h-[120px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
               placeholder="Tell us what you want to achieve with this course."
             />
           </label>
 
           {registrationStatus ? (
-            <div
-              className={`rounded-2xl px-4 py-3 text-sm ${
-                registrationStatus.type === 'success'
-                  ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
-                  : 'bg-rose-50 text-rose-800 dark:bg-rose-950/60 dark:text-rose-300'
-              }`}
-            >
+            <div className={`rounded-2xl px-4 py-3 text-sm ${registrationStatus.type === 'success' ? 'bg-emerald-50 text-emerald-800' : 'bg-rose-50 text-rose-800'}`}>
               {registrationStatus.text}
             </div>
           ) : null}

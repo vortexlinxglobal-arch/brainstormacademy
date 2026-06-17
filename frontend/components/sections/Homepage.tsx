@@ -24,18 +24,18 @@ const marqueeProgramItems = (programs: Program[]) => [...programs, ...programs]
 
 function ProgramCard({ program }: { program: Program }) {
   return (
-    <div className="overflow-hidden rounded-[1.5rem] h-full">
-      <div className="relative h-80 overflow-hidden">
+    <div className="overflow-hidden rounded-[1.5rem] h-full border border-slate-200 bg-white shadow-sm">
+      <div className="relative h-72 overflow-hidden sm:h-80">
         <Image
           src={program.image_url}
           alt={program.title}
           fill
           className="object-cover transition duration-700 hover:scale-105"
         />
-          id: '4',
-          title: 'Fashion Design & Garment Making',
-        <p className="text-xs uppercase tracking-[0.28em] text-sky-500">{program.category}</p>
-        <h3 className="mt-2 text-base font-semibold text-slate-900 line-clamp-2">{program.title}</h3>
+      </div>
+      <div className="p-4 bg-white">
+        <p className="text-[10px] uppercase tracking-[0.28em] text-sky-500 sm:text-xs">{program.category}</p>
+        <h3 className="mt-2 text-sm font-semibold text-slate-900 line-clamp-2 sm:text-base">{program.title}</h3>
       </div>
     </div>
   )
@@ -50,6 +50,25 @@ function ProgramMarqueeRow({
   reverse?: boolean
   duration?: number
 }) {
+  const [animationDuration, setAnimationDuration] = useState(duration)
+
+  useEffect(() => {
+    const updateDuration = () => {
+      const isMobile = window.matchMedia('(max-width: 1023px)').matches
+      setAnimationDuration(isMobile ? 20 : duration)
+    }
+
+    updateDuration()
+    const mediaQuery = window.matchMedia('(max-width: 1023px)')
+    const listener = () => updateDuration()
+    mediaQuery.addEventListener?.('change', listener)
+    mediaQuery.addListener?.(listener)
+    return () => {
+      mediaQuery.removeEventListener?.('change', listener)
+      mediaQuery.removeListener?.(listener)
+    }
+  }, [duration])
+
   return (
     <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-0 shadow-sm">
       <div className="relative overflow-hidden">
@@ -58,12 +77,16 @@ function ProgramMarqueeRow({
         <div
           className="flex items-stretch flex-nowrap gap-0"
           style={{
-            animation: `${reverse ? 'marqueeReverse' : 'marquee'} ${duration}s linear infinite`,
+            animation: `${reverse ? 'marqueeReverse' : 'marquee'} ${animationDuration}s linear infinite`,
             willChange: 'transform',
+            transformStyle: 'preserve-3d',
           }}
         >
           {marqueeProgramItems(programs).map((program, index) => (
-            <div key={`${program.id}-${reverse ? 'bottom' : 'top'}-${index}`} className="min-w-[304px] flex-shrink-0 px-1.5 py-4">
+            <div
+              key={`${program.id}-${reverse ? 'bottom' : 'top'}-${index}`}
+              className="min-w-[calc(50vw-12px)] max-w-[calc(50vw-12px)] sm:min-w-[304px] sm:max-w-[304px] flex-shrink-0 px-1.5 py-4"
+            >
               <ProgramCard program={program} />
             </div>
           ))}
@@ -82,8 +105,8 @@ const featuredCourses = [
     category: 'ICT & Digital Skills',
     thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Eng. Adebayo Oluwafemi',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Adebayo',
+      name: 'Lukman Ibrahim',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
       title: 'Network Specialist',
     },
     rating: 4.9,
@@ -91,7 +114,7 @@ const featuredCourses = [
     price: '₦52,000',
     duration: '12 weeks',
     level: 'Intermediate' as const,
-    href: '/courses/network-system-security',
+    href: '/courses/description/networking-system-security',
   },
   {
     id: 'computer-hardware-maintenance',
@@ -101,8 +124,8 @@ const featuredCourses = [
     category: 'ICT & Digital Skills',
     thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Eng. Kemi Adebayo',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kemi',
+      name: "Ashir Rufa'i",
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ashir',
       title: 'Hardware Technician',
     },
     rating: 4.8,
@@ -110,7 +133,7 @@ const featuredCourses = [
     price: '₦45,000',
     duration: '10 weeks',
     level: 'Beginner' as const,
-    href: '/courses/computer-hardware-maintenance',
+    href: '/courses/description/hardware-maintenance',
   },
   {
     id: 'web-applications-development',
@@ -120,8 +143,8 @@ const featuredCourses = [
     category: 'ICT & Digital Skills',
     thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Ms. Sade Ogundele',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sade',
+      name: 'Lukman Ibrahim',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
       title: 'Software Architect',
     },
     rating: 4.9,
@@ -129,7 +152,7 @@ const featuredCourses = [
     price: '₦48,000',
     duration: '14 weeks',
     level: 'Intermediate' as const,
-    href: '/courses/web-applications-development',
+    href: '/courses/description/website-design-development',
   },
   {
     id: 'catering-hospitality-training',
@@ -139,8 +162,8 @@ const featuredCourses = [
     category: 'Vocational Skills',
     thumbnail: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Chef Tunde Ade',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Tunde',
+      name: 'Fatima Suleiman',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=fatima',
       title: 'Hospitality Trainer',
     },
     rating: 4.8,
@@ -148,7 +171,7 @@ const featuredCourses = [
     price: '₦42,000',
     duration: '12 weeks',
     level: 'Beginner' as const,
-    href: '/courses/catering-hospitality-training',
+    href: '/courses/description/hospitality-catering',
   },
 ]
 
@@ -161,17 +184,17 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: 'Folake Ogunleye',
+    name: 'Ashir Rufa\'i',
     role: 'Computer Hardware and GSM Repair & Maintenance',
     text: 'Exceptional training with industry experts. The Business Center Management course transformed my career trajectory.',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Folake',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ashir',
     rating: 5,
   },
   {
-    name: 'Chukwu Paul',
+    name: 'Lukman Ibrahim',
     role: 'ICT Professional',
     text: 'Great structure and hands-on learning. The instructors are supportive and the community is very helpful.',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chukwu',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
     rating: 5,
   },
 ]
@@ -362,7 +385,7 @@ const successTicker = [
   'Aisha just earned her Hospitality Certification.',
   'John secured a role as a Junior Network Technician.',
   'Folake completed a creative portfolio with industry feedback.',
-  'Emeka launched a business-ready operations plan.',
+  'Kingsley launched a business-ready operations plan.',
 ]
 
 // Fallback data in case API fails
@@ -982,37 +1005,13 @@ export function Homepage() {
                 Recent Programs
               </p>
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-                Discover the latest programs in motion.
+                Discover the latest programs gallery.
               </h2>
-              <p className="text-base leading-7 text-slate-600 sm:text-lg">
-                Continuous flow of recent launches with elegant, seamless motion across mirrored tracks.
-              </p>
-            </motion.div>
+·            </motion.div>
 
             <motion.div variants={itemVariants} className="space-y-6">
-              <div className="grid gap-4 lg:hidden">
-                {recentPrograms.map((program) => (
-                  <div key={program.id} className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-sm">
-                    <div className="relative h-64 overflow-hidden">
-                      <Image
-                        src={program.image_url}
-                        alt={program.title}
-                        fill
-                        className="object-cover transition duration-700 hover:scale-105"
-                      />
-                    </div>
-                    <div className="p-5 bg-white">
-                      <p className="text-xs uppercase tracking-[0.28em] text-sky-500">{program.category}</p>
-                      <h3 className="mt-3 text-xl font-semibold text-slate-900">{program.title}</h3>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="hidden lg:grid gap-6">
-                <ProgramMarqueeRow programs={recentPrograms} duration={35} />
-                <ProgramMarqueeRow programs={recentPrograms} reverse duration={35} />
-              </div>
+              <ProgramMarqueeRow programs={recentPrograms} duration={35} />
+              <ProgramMarqueeRow programs={recentPrograms} reverse duration={35} />
             </motion.div>
           </motion.div>
         </div>

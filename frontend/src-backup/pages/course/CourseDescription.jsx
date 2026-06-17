@@ -53,7 +53,7 @@ const CourseDescription = ({ courseId: propCourseId }) => {
       title: "Mobile Phone Repair",
       thumbnail: "/assets/course-thumbnails/mobile-repair_result.webp",
       numberOfLectures: 15,
-      createdBy: "Emeka Okonkwo",
+      createdBy: "Kingsley Okonkwo",
       duration: "8 weeks",
       level: "Beginner",
       category: "Technology",
