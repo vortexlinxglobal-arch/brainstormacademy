@@ -507,7 +507,7 @@ export function CourseDetailPage({
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                         <p className="text-sm uppercase tracking-[0.24em] text-slate-700">What you'll master</p>
-                        <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
+                        <ul className="mt-4 space-y-3 text-slate-700">
                           <li>Practical skills for in-demand careers</li>
                           <li>Certification-ready project work</li>
                           <li>Industry-standard tools and processes</li>
@@ -515,7 +515,7 @@ export function CourseDetailPage({
                       </div>
                       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                         <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Who it's for</p>
-                        <ul className="mt-4 space-y-3 text-slate-700 dark:text-slate-300">
+                        <ul className="mt-4 space-y-3 text-slate-700">
                           <li>New learners seeking a strong foundation</li>
                           <li>Career switchers needing practical training</li>
                           <li>Students preparing for certification success</li>
@@ -528,7 +528,7 @@ export function CourseDetailPage({
                         <p className="mt-4 text-slate-700 leading-7">
                       Structured for confident progress, this course balances hands-on training with certification readiness and real-world mentorship. You leave with practical experience and a clear next step.
                     </p>
-                    <div className="mt-6 space-y-3 text-sm text-slate-700 dark:text-slate-400">
+                    <div className="mt-6 space-y-3 text-sm text-slate-700">
                       <div className="flex items-start gap-3">
                         <span className="mt-1 inline-flex h-2.5 w-2.5 rounded-full bg-[#1A6B53]" />
                         <span>Fast-moving modules with practical focus.</span>
@@ -557,10 +557,7 @@ export function CourseDetailPage({
                       <p className="text-slate-700">{description}</p>
                       <div className="space-y-4">
                         <div>
-                          <h4 className="font-semibold text-slate-900 dark:text-white">
-                          <h4 className="font-semibold text-slate-900">
-                            Course Objectives
-                          </h4>
+                          <h4 className="font-semibold text-slate-900">Course Objectives</h4>
                           <ul className="mt-3 space-y-2">
                             {[
                               'Develop practical expertise in the field',
@@ -596,7 +593,7 @@ export function CourseDetailPage({
                           {instructor.title}
                         </p>
                       </div>
-                      <p className="text-sm text-slate-700 dark:text-slate-300">
+                      <p className="text-sm text-slate-700">
                         {instructor.bio}
                       </p>
                       <Button variant="outline" size="sm" className="w-full rounded-xl">
