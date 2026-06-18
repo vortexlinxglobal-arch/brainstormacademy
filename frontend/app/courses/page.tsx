@@ -67,18 +67,18 @@ export default function CoursesPage() {
   }, [])
 
   return (
-    <div className="overflow-visible bg-[#fbf5eb] dark:bg-slate-950">
-      <header className="z-40 border-b border-[#d4a873]/30 bg-[#f6efe1]/95 backdrop-blur-xl md:sticky md:top-0">
+    <div className="overflow-visible bg-slate-50">
+      <header className="z-40 border-b border-slate-200 bg-slate-50/95 backdrop-blur-xl md:sticky md:top-0">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
             <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-[#2f553f] hover:text-[#193223]">
               ← Back to home
             </Link>
             <div className="space-y-3">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
                 All Courses
               </h1>
-              <p className="max-w-2xl text-base text-slate-700 dark:text-slate-400 sm:text-lg">
+              <p className="max-w-2xl text-base text-slate-700 sm:text-lg">
                 Choose a course to empower your future with practical skills and industry-recognized certifications.
               </p>
             </div>
@@ -105,9 +105,9 @@ export default function CoursesPage() {
         </div>
       </header>
 
-      <section className="bg-slate-50 dark:bg-slate-950/80 py-6 sm:py-10">
+      <section className="bg-slate-50 py-6 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl sm:rounded-[2rem] border border-[#d4a873]/20 bg-white/95 p-4 shadow-sm sm:p-6 md:p-8">
+          <div className="rounded-2xl sm:rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm sm:p-6 md:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1a6b53]">Our NSQ Courses</p>
@@ -211,7 +211,7 @@ export default function CoursesPage() {
               {(searchQuery || selectedCategory !== 'All' || selectedLevel !== 'All') && (
                 <Button
                   variant="outline"
-                  className="w-full rounded-full border-slate-300 py-3 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                  className="w-full rounded-full border-slate-300 py-3 text-sm font-semibold text-slate-700"
                   onClick={() => {
                     setSearchQuery('')
                     setSelectedCategory('All')
@@ -227,21 +227,21 @@ export default function CoursesPage() {
             <div className="space-y-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700 dark:text-slate-400">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">
                     Showing {filteredCourses.length} of {allCourses.length} courses
                   </p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
                     Explore every training path.
                   </h2>
                   {statusLoading ? (
-                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-400">Loading saved course status…</p>
+                    <p className="mt-2 text-sm text-slate-700">Loading saved course status…</p>
                   ) : null}
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
                     {selectedCategory === 'All' ? 'All categories' : selectedCategory}
                   </span>
-                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
                     {selectedLevel === 'All' ? 'All levels' : selectedLevel}
                   </span>
                 </div>
@@ -283,13 +283,13 @@ export default function CoursesPage() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-12 text-center dark:border-slate-700 dark:bg-slate-900"
+                  className="rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-12 text-center"
                 >
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-slate-500">
                     <Search className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white">No courses found</h3>
-                  <p className="mt-3 text-slate-700 dark:text-slate-300">Try a different search term or reset your filters.</p>
+                  <h3 className="text-xl font-semibold text-slate-900">No courses found</h3>
+                  <p className="mt-3 text-slate-700">Try a different search term or reset your filters.</p>
                   <Button
                     variant="outline"
                     className="mt-6 w-full max-w-xs rounded-full py-3 text-sm font-semibold"

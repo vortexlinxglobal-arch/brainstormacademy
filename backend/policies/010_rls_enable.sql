@@ -23,6 +23,7 @@ ALTER TABLE public.course_modules ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.enrollments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.course_enrollments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.student_progress ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.student_activities ENABLE ROW LEVEL SECURITY;
 
 -- Content and materials
 ALTER TABLE public.learning_materials ENABLE ROW LEVEL SECURITY;

@@ -34,11 +34,10 @@ CREATE POLICY "Allow admins to manage program gallery"
     ON public.program_gallery
     FOR ALL
     USING (
-        auth.role() = 'authenticated' AND 
         EXISTS (
-            SELECT 1 FROM public.user_roles ur
-            WHERE ur.user_id = auth.uid()
-            AND ur.role IN ('admin', 'super_admin')
+            SELECT 1 FROM public.profiles p
+            WHERE p.id = auth.uid()
+            AND p.role = 'admin'
         )
     );
 
