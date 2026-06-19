@@ -67,62 +67,62 @@ export default function CoursesPage() {
   }, [])
 
   return (
-    <div className="overflow-visible bg-white dark:bg-slate-950">
-      <header className="z-40 border-b border-slate-200 bg-white/95 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/95 md:sticky md:top-0">
+    <div className="overflow-visible bg-slate-50">
+      <header className="z-40 border-b border-slate-200 bg-slate-50/95 backdrop-blur-xl md:sticky md:top-0">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="space-y-2">
-            <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
+            <Link href="/" className="inline-flex items-center gap-2 text-sm font-medium text-[#2f553f] hover:text-[#193223]">
               ← Back to home
             </Link>
             <div className="space-y-3">
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
                 All Courses
               </h1>
-              <p className="max-w-2xl text-base text-slate-600 dark:text-slate-400 sm:text-lg">
+              <p className="max-w-2xl text-base text-slate-700 sm:text-lg">
                 Choose a course to empower your future with practical skills and industry-recognized certifications.
               </p>
             </div>
           </div>
 
           <div className="grid gap-2 xs:grid-cols-2 sm:gap-3 md:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">NSQ Courses</p>
-              <p className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">17+</p>
+            <div className="rounded-3xl border border-[#d4a873]/40 bg-[#f5ede0] p-4 text-center shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#5a4d32]">NSQ Courses</p>
+              <p className="mt-2 text-3xl font-bold text-[#163920]">17+</p>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">NBTE Certified</p>
-              <p className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">100%</p>
+            <div className="rounded-3xl border border-[#d4a873]/40 bg-[#f5ede0] p-4 text-center shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#5a4d32]">NBTE Certified</p>
+              <p className="mt-2 text-3xl font-bold text-[#163920]">100%</p>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Avg Duration</p>
-              <p className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">4–6 mo</p>
+            <div className="rounded-3xl border border-[#d4a873]/40 bg-[#f5ede0] p-4 text-center shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#5a4d32]">Avg Duration</p>
+              <p className="mt-2 text-3xl font-bold text-[#163920]">4–6 mo</p>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center dark:border-slate-800 dark:bg-slate-900">
-              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Program Areas</p>
-              <p className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">9</p>
+            <div className="rounded-3xl border border-[#d4a873]/40 bg-[#f5ede0] p-4 text-center shadow-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#5a4d32]">Program Areas</p>
+              <p className="mt-2 text-3xl font-bold text-[#163920]">9</p>
             </div>
           </div>
         </div>
       </header>
 
-      <section className="bg-slate-50 dark:bg-slate-950/80 py-6 sm:py-10">
+      <section className="bg-slate-50 py-6 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl sm:rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/90 sm:p-6 md:p-8">
+          <div className="rounded-2xl sm:rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm sm:p-6 md:p-8">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-emerald-700 dark:text-emerald-300">Our NSQ Courses</p>
-                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1a6b53]">Our NSQ Courses</p>
+                <h2 className="text-2xl font-semibold text-[#113821] sm:text-3xl">
                   Browse 17+ practical programs built for job-ready success.
                 </h2>
-                <p className="max-w-2xl text-slate-600 dark:text-slate-400">
+                <p className="max-w-2xl text-[#4e4a40]">
                   Learning paths across technology, trade, arts, service and business with practical training, NBTE approval, and career support.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
-                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#1a6b53] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#095d34]">
+                <Link href="/contact" className="inline-flex items-center justify-center rounded-full bg-[#1a6b53] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0f5b3d]">
                   Ask a question
                 </Link>
-                <Link href="/about" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-slate-500">
+                <Link href="/about" className="inline-flex items-center justify-center rounded-full border border-[#d4a873]/40 bg-[#fff9ec] px-5 py-3 text-sm font-semibold text-[#3b4327] transition hover:border-[#d4a873] hover:bg-[#f7efe0]">
                   Learn more about us
                 </Link>
               </div>
@@ -139,22 +139,22 @@ export default function CoursesPage() {
               animate={{ opacity: 1, x: 0 }}
               className={`md:block ${showFilters ? 'block' : 'hidden'} space-y-6 sm:space-y-8`}
             >
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Search courses</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Find the right training fast.</p>
+                    <h3 className="text-lg font-semibold text-slate-900">Search courses</h3>
+                    <p className="text-sm text-slate-700">Find the right training fast.</p>
                   </div>
                   <button
                     type="button"
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 lg:hidden"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 lg:hidden"
                     onClick={() => setShowFilters(false)}
                   >
                     <X className="h-5 w-5" />
                   </button>
                 </div>
                 <div className="mt-6">
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Search</label>
+                  <label className="block text-sm font-medium text-slate-700">Search</label>
                   <div className="mt-3 relative">
                     <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                     <input
@@ -162,14 +162,14 @@ export default function CoursesPage() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search by course, instructor, or skill"
-                      className="w-full rounded-3xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
+                      className="w-full rounded-3xl border border-slate-200 bg-white py-3 pl-12 pr-4 text-sm text-slate-900 outline-none transition focus:border-[#1a6b53] focus:ring-2 focus:ring-[#1a6b53]/20"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Filter by category</h3>
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-900">Filter by category</h3>
                 <div className="mt-5 space-y-2">
                   {categories.map((category) => (
                     <button
@@ -179,7 +179,7 @@ export default function CoursesPage() {
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedCategory === category
                           ? 'bg-[#1a6b53] text-white shadow-sm'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       {category}
@@ -188,8 +188,8 @@ export default function CoursesPage() {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Filter by level</h3>
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold text-slate-900">Filter by level</h3>
                 <div className="mt-5 space-y-2">
                   {levels.map((level) => (
                     <button
@@ -199,7 +199,7 @@ export default function CoursesPage() {
                       className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-medium transition ${
                         selectedLevel === level
                           ? 'bg-[#1a6b53] text-white shadow-sm'
-                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800'
+                          : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       {level}
@@ -211,7 +211,7 @@ export default function CoursesPage() {
               {(searchQuery || selectedCategory !== 'All' || selectedLevel !== 'All') && (
                 <Button
                   variant="outline"
-                  className="w-full rounded-full border-slate-300 py-3 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                  className="w-full rounded-full border-slate-300 py-3 text-sm font-semibold text-slate-700"
                   onClick={() => {
                     setSearchQuery('')
                     setSelectedCategory('All')
@@ -227,21 +227,21 @@ export default function CoursesPage() {
             <div className="space-y-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">
                     Showing {filteredCourses.length} of {allCourses.length} courses
                   </p>
-                  <h2 className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white sm:text-3xl">
+                  <h2 className="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
                     Explore every training path.
                   </h2>
                   {statusLoading ? (
-                    <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading saved course status…</p>
+                    <p className="mt-2 text-sm text-slate-700">Loading saved course status…</p>
                   ) : null}
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
                     {selectedCategory === 'All' ? 'All categories' : selectedCategory}
                   </span>
-                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-900 dark:text-slate-300">
+                  <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
                     {selectedLevel === 'All' ? 'All levels' : selectedLevel}
                   </span>
                 </div>
@@ -283,13 +283,13 @@ export default function CoursesPage() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-12 text-center dark:border-slate-700 dark:bg-slate-900"
+                  className="rounded-3xl border-2 border-dashed border-slate-300 bg-slate-50 p-12 text-center"
                 >
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-slate-500">
                     <Search className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-white">No courses found</h3>
-                  <p className="mt-3 text-slate-600 dark:text-slate-400">Try a different search term or reset your filters.</p>
+                  <h3 className="text-xl font-semibold text-slate-900">No courses found</h3>
+                  <p className="mt-3 text-slate-700">Try a different search term or reset your filters.</p>
                   <Button
                     variant="outline"
                     className="mt-6 w-full max-w-xs rounded-full py-3 text-sm font-semibold"

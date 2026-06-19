@@ -7,6 +7,9 @@ import { ReactNode } from 'react'
 const adminNav = [
   { href: '/dashboard/admin', label: 'Overview' },
   { href: '/dashboard/admin/business-center', label: 'Business Center' },
+  { href: '/dashboard/admin/students', label: 'Students' },
+  { href: '/dashboard/admin/trades', label: 'Trades' },
+  { href: '/dashboard/admin/programs', label: 'Programs' },
   { href: '/dashboard/admin/users', label: 'Users' },
   { href: '/dashboard/admin/reports', label: 'Reports' },
 ]
@@ -19,9 +22,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Admin</p>
+            <p className="text-sm uppercase tracking-[0.24em] text-slate-700">Admin</p>
             <h1 className="mt-2 text-3xl font-bold text-slate-900">Administrator Workspace</h1>
-            <p className="mt-2 text-sm text-slate-600 max-w-2xl">
+            <p className="mt-2 text-sm text-slate-700 max-w-2xl">
               Access centralized controls for business operations, users, and reporting.
             </p>
           </div>

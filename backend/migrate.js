@@ -24,6 +24,8 @@ async function runMigrations() {
       '003_trades_courses.sql',
       '004_students.sql',
       '005_admissions_letters.sql',
+      '007a_create_tables_only.sql',
+      '007b_update_rls_policies.sql',
       '008_program_gallery.sql'
     ]
 

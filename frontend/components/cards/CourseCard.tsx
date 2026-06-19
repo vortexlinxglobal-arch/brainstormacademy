@@ -28,6 +28,8 @@ export interface CourseCardProps {
   level: 'Beginner' | 'Intermediate' | 'Advanced'
   progress?: number
   enrolled?: boolean
+  outcome?: string
+  skillTags?: string[]
   href: string
 }
 
@@ -44,21 +46,24 @@ export function CourseCard({
   level,
   progress,
   enrolled = false,
+  outcome,
+  skillTags,
   href,
 }: CourseCardProps) {
+  const headline = outcome ?? title
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
   const progressValue = progress ?? 0
 
   return (
     <motion.article
-        layout
-        whileHover={{ y: -6 }}
-        transition={{ type: 'spring', stiffness: 240, damping: 22 }}
-        className="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-950"
-        aria-labelledby={`course-card-title-${id}`}
-      >
-      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a6b53]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950">
-        <div className="relative aspect-video overflow-hidden bg-slate-100 sm:aspect-[16/12]">
+      layout
+      whileHover={{ y: -6 }}
+      transition={{ type: 'spring', stiffness: 240, damping: 22 }}
+      className="group overflow-hidden rounded-3xl border border-[#d4a873]/25 bg-white shadow-[0_18px_48px_-30px_rgba(17,38,29,0.45)] transition-shadow duration-300 hover:shadow-2xl"
+      aria-labelledby={`course-card-title-${id}`}
+    >
+      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1a6b53]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fbf5eb]">
+        <div className="relative aspect-video overflow-hidden bg-[#eff3ea] sm:aspect-[16/12]">
           <Image
             src={thumbnail}
             alt={title}
@@ -74,65 +79,81 @@ export function CourseCard({
       </Link>
 
       <div className="space-y-4 p-5 sm:p-6">
-        <div className="flex items-center justify-between gap-3 text-sm text-slate-500 dark:text-slate-400">
-          <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 dark:bg-slate-900 dark:text-slate-200">
+        <div className="flex items-center justify-between gap-3 text-sm text-slate-700">
+          <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700">
             {level}
           </span>
-          <span className="font-semibold text-slate-900 dark:text-slate-100">{price}</span>
+          <span className="font-semibold text-slate-900">{price}</span>
         </div>
 
         <div className="space-y-3">
-          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 dark:text-slate-100 transition-colors group-hover:text-[#1a6b53]">
-            {title}
+          <h3 id={`course-card-title-${id}`} className="text-lg font-semibold text-slate-900 transition-colors group-hover:text-[#1a6b53]">
+            {headline}
           </h3>
+          {outcome ? (
+            <p className="text-sm text-slate-600">{title}</p>
+          ) : null}
           <div className="flex items-center gap-3">
             <Avatar imageSrc={instructor.avatarUrl} name={instructor.name} size="sm" />
             <div>
-              <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{instructor.name}</p>
-              {instructor.title ? <p className="text-xs text-slate-500 dark:text-slate-400">{instructor.title}</p> : null}
+              <p className="text-sm font-medium text-slate-900">{instructor.name}</p>
+              {instructor.title ? <p className="text-xs text-slate-700">{instructor.title}</p> : null}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+        <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
           <div className="flex items-center gap-1">
             {stars.map((star) => (
               <Star
                 key={star}
-                className={`h-4 w-4 ${star <= Math.round(rating) ? 'text-amber-400' : 'text-slate-300 dark:text-slate-600'}`}
+                className={`h-4 w-4 ${star <= Math.round(rating) ? 'text-[#c8a248]' : 'text-[#d3c8af]'}`}
               />
             ))}
           </div>
           <span>{rating.toFixed(1)} ({ratingCount})</span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 dark:bg-slate-900">
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-700">
+          <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">
             <Clock3 className="h-3.5 w-3.5" />
             {duration}
           </span>
-          <Badge variant="outline" className="border-slate-200 bg-slate-100 text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+          <Badge variant="outline" className="border-slate-200 bg-slate-100 text-slate-700">
             {enrolled ? 'Enrolled' : 'Open'}
           </Badge>
         </div>
 
         {progress !== undefined ? (
           <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="flex items-center justify-between text-sm font-medium text-slate-900">
               <span>Progress</span>
               <span>{progressValue}%</span>
             </div>
-            <Progress value={progressValue} className="h-3 rounded-full" />
+            <Progress value={progressValue} className="h-3 rounded-full bg-slate-200" />
+          </div>
+        ) : null}
+
+        {skillTags?.length ? (
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Skill tags</p>
+            <div className="flex flex-wrap gap-2">
+              {skillTags.map((tag) => (
+                <span key={tag} className="rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         ) : null}
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Link href={href} className="w-full sm:w-auto">
-            <Button variant={enrolled ? 'secondary' : 'brand'} size="lg" className="w-full">
+            <Button variant={enrolled ? 'secondary' : 'gold'} size="lg" className="w-full">
               {enrolled ? 'Continue' : 'View course'}
             </Button>
           </Link>
-          <span className="text-xs uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Course</span>
+          <span className="text-xs uppercase tracking-[0.24em] text-[#736746]">Course</span>
         </div>
       </div>
     </motion.article>

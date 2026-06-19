@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { User, Session } from '@supabase/supabase-js'
-import { supabase, auth, db } from '../api'
+import { db } from '../api'
 
 interface Profile {
   id: string
@@ -56,7 +56,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [accessToken, setAccessToken] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+  const refreshTimer = useRef<number | null>(null)
+
+  const scheduleRefresh = (expiresAt: number | null) => {
+    // Clear previous timer
+    if (refreshTimer.current) {
+      window.clearTimeout(refreshTimer.current)
+      refreshTimer.current = null
+    }
+    if (!expiresAt) return
+    // expiresAt is seconds since epoch; schedule a refresh 60s before expiry
+    const msUntilExpiry = expiresAt * 1000 - Date.now()
+    const refreshIn = Math.max(msUntilExpiry - 60 * 1000, 5 * 1000)
+    refreshTimer.current = window.setTimeout(() => {
+      void refreshSession()
+    }, refreshIn)
+  }
 
   const refreshProfile = async () => {
     if (!user) {
@@ -79,21 +96,115 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   const signIn = async (email: string, password: string) => {
-    const result = await auth.signIn(email, password)
-    return result
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/signin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Signin failed')
+
+      const sessionData = data.data?.session
+      if (sessionData?.access_token) {
+        setAccessToken(sessionData.access_token)
+        setSession({} as Session)
+        // schedule refresh based on expires_at
+        scheduleRefresh(sessionData.expires_at)
+      }
+
+      // fetch profile/user
+      try {
+        const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/verify`, {
+          headers: { Authorization: `Bearer ${sessionData.access_token}` },
+        })
+        const verifyData = await verifyRes.json()
+        if (verifyRes.ok) {
+          setUser({ id: verifyData.data.user.id } as User)
+          setProfile(verifyData.data.student || null)
+        }
+      } catch (err) {
+        console.error('Failed to verify after signin', err)
+      }
+
+      return data
+    } catch (err) {
+      return { error: err }
+    }
   }
 
   const signUp = async (email: string, password: string, userData?: any) => {
-    const result = await auth.signUp(email, password, userData)
-    return result
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password, ...userData }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Signup failed')
+      return data
+    } catch (err) {
+      return { error: err }
+    }
   }
 
   const signOut = async () => {
-    const result = await auth.signOut()
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/signout`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+    } catch (err) {
+      console.error('Signout error', err)
+    }
+    // Clear client state
     setUser(null)
     setSession(null)
     setProfile(null)
-    return result
+    setAccessToken(null)
+    if (refreshTimer.current) {
+      window.clearTimeout(refreshTimer.current)
+      refreshTimer.current = null
+    }
+    return { ok: true }
+  }
+
+  const refreshSession = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Refresh failed')
+      const sessionData = data.data?.session
+      if (sessionData?.access_token) {
+        setAccessToken(sessionData.access_token)
+        scheduleRefresh(sessionData.expires_at)
+        // verify user
+        try {
+          const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/v1/auth/verify`, {
+            headers: { Authorization: `Bearer ${sessionData.access_token}` },
+          })
+          const verifyData = await verifyRes.json()
+          if (verifyRes.ok) {
+            setUser({ id: verifyData.data.user.id } as User)
+            setProfile(verifyData.data.student || null)
+          }
+        } catch (err) {
+          console.error('Verify failed after refresh', err)
+        }
+      }
+      return data
+    } catch (err) {
+      console.error('refreshSession error', err)
+      setUser(null)
+      setProfile(null)
+      setAccessToken(null)
+      return null
+    }
   }
 
   useEffect(() => {
@@ -102,38 +213,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false)
       return
     }
-
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data: { session } } = await auth.getSession()
-      setSession(session)
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        await refreshProfile()
-      }
-      setLoading(false)
-    }
-
-    getInitialSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email)
-        setSession(session)
-        setUser(session?.user ?? null)
-
-        if (session?.user) {
-          await refreshProfile()
-        } else {
-          setProfile(null)
-        }
-
+    // Attempt to refresh session via backend cookie
+    const init = async () => {
+      setLoading(true)
+      const refreshed = await refreshSession()
+      if (refreshed && refreshed.data?.session) {
+        setSession({} as Session)
+        setLoading(false)
+        if (user) await refreshProfile()
+      } else {
         setLoading(false)
       }
-    )
+    }
 
-    return () => subscription.unsubscribe()
+    init()
+
+    // No subscription to supabase auth client here; backend controls cookie-based session
+    return () => {
+      if (refreshTimer.current) {
+        window.clearTimeout(refreshTimer.current)
+        refreshTimer.current = null
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const value: AuthContextType = {

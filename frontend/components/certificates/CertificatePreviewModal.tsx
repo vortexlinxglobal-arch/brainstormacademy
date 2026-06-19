@@ -145,7 +145,7 @@ export function CertificatePreviewModal({
       >
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5 dark:border-slate-800">
           <div>
-            <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Certificate preview</p>
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Certificate preview</p>
             <h2 id="certificate-title" className="mt-2 text-2xl font-semibold text-slate-900 dark:text-slate-100">Official achievement certificate</h2>
           </div>
           <Button
@@ -170,25 +170,25 @@ export function CertificatePreviewModal({
             </div>
             <div className="mt-6 space-y-4">
               <div>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Awarded to</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300">Awarded to</p>
                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-slate-100">{studentName}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-500 dark:text-slate-400">For course</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300">For course</p>
                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-slate-100">{courseTitle}</p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Date issued</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">Date issued</p>
                   <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">{issuedDate}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Certificate ID</p>
+                  <p className="text-sm text-slate-700 dark:text-slate-300">Certificate ID</p>
                   <p className="mt-2 font-semibold text-slate-900 dark:text-slate-100">{certificateId}</p>
                 </div>
               </div>
               <div className="rounded-[1.75rem] border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Institution</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-700 dark:text-slate-300">Institution</p>
                 <p className="mt-2 text-base font-semibold text-slate-900 dark:text-slate-100">{institution}</p>
               </div>
             </div>

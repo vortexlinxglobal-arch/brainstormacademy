@@ -76,7 +76,7 @@ const testimonials = [
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
   },
   {
-    name: "Emeka Okafor",
+    name: "Kingsley Okafor",
     role: "ICT Apprentice",
     quote:
       "The blended course was practical, affordable, and helped me secure an IT support role.",

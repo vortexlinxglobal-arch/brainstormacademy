@@ -5,13 +5,23 @@ This backend is a small Express server that exposes a `v1` API surface aligned w
 ## Start locally
 
 1. Copy `backend/.env.example` to `backend/.env`
-2. Populate `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`
+2. Replace the placeholders with your Supabase values:
+   - `SUPABASE_URL`: your Supabase project URL
+   - `SUPABASE_SERVICE_ROLE_KEY`: the service role key from Supabase
+   - `NEXT_PUBLIC_BACKEND_URL`: `http://localhost:4000` for local development
 3. Run:
 
 ```bash
 cd backend
+npm install
 npm run dev
 ```
+
+## Vercel / production setup
+
+- Add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to your Vercel project environment variables.
+- Add `NEXT_PUBLIC_BACKEND_URL` to the frontend app environment variables so the browser can reach the deployed backend.
+- Keep the service role key secret; do not commit it to source control.
 
 ## Supported routes
 

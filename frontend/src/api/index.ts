@@ -1,10 +1,63 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+const getBackendUrl = () => {
+  if (!backendUrl) {
+    throw new Error('NEXT_PUBLIC_BACKEND_URL is not configured.')
+  }
+  if (backendUrl.includes('.supabase.co')) {
+    throw new Error('NEXT_PUBLIC_BACKEND_URL must point to the backend API, not the Supabase project URL.')
+  }
+  return backendUrl
+}
+
+const buildBackendHeaders = (headers: Record<string, string> = {}) => ({
+  'Content-Type': 'application/json',
+  ...headers,
+})
+
+async function fetchBackend(endpoint: string, options: RequestInit = {}) {
+  const client = getSupabaseClient()
+  const token = client ? (await client.auth.getSession()).data.session?.access_token : null
+
+  let response: Response
+  try {
+    response = await fetch(`${getBackendUrl()}${endpoint}`, {
+      credentials: 'include',
+      headers: buildBackendHeaders({
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers as Record<string, string>),
+      }),
+      ...options,
+    })
+  } catch (error: any) {
+    throw new Error(error?.message || 'Unable to connect to backend')
+  }
+
+  const data = await response.json().catch(() => ({ error: 'Invalid JSON response' }))
+  if (!response.ok) {
+    throw new Error(data.error || `Backend request failed: ${response.status}`)
+  }
+
+  return data
+}
+
+let supabaseClient: SupabaseClient | null = null
+
+function getSupabaseClient() {
+  if (!supabaseClient) {
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return null
+    }
+    supabaseClient = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  return supabaseClient
+}
+
+export const supabase = typeof window === 'undefined' ? null : getSupabaseClient()
 
 // API Client class for backend functions
 class ApiClient {
@@ -15,7 +68,8 @@ class ApiClient {
   }
 
   private async request(endpoint: string, options: RequestInit = {}) {
-    const token = (await supabase.auth.getSession()).data.session?.access_token
+    const client = getSupabaseClient()
+    const token = client ? (await client.auth.getSession()).data.session?.access_token : null
 
     const headers = {
       'Content-Type': 'application/json',
@@ -23,7 +77,9 @@ class ApiClient {
       ...options.headers,
     }
 
-    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+    const apiEndpoint = endpoint.startsWith('/v1') ? endpoint : `/v1${endpoint}`
+    const response = await fetch(`${this.baseUrl}${apiEndpoint}`, {
+      credentials: 'include',
       ...options,
       headers,
     })
@@ -54,8 +110,22 @@ class ApiClient {
     academic_background?: any
     trade_code: string
   }) {
-    return this.request('/students', {
+    return this.request('/admin/students', {
       method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateAdminStudent(data: {
+    student_id: number
+    enrollment_status?: string
+    contact?: string
+    guardian_contact?: string
+    address?: any
+    academic_background?: any
+  }) {
+    return this.request('/admin/students', {
+      method: 'PUT',
       body: JSON.stringify(data),
     })
   }
@@ -210,12 +280,207 @@ class ApiClient {
     return this.request('/trades')
   }
 
+  async getPerformanceOverview() {
+    return this.request('/admin/performance/overview')
+  }
+
+  async getPerformanceReviews() {
+    return this.request('/admin/performance/reviews')
+  }
+
+  async getAdminStudents() {
+    return this.request('/admin/students')
+  }
+
+  async getAdminPrograms() {
+    return this.request('/admin/programs')
+  }
+
+  async createProgram(data: {
+    title: string
+    category: string
+    image_url: string
+    description?: string
+    display_order?: number
+    is_active?: boolean
+  }) {
+    return this.request('/admin/programs', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateProgram(data: {
+    program_id: number
+    title?: string
+    category?: string
+    image_url?: string
+    description?: string
+    display_order?: number
+    is_active?: boolean
+  }) {
+    return this.request('/admin/programs', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
   async getTradeCategories() {
     return this.request('/trades/categories')
   }
 
   async getTradeCourses(tradeCode: string) {
     return this.request(`/trades/courses?trade_code=${tradeCode}`)
+  }
+
+  async getInventoryBranches() {
+    return this.request('/admin/business-center/branches')
+  }
+
+  async createInventoryBranch(data: {
+    name: string
+    address?: string
+    phone?: string
+    email?: string
+    manager_id?: string
+  }) {
+    return this.request('/admin/business-center/branches', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getInventoryItems() {
+    return this.request('/admin/business-center/items')
+  }
+
+  async createInventoryItem(data: {
+    item_name: string
+    sku?: string
+    description?: string
+    quantity: number
+    reorder_level?: number
+    unit_cost: number
+    branch_id?: string
+  }) {
+    return this.request('/admin/business-center/items', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateInventoryItem(id: string, data: {
+    item_name?: string
+    sku?: string
+    description?: string
+    quantity?: number
+    reorder_level?: number
+    unit_cost?: number
+    branch_id?: string
+  }) {
+    return this.request(`/admin/business-center/items/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async deleteInventoryItem(id: string) {
+    return this.request(`/admin/business-center/items/${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  async getInventoryTransactions() {
+    return this.request('/admin/business-center/transactions')
+  }
+
+  async createInventoryTransaction(data: {
+    inventory_item_id: string
+    branch_id?: string
+    transaction_type: 'purchase' | 'sale' | 'adjustment' | 'transfer'
+    quantity: number
+    unit_cost: number
+    notes?: string
+  }) {
+    return this.request('/admin/business-center/transactions', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async getAdminMeetings() {
+    return this.request('/admin/meetings')
+  }
+
+  async createMeeting(data: {
+    topic: string
+    agenda?: string
+    scheduled_date: string
+    scheduled_time: string
+    location: string
+    participants: string
+    minutes?: string
+    status?: string
+  }) {
+    return this.request('/admin/meetings', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updateMeeting(id: string, data: {
+    topic?: string
+    agenda?: string
+    scheduled_date?: string
+    scheduled_time?: string
+    location?: string
+    participants?: string
+    minutes?: string
+    status?: string
+  }) {
+    return this.request(`/admin/meetings/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async deleteMeeting(id: string) {
+    return this.request(`/admin/meetings/${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  async getAdminPayments() {
+    return this.request('/admin/payments')
+  }
+
+  async createPayment(data: {
+    student_id?: number
+    student_email?: string
+    enrollment_id?: number
+    amount: number
+    payment_method: string
+    status?: string
+    notes?: string
+    transaction_id?: string
+  }) {
+    return this.request('/admin/payments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async updatePayment(id: number, data: {
+    amount?: number
+    payment_method?: string
+    status?: string
+    notes?: string
+    transaction_id?: string
+  }) {
+    return this.request(`/admin/payments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
   }
 
   async createTrade(data: {
@@ -288,36 +553,108 @@ export const apiClient = new ApiClient(backendUrl)
 // Authentication helpers
 export const auth = {
   async signUp(email: string, password: string, userData?: any) {
-    return supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: userData,
-      },
+    const result = await fetchBackend('/v1/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, ...userData }),
     })
+
+    return result
   },
 
   async signIn(email: string, password: string) {
-    return supabase.auth.signInWithPassword({
-      email,
-      password,
+    const result = await fetchBackend('/v1/auth/signin', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
     })
+
+    const session = result.data?.session
+    if (!session || !session.access_token) {
+      throw new Error('Failed to establish session')
+    }
+
+    const client = getSupabaseClient()
+    if (client) {
+      const { error } = await client.auth.setSession({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      })
+
+      if (error) {
+        throw error
+      }
+    } else {
+      console.warn('Supabase client is unavailable; browser auth session sync skipped.')
+    }
+
+    return result
   },
 
   async signOut() {
-    return supabase.auth.signOut()
+    await fetchBackend('/v1/auth/signout', {
+      method: 'POST',
+    })
+
+    const client = getSupabaseClient()
+    return client ? client.auth.signOut() : null
   },
 
   async getCurrentUser() {
-    return supabase.auth.getUser()
+    const sessionResult = await this.getSession()
+    return { data: { user: sessionResult.data.session?.user ?? null } }
   },
 
   async getSession() {
-    return supabase.auth.getSession()
+    const client = getSupabaseClient()
+
+    if (client) {
+      const sessionResult = await client.auth.getSession()
+      const session = sessionResult.data.session
+      if (session?.user) {
+        return { data: { session } }
+      }
+    }
+
+    try {
+      const result = await fetchBackend('/v1/auth/verify')
+      return {
+        data: {
+          session: {
+            user: result.data.user,
+          },
+        },
+      }
+    } catch (error: any) {
+      const message = error?.message?.toString?.() ?? ''
+      if (message.includes('Unauthorized') || message.includes('401')) {
+        return {
+          data: {
+            session: {
+              user: null,
+            },
+          },
+        }
+      }
+      throw error
+    }
+  },
+
+  async resetPassword(email: string, redirectTo: string) {
+    const client = getSupabaseClient()
+    if (!client) {
+      throw new Error(
+        'Supabase auth is unavailable. Please configure NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
+      )
+    }
+    return client.auth.resetPasswordForEmail(email, { redirectTo })
   },
 
   onAuthStateChange(callback: (event: string, session: any) => void) {
-    return supabase.auth.onAuthStateChange(callback)
+    const client = getSupabaseClient()
+    if (!client) {
+      console.warn('Supabase auth state is unavailable because the public Supabase client is not configured.')
+      return { data: { subscription: { unsubscribe: () => {} } } }
+    }
+    return client.auth.onAuthStateChange(callback)
   },
 }
 
@@ -325,16 +662,18 @@ export const auth = {
 export const db = {
   // Get user profile
   async getProfile(userId: string) {
-    return supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
+    return fetchBackend('/v1/profile')
   },
 
   // Get announcements
   async getAnnouncements(limit = 10) {
-    return supabase
+    const client = getSupabaseClient()
+    if (!client) {
+      // Fall back to an empty list when browser Supabase is unavailable.
+      return { data: [] }
+    }
+
+    return client
       .from('announcements')
       .select('*')
       .eq('is_active', true)
@@ -344,17 +683,17 @@ export const db = {
 
   // Get notifications for user
   async getNotifications(userId: string, limit = 20) {
-    return supabase
-      .from('notifications')
-      .select('*')
-      .eq('recipient_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(limit)
+    return fetchBackend(`/v1/notifications?limit=${limit}`)
   },
 
   // Mark notifications as read
   async markNotificationsRead(userId: string, notificationIds?: number[]) {
-    const query = supabase
+    const client = getSupabaseClient()
+    if (!client) {
+      return null
+    }
+
+    const query = client
       .from('notifications')
       .update({ is_read: true })
       .eq('recipient_id', userId)

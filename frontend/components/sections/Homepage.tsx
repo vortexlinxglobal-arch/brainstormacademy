@@ -7,78 +7,171 @@ import { useState, useEffect } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Modal } from '@/components/ui/modal'
 import { HeroSection } from '@/components/sections/HeroSection'
+import { CertificationPathway } from '@/components/sections/CertificationPathway'
 import { CourseCard } from '@/components/cards/CourseCard'
 import { Star, ArrowRight, CheckCircle } from 'lucide-react'
 
+type Program = {
+  id: string
+  title: string
+  category: string
+  image_url: string
+}
+
+const marqueeProgramItems = (programs: Program[]) => [...programs, ...programs]
+
+function ProgramCard({ program }: { program: Program }) {
+  return (
+    <div className="overflow-hidden rounded-[1.5rem] h-full border border-slate-200 bg-white shadow-sm">
+      <div className="relative h-72 overflow-hidden sm:h-80">
+        <Image
+          src={program.image_url}
+          alt={program.title}
+          fill
+          className="object-cover transition duration-700 hover:scale-105"
+        />
+      </div>
+      <div className="p-4 bg-white">
+        <p className="text-[10px] uppercase tracking-[0.28em] text-sky-500 sm:text-xs">{program.category}</p>
+        <h3 className="mt-2 text-sm font-semibold text-slate-900 line-clamp-2 sm:text-base">{program.title}</h3>
+      </div>
+    </div>
+  )
+}
+
+function ProgramMarqueeRow({
+  programs,
+  reverse = false,
+  duration = 35,
+}: {
+  programs: Program[]
+  reverse?: boolean
+  duration?: number
+}) {
+  const [animationDuration, setAnimationDuration] = useState(duration)
+
+  useEffect(() => {
+    const updateDuration = () => {
+      const isMobile = window.matchMedia('(max-width: 1023px)').matches
+      setAnimationDuration(isMobile ? 20 : duration)
+    }
+
+    updateDuration()
+    const mediaQuery = window.matchMedia('(max-width: 1023px)')
+    const listener = () => updateDuration()
+    mediaQuery.addEventListener?.('change', listener)
+    mediaQuery.addListener?.(listener)
+    return () => {
+      mediaQuery.removeEventListener?.('change', listener)
+      mediaQuery.removeListener?.(listener)
+    }
+  }, [duration])
+
+  return (
+    <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-0 shadow-sm">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white to-transparent z-10" />
+        <div
+          className="flex items-stretch flex-nowrap gap-0"
+          style={{
+            animation: `${reverse ? 'marqueeReverse' : 'marquee'} ${animationDuration}s linear infinite`,
+            willChange: 'transform',
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {marqueeProgramItems(programs).map((program, index) => (
+            <div
+              key={`${program.id}-${reverse ? 'bottom' : 'top'}-${index}`}
+              className="min-w-[calc(50vw-12px)] max-w-[calc(50vw-12px)] sm:min-w-[304px] sm:max-w-[304px] flex-shrink-0 px-1.5 py-4"
+            >
+              <ProgramCard program={program} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const featuredCourses = [
   {
-    id: '1',
-    title: 'Nursing Sciences Level 1',
-    category: 'Healthcare',
-    thumbnail: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=300&fit=crop',
+    id: 'networking-system-security',
+    title: 'Network System & Security Installation',
+    outcome: 'Build and protect modern computer networks with practical skills',
+    skillTags: ['Network setup', 'Security hardening', 'Systems troubleshooting'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Dr. Chioma Okafor',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chioma',
-      title: 'MD, FWACS',
-    },
-    rating: 4.8,
-    ratingCount: 342,
-    price: '₦45,000',
-    duration: '12 weeks',
-    level: 'Beginner' as const,
-    href: '/courses/nursing-1',
-  },
-  {
-    id: '2',
-    title: 'Business Center Management Professional',
-    category: 'Business',
-    thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
-    instructor: {
-      name: 'Mr. Aminu Lagos',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aminu',
-      title: 'Business Consultant',
+      name: 'Lukman Ibrahim',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
+      title: 'Network Specialist',
     },
     rating: 4.9,
     ratingCount: 521,
     price: '₦52,000',
-    duration: '14 weeks',
+    duration: '12 weeks',
     level: 'Intermediate' as const,
-    href: '/courses/bcm-pro',
+    href: '/courses/description/networking-system-security',
   },
   {
-    id: '3',
-    title: 'ICT Fundamentals & Digital Literacy',
-    category: 'Technology',
-    thumbnail: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop',
+    id: 'computer-hardware-maintenance',
+    title: 'Computer Hardware Repair & Maintenance',
+    outcome: 'Diagnose and fix computer systems with confidence',
+    skillTags: ['Hardware repair', 'System diagnostics', 'Preventive maintenance'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Eng. Adebayo Oluwafemi',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Adebayo',
-      title: 'Software Engineer',
+      name: "Ashir Rufa'i",
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ashir',
+      title: 'Hardware Technician',
     },
-    rating: 4.7,
-    ratingCount: 428,
-    price: '₦38,000',
+    rating: 4.8,
+    ratingCount: 398,
+    price: '₦45,000',
     duration: '10 weeks',
     level: 'Beginner' as const,
-    href: '/courses/ict-fundamentals',
+    href: '/courses/description/hardware-maintenance',
   },
   {
-    id: '4',
-    title: 'Entrepreneurship & Business Startup',
-    category: 'Entrepreneurship',
-    thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
+    id: 'web-applications-development',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    outcome: 'Build modern web applications with a complete full-stack workflow',
+    skillTags: ['Frontend', 'Backend', 'APIs'],
+    category: 'ICT & Digital Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop',
     instructor: {
-      name: 'Mrs. Zainab Hassan',
-      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Zainab',
-      title: 'Business Coach',
+      name: 'Lukman Ibrahim',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
+      title: 'Software Architect',
     },
-    rating: 4.6,
-    ratingCount: 289,
-    price: '₦35,000',
-    duration: '8 weeks',
+    rating: 4.9,
+    ratingCount: 467,
+    price: '₦48,000',
+    duration: '14 weeks',
+    level: 'Intermediate' as const,
+    href: '/courses/description/website-design-development',
+  },
+  {
+    id: 'catering-hospitality-training',
+    title: 'Catering & Hospitality Training',
+    outcome: 'Lead hospitality operations and service excellence',
+    skillTags: ['Service design', 'Food preparation', 'Guest experience'],
+    category: 'Vocational Skills',
+    thumbnail: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=500&h=300&fit=crop',
+    instructor: {
+      name: 'Fatima Suleiman',
+      avatarUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=fatima',
+      title: 'Hospitality Trainer',
+    },
+    rating: 4.8,
+    ratingCount: 389,
+    price: '₦42,000',
+    duration: '12 weeks',
     level: 'Beginner' as const,
-    href: '/courses/entrepreneurship',
+    href: '/courses/description/hospitality-catering',
   },
 ]
 
@@ -91,103 +184,317 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: 'Folake Ogunleye',
-    role: 'Business Center Manager',
+    name: 'Ashir Rufa\'i',
+    role: 'Computer Hardware and GSM Repair & Maintenance',
     text: 'Exceptional training with industry experts. The Business Center Management course transformed my career trajectory.',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Folake',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=ashir',
     rating: 5,
   },
   {
-    name: 'Chukwu Paul',
+    name: 'Lukman Ibrahim',
     role: 'ICT Professional',
     text: 'Great structure and hands-on learning. The instructors are supportive and the community is very helpful.',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Chukwu',
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=lukman',
     rating: 5,
   },
 ]
 
 const programCategories = [
   {
-    title: 'Beauty & Wellness',
-    description: 'Professional salon training & entrepreneurship',
-    badge: 'Online + practical',
-    emoji: '💄',
-  },
-  {
-    title: 'Electrical Installation',
-    description: 'Industry-ready practical electrical skills',
-    badge: 'Blended learning',
-    emoji: '💡',
-  },
-  {
-    title: 'ICT & Networking',
-    description: 'Computer networking, hardware, and software support',
-    badge: 'Online & hybrid',
+    title: 'Network System & Security Installation',
+    description: 'Build and protect local and cloud-based networks with practical security skills.',
+    badge: 'Hybrid training',
     emoji: '💻',
   },
   {
-    title: 'Fashion Design',
-    description: 'Design, tailoring, and style business coaching',
-    badge: 'In-person studio',
-    emoji: '👗',
+    title: 'Computer Hardware Repair & Maintenance',
+    description: 'Hands-on system repair, diagnostics, and preventive maintenance for computing devices.',
+    badge: 'Practical labs',
+    emoji: '🛠️',
   },
   {
-    title: 'Painting & Interior Design',
-    description: 'Creative decor, finishing and space styling',
-    badge: 'Hands-on practical',
-    emoji: '🎨',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    description: 'Create full-stack web applications with modern tools and deployment workflows.',
+    badge: 'Project-based',
+    emoji: '🌐',
   },
   {
-    title: 'Catering & Hospitality',
-    description: 'Hospitality service, catering and event skills',
-    badge: 'Blended programs',
+    title: 'Catering & Hospitality Training',
+    description: 'Prepare for hospitality operations, event service, and catering management roles.',
+    badge: 'Service-focused',
     emoji: '🍽️',
   },
+  {
+    title: 'Cosmetology & Beauty Therapy',
+    description: 'Develop salon skills, beauty therapy techniques, and client-care best practices.',
+    badge: 'Studio practice',
+    emoji: '💄',
+  },
+  {
+    title: 'Fashion Design & Garment Making',
+    description: 'Learn design, pattern making, and tailoring for modern fashion production.',
+    badge: 'Creative studio',
+    emoji: '👗',
+  },
+]
+
+const platformHighlights = [
+  {
+    title: 'Learning workflows for every role',
+    description:
+      'Students, instructors and administrators each get a refined path that reduces friction and supports measurable progress.',
+  },
+  {
+    title: 'Clear, modern course discovery',
+    description:
+      'A clean catalog experience helps learners find the right skills quickly with confidence and relevance.',
+  },
+  {
+    title: 'Responsive experience across devices',
+    description:
+      'Optimized layouts and cards ensure fast access on mobile, tablet, and desktop without sacrificing clarity.',
+  },
+]
+
+const workShowcase = [
+  {
+    id: '1',
+    title: 'Electrical systems prototype',
+    caption: 'A student-built wiring dashboard for real installations.',
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop',
+  },
+  {
+    id: '2',
+    title: 'Hospitality operations plan',
+    caption: 'A live service blueprint used in training cohorts.',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop',
+  },
+  {
+    id: '3',
+    title: 'Digital business case study',
+    caption: 'A course capstone project aligned to employer needs.',
+    image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=600&fit=crop',
+  },
+  {
+    id: '4',
+    title: 'Creative portfolio showcase',
+    caption: 'Student work that demonstrates real creative skills.',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop',
+  },
+]
+
+const careerProfiles: Record<
+  string,
+  {
+    skills: { name: string; progress: number; courses: string[] }[]
+    recommendation: { course: string; detail: string }
+  }
+> = {
+  'Cybersecurity Analyst': {
+    skills: [
+      { name: 'Network security', progress: 80, courses: ['Network System & Security Installation'] },
+      { name: 'Threat analysis', progress: 65, courses: ['Network System & Security Installation'] },
+      { name: 'System protection', progress: 70, courses: ['Network System & Security Installation'] },
+    ],
+    recommendation: {
+      course: 'Network System & Security Installation',
+      detail:
+        'This path helps you develop the technical skills employers want for entry-level cybersecurity and infrastructure roles.',
+    },
+  },
+  'Hospitality Manager': {
+    skills: [
+      { name: 'Service leadership', progress: 75, courses: ['Catering & Hospitality Training'] },
+      { name: 'Event planning', progress: 70, courses: ['Catering & Hospitality Training'] },
+      { name: 'Customer operations', progress: 85, courses: ['Catering & Hospitality Training'] },
+    ],
+    recommendation: {
+      course: 'Catering & Hospitality Training',
+      detail:
+        'Designed for learners who want to lead service teams, manage venues, and deliver excellent guest experiences.',
+    },
+  },
+  'Creative Designer': {
+    skills: [
+      { name: 'Visual design', progress: 80, courses: ['Fashion Design & Garment Making'] },
+      { name: 'Brand storytelling', progress: 65, courses: ['Fashion Design & Garment Making'] },
+      { name: 'Portfolio creation', progress: 60, courses: ['Fashion Design & Garment Making'] },
+    ],
+    recommendation: {
+      course: 'Fashion Design & Garment Making',
+      detail:
+        'A practical pathway for learners who want to build creative portfolios and launch design services.',
+    },
+  },
+  'Technical Support Lead': {
+    skills: [
+      { name: 'System maintenance', progress: 75, courses: ['Computer Hardware Repair & Maintenance'] },
+      { name: 'Troubleshooting', progress: 80, courses: ['Computer Hardware Repair & Maintenance'] },
+      { name: 'Operation reliability', progress: 70, courses: ['Computer Hardware Repair & Maintenance'] },
+    ],
+    recommendation: {
+      course: 'Computer Hardware Repair & Maintenance',
+      detail:
+        'Develop the practical skills needed to maintain and repair computer systems for small businesses and service centers.',
+    },
+  },
+} 
+
+const careerTargets = Object.keys(careerProfiles)
+
+const credentialBadges = [
+  {
+    id: '1',
+    title: 'NSQ Accredited',
+    issuer: 'National Skills Council',
+    description: 'Nationally recognized competency-based certification for skilled training pathways.',
+  },
+  {
+    id: '2',
+    title: 'Industry-Backed',
+    issuer: 'Employer Partners',
+    description: 'Designed with employer input so your credential maps to real job requirements.',
+  },
+  {
+    id: '3',
+    title: 'Practical Competency',
+    issuer: 'Certification Board',
+    description: 'Focuses on demonstrable skill mastery rather than time spent in class.',
+  },
+]
+
+const outcomePrograms = [
+  {
+    id: '1',
+    outcome: 'Become a certified hospitality leader',
+    skills: ['Guest service', 'Event flow', 'Team leadership'],
+  },
+  {
+    id: '2',
+    outcome: 'Launch a modern business operations career',
+    skills: ['Business systems', 'Process design', 'Performance tracking'],
+  },
+  {
+    id: '3',
+    outcome: 'Build strong digital and network skills',
+    skills: ['Hardware support', 'Security basics', 'System setup'],
+  },
+]
+
+const successTicker = [
+  'Aisha just earned her Hospitality Certification.',
+  'John secured a role as a Junior Network Technician.',
+  'Folake completed a creative portfolio with industry feedback.',
+  'Kingsley launched a business-ready operations plan.',
 ]
 
 // Fallback data in case API fails
 const FALLBACK_PROGRAMS = [
   {
     id: '1',
-    title: 'Woodwork & Craftsmanship',
-    category: 'Creative Trade',
+    title: 'Network System & Security Installation',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/painting-1.jpg',
   },
   {
     id: '2',
-    title: 'Digital Media Production',
-    category: 'Creative Tech',
+    title: 'Computer Hardware Repair & Maintenance',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/hospitality-1.jpg',
   },
   {
     id: '3',
-    title: 'Hospitality & Event Styling',
-    category: 'Service Skills',
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/hospitality-4.jpg',
   },
   {
     id: '4',
-    title: 'Electrical & Solar Installation',
-    category: 'Energy Trade',
+    title: 'Mobile Phone Repair',
+    category: 'ICT & Digital Skills',
     image_url: '/images/gallery/painting-5.jpg',
   },
   {
     id: '5',
-    title: 'Fashion Design Labs',
-    category: 'Creative Enterprise',
+    title: 'Catering & Hospitality Training',
+    category: 'Vocational Skills',
     image_url: '/images/gallery/painting-3.jpg',
   },
   {
     id: '6',
-    title: 'ICT & Network Cabling',
-    category: 'Digital Skills',
+    title: 'Cosmetology & Beauty Therapy',
+    category: 'Vocational Skills',
     image_url: '/images/gallery/hospitality-6.jpg',
   },
 ]
 
+const quizQuestions = [
+  {
+    id: 'interest',
+    question: 'What type of work interests you most?',
+    options: [
+      { label: 'Building digital systems', value: 'tech' },
+      { label: 'Launching a business', value: 'business' },
+      { label: 'Creative design work', value: 'creative' },
+      { label: 'Service and hospitality', value: 'service' },
+    ],
+  },
+  {
+    id: 'learningStyle',
+    question: 'How do you prefer to learn?',
+    options: [
+      { label: 'Hands-on practice', value: 'handsOn' },
+      { label: 'Strategy and planning', value: 'business' },
+      { label: 'Creative project work', value: 'creative' },
+      { label: 'Technical systems', value: 'tech' },
+    ],
+  },
+  {
+    id: 'goal',
+    question: 'What is your main goal?',
+    options: [
+      { label: 'Start a business', value: 'business' },
+      { label: 'Join a tech team', value: 'tech' },
+      { label: 'Create a portfolio', value: 'creative' },
+      { label: 'Lead hospitality operations', value: 'service' },
+    ],
+  },
+]
+
+const quizRecommendations: Record<string, { title: string; description: string; course: string }> = {
+  tech: {
+    title: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+    description: 'A course built for learners who want to build full-stack web applications and digital products.',
+    course: 'Web Applications Development (Frontend, Backend, Full-Stack)',
+  },
+  business: {
+    title: 'Computer Hardware Repair & Maintenance',
+    description: 'Ideal for learners who want to manage and maintain computing systems in business environments.',
+    course: 'Computer Hardware Repair & Maintenance',
+  },
+  creative: {
+    title: 'Fashion Design & Garment Making',
+    description: 'Designed for creative learners who want to build a powerful portfolio and hands-on tailoring skills.',
+    course: 'Fashion Design & Garment Making',
+  },
+  service: {
+    title: 'Catering & Hospitality Training',
+    description: 'Ideal for service-focused learners aiming for practical hospitality and operations roles.',
+    course: 'Catering & Hospitality Training',
+  },
+} 
+
 export function Homepage() {
   const [recentPrograms, setRecentPrograms] = useState(FALLBACK_PROGRAMS)
+  const [successTickerItems, setSuccessTickerItems] = useState<string[]>(successTicker)
   const [isLoading, setIsLoading] = useState(true)
+  const [isTickerLoading, setIsTickerLoading] = useState(true)
+  const [activeQuestion, setActiveQuestion] = useState(0)
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({})
+  const [showQuizResult, setShowQuizResult] = useState(false)
+  const [selectedCareer, setSelectedCareer] = useState(careerTargets[0])
+  const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false)
+  const [selectedBadge, setSelectedBadge] = useState(credentialBadges[0])
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -209,7 +516,24 @@ export function Homepage() {
       }
     }
 
+    const fetchSuccessTicker = async () => {
+      try {
+        const response = await fetch('/api/v1/success-ticker')
+        if (!response.ok) throw new Error('Failed to fetch success ticker')
+        const result = await response.json()
+        if (Array.isArray(result.data) && result.data.length > 0) {
+          setSuccessTickerItems(result.data)
+        }
+      } catch (error) {
+        console.error('Error fetching success ticker:', error)
+        setSuccessTickerItems(successTicker)
+      } finally {
+        setIsTickerLoading(false)
+      }
+    }
+
     fetchPrograms()
+    fetchSuccessTicker()
   }, [])
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -231,6 +555,344 @@ export function Homepage() {
         onEnrollClick={() => console.log('Enroll now')}
       />
 
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 xl:grid-cols-[1.2fr_0.8fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Competency Evidence Gallery</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">See student work that proves our outcomes.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Real course projects and practical work examples showing the skills learners build in our programs.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                {workShowcase.map((item) => (
+                  <div key={item.id} className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-slate-950/5 shadow-sm transition hover:shadow-md">
+                    <div className="relative h-40 overflow-hidden bg-slate-100">
+                      <img src={item.image} alt={item.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-base font-semibold text-slate-900">{item.title}</h3>
+                      <p className="mt-2 text-sm text-slate-600">{item.caption}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Dream Job Mapper</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Match a career to the skills and courses you need.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Select a target career to see the job-critical skills and the Brainstorm courses that support them.
+                </p>
+              </div>
+
+              <div className="mt-8 space-y-6">
+                <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                  <label htmlFor="career-select" className="text-sm font-semibold text-slate-700">
+                    Your target career
+                  </label>
+                  <select
+                    id="career-select"
+                    value={selectedCareer}
+                    onChange={(event) => setSelectedCareer(event.target.value)}
+                    className="mt-3 w-full rounded-3xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200"
+                  >
+                    {careerTargets.map((career) => (
+                      <option key={career} value={career}>{career}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <motion.div
+                  key={selectedCareer}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-6"
+                >
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Required skills</p>
+                    <div className="mt-4 space-y-4">
+                      {careerProfiles[selectedCareer].skills.map((skill) => (
+                        <div key={skill.name} className="space-y-3 rounded-3xl border border-slate-200 bg-white p-4">
+                          <div className="flex items-center justify-between gap-4 text-sm font-medium text-slate-900">
+                            <span>{skill.name}</span>
+                            <span className="text-slate-500">{skill.progress}%</span>
+                          </div>
+                          <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                            <div className="h-full rounded-full bg-emerald-600 transition-all duration-500"
+                              style={{ width: `${skill.progress}%` }}
+                            />
+                          </div>
+                          <p className="text-sm text-slate-600">
+                            Courses that support this skill: {skill.courses.join(', ')}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Recommended course</p>
+                    <div className="mt-4 rounded-3xl bg-white p-5">
+                      <h3 className="text-lg font-semibold text-slate-900">{careerProfiles[selectedCareer].recommendation.course}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{careerProfiles[selectedCareer].recommendation.detail}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 xl:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Credential Showcase</p>
+                <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Verified badges that prove your training.</h2>
+                <p className="text-base leading-8 text-slate-600">
+                  Showcasing the credentials and quality signals that build trust with learners and employers.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {credentialBadges.map((badge) => (
+                  <div key={badge.id} className="rounded-[1.75rem] border border-slate-200 bg-white p-5 text-center shadow-sm">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 mx-auto text-xl font-bold">
+                      ✓
+                    </div>
+                    <h3 className="mt-4 text-base font-semibold text-slate-900">{badge.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{badge.issuer}</p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedBadge(badge)
+                        setIsBadgeModalOpen(true)
+                      }}
+                      className="mt-4 inline-flex items-center justify-center rounded-full border border-slate-300 bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+                    >
+                      Verify
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-slate-950 p-6 text-white shadow-sm sm:p-8">
+              <div className="space-y-4">
+                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">Live Success Ticker</p>
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Recent learner outcomes</h2>
+                <p className="text-base leading-8 text-slate-300">
+                  Real learner milestones that reinforce trust and show the specific outcomes our programs deliver.
+                </p>
+              </div>
+
+              <div className="mt-8 space-y-4 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900/90 p-5">
+                {isTickerLoading ? (
+                  <div className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-400 shadow-sm">
+                    Loading recent outcomes...
+                  </div>
+                ) : successTickerItems.length > 0 ? (
+                  successTickerItems.map((item, index) => (
+                    <div key={index} className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
+                      {item}
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-3xl border border-slate-800 bg-slate-950 p-4 text-sm text-slate-200 shadow-sm">
+                    No recent learner outcomes are available right now.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="space-y-6 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Outcome-Based Pathways</p>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Programs designed around what you will achieve.</h2>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {outcomePrograms.map((program) => (
+              <div key={program.id} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-xl font-semibold text-slate-900">{program.outcome}</h3>
+                <div className="mt-5 space-y-3">
+                  {program.skills.map((skill) => (
+                    <span key={skill} className="inline-flex rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-700">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Modal
+        open={isBadgeModalOpen}
+        title={selectedBadge.title}
+        description={selectedBadge.issuer}
+        onClose={() => setIsBadgeModalOpen(false)}
+      >
+        <p className="text-sm text-slate-700">{selectedBadge.description}</p>
+      </Modal>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-10 max-w-3xl space-y-4 text-center mx-auto">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Skill Assessment</p>
+            <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Find the course best suited to your goals.</h2>
+            <p className="text-base leading-8 text-slate-600 sm:text-lg">
+              Answer three quick questions and get a tailored recommendation in seconds.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <motion.div
+                key={activeQuestion}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.35 }}
+              >
+                <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Question {Math.min(activeQuestion + 1, quizQuestions.length)} of {quizQuestions.length}</p>
+                <h3 className="mt-3 text-2xl font-semibold text-slate-900">{quizQuestions[activeQuestion]?.question}</h3>
+                <div className="mt-6 space-y-4">
+                  {quizQuestions[activeQuestion]?.options.map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setQuizAnswers((prev) => ({ ...prev, [quizQuestions[activeQuestion].id]: option.value }))}
+                      className={`w-full rounded-3xl border p-4 text-left text-sm font-medium transition ${
+                        quizAnswers[quizQuestions[activeQuestion].id] === option.value
+                          ? 'border-emerald-600 bg-emerald-50 text-slate-900'
+                          : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-200 hover:bg-slate-50'
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-between">
+                  <button
+                    type="button"
+                    disabled={activeQuestion === 0}
+                    onClick={() => {
+                      setShowQuizResult(false)
+                      setActiveQuestion((current) => Math.max(0, current - 1))
+                    }}
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (activeQuestion < quizQuestions.length - 1) {
+                        setActiveQuestion((current) => current + 1)
+                      } else {
+                        setShowQuizResult(true)
+                      }
+                    }}
+                    disabled={!quizAnswers[quizQuestions[activeQuestion].id]}
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {activeQuestion < quizQuestions.length - 1 ? 'Next Question' : 'See Recommendation'}
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              {showQuizResult ? (
+                <motion.div
+                  key="result"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="space-y-6"
+                >
+                  <p className="text-sm uppercase tracking-[0.24em] text-emerald-600">Recommended for you</p>
+                  <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
+                    <h3 className="text-2xl font-semibold text-slate-900">{(() => {
+                      const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                        acc[value] = (acc[value] || 0) + 1
+                        return acc
+                      }, {})
+                      const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                      return quizRecommendations[highest]?.title || quizRecommendations.business.title
+                    })()}</h3>
+                    <p className="mt-4 text-slate-600">
+                      {(() => {
+                        const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                          acc[value] = (acc[value] || 0) + 1
+                          return acc
+                        }, {})
+                        const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                        return quizRecommendations[highest]?.description || quizRecommendations.business.description
+                      })()}
+                    </p>
+                    <div className="mt-6 rounded-3xl bg-emerald-600 p-5 text-white">
+                      <p className="text-sm uppercase tracking-[0.24em] text-emerald-200">Best match</p>
+                      <p className="mt-2 text-xl font-semibold">{(() => {
+                        const chosen = Object.values(quizAnswers).reduce<Record<string, number>>((acc, value) => {
+                          acc[value] = (acc[value] || 0) + 1
+                          return acc
+                        }, {})
+                        const highest = Object.entries(chosen).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 'business'
+                        return quizRecommendations[highest]?.course || quizRecommendations.business.course
+                      })()}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveQuestion(0)
+                      setQuizAnswers({})
+                      setShowQuizResult(false)
+                    }}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  >
+                    Retake Quiz
+                  </button>
+                </motion.div>
+              ) : (
+                <div className="space-y-6 text-slate-700">
+                  <p className="text-sm uppercase tracking-[0.24em] text-slate-500">Insight</p>
+                  <h3 className="text-2xl font-semibold text-slate-900">Personalized course guidance</h3>
+                  <p className="text-sm leading-6 text-slate-600">
+                    Use this quick quiz to discover the course path that best matches your interests, learning style, and career goals.
+                  </p>
+                  <div className="space-y-4 rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+                    <p className="text-sm font-semibold text-slate-900">Why this matters</p>
+                    <ul className="space-y-3 text-sm leading-6 text-slate-600">
+                      <li>• Align your next course with your goals.</li>
+                      <li>• Match your preferred learning style.</li>
+                      <li>• Get a recommendation instantly.</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <CertificationPathway />
+
       <section className="py-16 sm:py-20 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -246,9 +908,9 @@ export function Homepage() {
               { label: 'Alumni Network', value: '15K+', description: 'Active across Nigeria' },
             ].map((stat, index) => (
               <motion.div key={index} variants={itemVariants} className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">{stat.label}</p>
+                <p className="text-sm font-semibold uppercase tracking-wider text-slate-700">{stat.label}</p>
                 <p className="mt-3 text-5xl font-bold text-slate-900">{stat.value}</p>
-                <p className="mt-2 text-slate-600">{stat.description}</p>
+                <p className="mt-2 text-slate-700">{stat.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -266,7 +928,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Courses built for employment, entrepreneurship and practical mastery.</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Browse our flagship trade categories that combine digital skill and hands-on practice.
               </p>
             </motion.div>
@@ -279,7 +941,7 @@ export function Homepage() {
                       <div className="text-4xl">{program.emoji}</div>
                       <div className="space-y-3">
                         <h3 className="text-xl font-semibold text-slate-900">{program.title}</h3>
-                        <p className="text-sm leading-6 text-slate-600">{program.description}</p>
+                        <p className="text-sm leading-6 text-slate-700">{program.description}</p>
                       </div>
                       <Badge variant="secondary">{program.badge}</Badge>
                     </CardContent>
@@ -291,7 +953,45 @@ export function Homepage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 lg:py-24 bg-slate-950 text-white">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="space-y-12"
+          >
+            <motion.div variants={itemVariants} className="space-y-4 text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-600">Platform intelligence</p>
+              <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Research-aligned learning and operations.</h2>
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
+                We build a modern learning portal inspired by the latest training management experiences in blended, hybrid, and cohort-based learning.
+              </p>
+            </motion.div>
+
+            <motion.div variants={containerVariants} className="grid gap-6 md:grid-cols-3">
+              {platformHighlights.map((item) => (
+                <motion.div key={item.title} variants={itemVariants}>
+                  <Card className="h-full rounded-3xl border border-slate-200 bg-slate-950/5 shadow-sm transition hover:shadow-md">
+                    <CardContent className="space-y-4 p-6">
+                      <div className="inline-flex rounded-2xl bg-emerald-50 px-3 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                        Insight
+                      </div>
+                      <div className="space-y-3">
+                        <h3 className="text-2xl font-semibold text-slate-900">{item.title}</h3>
+                        <p className="text-sm leading-6 text-slate-700">{item.description}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 lg:py-24 bg-slate-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={containerVariants}
@@ -301,90 +1001,17 @@ export function Homepage() {
             className="space-y-10"
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center mx-auto max-w-3xl">
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-emerald-300">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-sky-500">
                 Recent Programs
               </p>
-              <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                Discover the latest programs in motion.
+              <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+                Discover the latest programs gallery.
               </h2>
-              <p className="text-base leading-7 text-slate-300 sm:text-lg">
-                A living gallery of recent program launches, designed with smooth flow and responsive polish for every screen.
-              </p>
-            </motion.div>
+·            </motion.div>
 
             <motion.div variants={itemVariants} className="space-y-6">
-              <div className="grid gap-4 lg:hidden">
-                {recentPrograms.map((program) => (
-                  <div key={program.id} className="group overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
-                    <div className="relative h-64 overflow-hidden">
-                      <Image
-                        src={program.image_url}
-                        alt={program.title}
-                        fill
-                        className="object-cover transition duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="space-y-2 p-5">
-                      <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                      <h3 className="text-xl font-semibold text-white">{program.title}</h3>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="hidden lg:space-y-6">
-                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
-                  <div className="relative overflow-hidden">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
-                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marquee 30s linear infinite' }}>
-                      {[...recentPrograms, ...recentPrograms].map((program, index) => (
-                        <div key={`${program.id}-top-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
-                          <div className="relative h-64 overflow-hidden">
-                            <Image
-                              src={program.image_url}
-                              alt={program.title}
-                              fill
-                              className="object-cover transition duration-700 hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
-                          </div>
-                          <div className="p-5">
-                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-4 shadow-2xl shadow-slate-950/30">
-                  <div className="relative overflow-hidden">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent" />
-                    <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent" />
-                    <div className="flex items-stretch gap-6 py-2" style={{ animation: 'marqueeReverse 32s linear infinite' }}>
-                      {[...recentPrograms.slice().reverse(), ...recentPrograms.slice().reverse()].map((program, index) => (
-                        <div key={`${program.id}-bottom-${index}`} className="min-w-[280px] flex-shrink-0 overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-900 shadow-xl shadow-slate-950/30">
-                          <div className="relative h-64 overflow-hidden">
-                            <Image
-                              src={program.image_url}
-                              alt={program.title}
-                              fill
-                              className="object-cover transition duration-700 hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
-                          </div>
-                          <div className="p-5">
-                            <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">{program.category}</p>
-                            <h3 className="mt-3 text-lg font-semibold text-white">{program.title}</h3>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProgramMarqueeRow programs={recentPrograms} duration={35} />
+              <ProgramMarqueeRow programs={recentPrograms} reverse duration={35} />
             </motion.div>
           </motion.div>
         </div>
@@ -401,7 +1028,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Featured Programs</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Industry-standard courses designed for immediate job placement.
               </p>
             </motion.div>
@@ -439,7 +1066,7 @@ export function Homepage() {
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                 Why Choose Brainstorm Skills?
               </h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-slate-700 leading-relaxed">
                 We combine expert instruction, practical experience, and career support to deliver real results for ambitious professionals.
               </p>
 
@@ -475,9 +1102,9 @@ export function Homepage() {
                       { label: 'Employer Satisfaction', value: '96%', detail: 'Rate our graduates highly' },
                     ].map((metric, idx) => (
                       <div key={idx} className="border-t pt-4">
-                        <p className="text-xs uppercase tracking-wider text-slate-600">{metric.label}</p>
+                        <p className="text-xs uppercase tracking-wider text-slate-700">{metric.label}</p>
                         <p className="mt-2 text-2xl font-bold text-slate-900">{metric.value}</p>
-                        <p className="mt-1 text-sm text-slate-600">{metric.detail}</p>
+                        <p className="mt-1 text-sm text-slate-700">{metric.detail}</p>
                       </div>
                     ))}
                   </div>
@@ -499,7 +1126,7 @@ export function Homepage() {
           >
             <motion.div variants={itemVariants} className="space-y-4 text-center">
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Real stories from skills graduates.</h2>
-              <p className="mx-auto max-w-2xl text-lg text-slate-600">
+              <p className="mx-auto max-w-2xl text-lg text-slate-700">
                 Students who trained with us and launched income-generating careers.
               </p>
             </motion.div>
@@ -516,10 +1143,16 @@ export function Homepage() {
                       </div>
                       <p className="text-slate-700 italic">"{testimonial.text}"</p>
                       <div className="flex items-center gap-3 pt-4 border-t">
-                        <img src={testimonial.avatar} alt={testimonial.name} className="h-12 w-12 rounded-full" />
+                        <Image
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          width={48}
+                          height={48}
+                          className="h-12 w-12 rounded-full"
+                        />
                         <div>
                           <p className="font-semibold text-slate-900">{testimonial.name}</p>
-                          <p className="text-sm text-slate-600">{testimonial.role}</p>
+                          <p className="text-sm text-slate-700">{testimonial.role}</p>
                         </div>
                       </div>
                     </CardContent>

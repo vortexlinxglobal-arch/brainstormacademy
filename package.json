@@ -10,7 +10,7 @@
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev || echo 'No backend dev script configured yet'",
     "start": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
+    "build": "if [ -d frontend ]; then cd frontend && npm run build; else next build; fi",
     "test": "cd frontend && npm test",
     "frontend": "cd frontend && npm run dev",
     "frontend:build": "cd frontend && npm run build",
