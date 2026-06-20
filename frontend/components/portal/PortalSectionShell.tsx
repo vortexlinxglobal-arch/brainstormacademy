@@ -51,7 +51,7 @@ export function PortalSectionShell({ title, description, allowedRoles, children 
 
         const normalizedRole = profileData.role?.toLowerCase?.() || ''
         const normalizedAllowedRoles = allowedRoles.map((role) => role.toLowerCase())
-        if (!normalizedAllowedRoles.includes(normalizedRole)) {
+        if (normalizedRole !== 'super_admin' && !normalizedAllowedRoles.includes(normalizedRole)) {
           setStatus('forbidden')
           return
         }

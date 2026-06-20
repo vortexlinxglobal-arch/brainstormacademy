@@ -37,12 +37,13 @@ export function Button(props: ButtonProps & { children?: React.ReactNode }) {
   const classes = `${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`
   
   if (asChild && children) {
-    // When asChild is true, apply button styles as className to the wrapper
-    return (
-      <div className={classes}>
-        {children}
-      </div>
-    )
+    if (React.isValidElement<{ className?: string }>(children)) {
+      return React.cloneElement(children, {
+        className: `${classes} ${children.props.className ?? ''}`.trim(),
+      })
+    }
+
+    return <span className={classes}>{children}</span>
   }
 
   return (

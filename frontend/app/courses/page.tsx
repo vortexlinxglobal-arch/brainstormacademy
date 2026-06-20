@@ -9,9 +9,8 @@ import { CourseCard } from '@/components/cards/CourseCard'
 import { Search, Filter, X } from 'lucide-react'
 import { courseCatalog, categories, levels } from '@/lib/courses'
 
-const allCourses = courseCatalog
-
 export default function CoursesPage() {
+  const [courses, setCourses] = useState(courseCatalog)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [selectedLevel, setSelectedLevel] = useState('All')
@@ -22,7 +21,7 @@ export default function CoursesPage() {
   const filteredCourses = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase()
 
-    return allCourses.filter((course) => {
+    return courses.filter((course) => {
       const matchesSearch =
         normalizedQuery === '' ||
         course.title.toLowerCase().includes(normalizedQuery) ||
@@ -34,7 +33,36 @@ export default function CoursesPage() {
 
       return matchesSearch && matchesCategory && matchesLevel
     })
-  }, [searchQuery, selectedCategory, selectedLevel])
+  }, [courses, searchQuery, selectedCategory, selectedLevel])
+
+  useEffect(() => {
+    let mounted = true
+
+    async function loadCourses() {
+      try {
+        const response = await fetch('/api/v1/courses', { cache: 'no-store' })
+        if (!response.ok) {
+          throw new Error('Unable to load course catalog')
+        }
+
+        const result = await response.json()
+        if (mounted && Array.isArray(result.data) && result.data.length > 0) {
+          setCourses(result.data)
+        }
+      } catch (error) {
+        console.error('Course catalog fallback active:', error)
+        if (mounted) {
+          setCourses(courseCatalog)
+        }
+      }
+    }
+
+    loadCourses()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   useEffect(() => {
     let mounted = true
@@ -228,7 +256,7 @@ export default function CoursesPage() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">
-                    Showing {filteredCourses.length} of {allCourses.length} courses
+                    Showing {filteredCourses.length} of {courses.length} courses
                   </p>
                   <h2 className="mt-2 text-2xl font-semibold text-slate-900 sm:text-3xl">
                     Explore every training path.

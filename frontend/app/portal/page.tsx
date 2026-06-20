@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { auth, db } from '@/src/api'
 
 const roleRedirects: Record<string, string> = {
+  super_admin: '/portal/admin',
   admin: '/portal/admin',
   manager: '/portal/admin',
   instructor: '/portal/instructor',

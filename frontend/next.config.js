@@ -20,11 +20,16 @@ const nextConfig = {
     ],
   },
   async rewrites() {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    if (!backendUrl) {
+      return [];
+    }
+
     return {
       beforeFiles: [
         {
-          source: "/api/:path*",
-          destination: `${process.env.NEXT_PUBLIC_BACKEND_URL || ''}/:path*`,
+          source: "/v1/:path*",
+          destination: `${backendUrl.replace(/\/$/, "")}/v1/:path*`,
         },
       ],
       afterFiles: [],

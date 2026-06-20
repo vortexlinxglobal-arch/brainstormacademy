@@ -1007,7 +1007,7 @@ export function Homepage() {
               <h2 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                 Discover the latest programs gallery.
               </h2>
-·            </motion.div>
+            </motion.div>
 
             <motion.div variants={itemVariants} className="space-y-6">
               <ProgramMarqueeRow programs={recentPrograms} duration={35} />

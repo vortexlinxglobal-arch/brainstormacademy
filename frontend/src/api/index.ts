@@ -4,6 +4,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || ''
 
+const hasBackendUrl = () => Boolean(backendUrl)
+
 const getBackendUrl = () => {
   if (!backendUrl) {
     throw new Error('NEXT_PUBLIC_BACKEND_URL is not configured.')
@@ -22,10 +24,11 @@ const buildBackendHeaders = (headers: Record<string, string> = {}) => ({
 async function fetchBackend(endpoint: string, options: RequestInit = {}) {
   const client = getSupabaseClient()
   const token = client ? (await client.auth.getSession()).data.session?.access_token : null
+  const requestUrl = backendUrl ? `${getBackendUrl()}${endpoint}` : `/api${endpoint}`
 
   let response: Response
   try {
-    response = await fetch(`${getBackendUrl()}${endpoint}`, {
+    response = await fetch(requestUrl, {
       credentials: 'include',
       headers: buildBackendHeaders({
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -78,7 +81,8 @@ class ApiClient {
     }
 
     const apiEndpoint = endpoint.startsWith('/v1') ? endpoint : `/v1${endpoint}`
-    const response = await fetch(`${this.baseUrl}${apiEndpoint}`, {
+    const requestUrl = this.baseUrl ? `${this.baseUrl}${apiEndpoint}` : `/api${apiEndpoint}`
+    const response = await fetch(requestUrl, {
       credentials: 'include',
       ...options,
       headers,
@@ -568,12 +572,8 @@ export const auth = {
     })
 
     const session = result.data?.session
-    if (!session || !session.access_token) {
-      throw new Error('Failed to establish session')
-    }
-
     const client = getSupabaseClient()
-    if (client) {
+    if (client && session?.access_token && session?.refresh_token) {
       const { error } = await client.auth.setSession({
         access_token: session.access_token,
         refresh_token: session.refresh_token,
@@ -582,8 +582,6 @@ export const auth = {
       if (error) {
         throw error
       }
-    } else {
-      console.warn('Supabase client is unavailable; browser auth session sync skipped.')
     }
 
     return result

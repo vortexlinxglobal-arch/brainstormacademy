@@ -6,15 +6,15 @@
     "backend"
   ],
   "scripts": {
-    "dev": "npx concurrently --kill-others \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev": "npx concurrently -n frontend,backend -c cyan,green \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && npm run dev || echo 'No backend dev script configured yet'",
+    "dev:backend": "cd backend && npm run dev",
     "start": "cd frontend && npm start",
     "build": "if [ -d frontend ]; then cd frontend && npm run build; else next build; fi",
     "test": "cd frontend && npm test",
     "frontend": "cd frontend && npm run dev",
     "frontend:build": "cd frontend && npm run build",
-    "backend": "cd backend && npm run dev || echo 'No backend dev script configured yet'",
+    "backend": "cd backend && npm run dev",
     "prepare-next": "echo 'Next.js migration preparation step: move frontend into a Next.js app under /frontend or /frontend-next'"
   },
   "devDependencies": {

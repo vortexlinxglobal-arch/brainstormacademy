@@ -43,7 +43,16 @@ const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const PORT = process.env.PORT || 4000;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-  console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in environment.');
+  console.error(
+    [
+      'Backend configuration is missing.',
+      'Create backend/.env from backend/.env.example and set:',
+      '- SUPABASE_URL',
+      '- SUPABASE_SERVICE_ROLE_KEY',
+      '',
+      'The frontend can still run, but backend portal/admin API routes need these values.',
+    ].join('\n')
+  );
   process.exit(1);
 }
 
