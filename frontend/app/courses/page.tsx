@@ -151,7 +151,7 @@ export default function CoursesPage() {
                   Ask a question
                 </Link>
                 <Link href="/about" className="inline-flex items-center justify-center rounded-full border border-[#d4a873]/40 bg-[#fff9ec] px-5 py-3 text-sm font-semibold text-[#3b4327] transition hover:border-[#d4a873] hover:bg-[#f7efe0]">
-                  Learn more about us
+                  Learn more
                 </Link>
               </div>
             </div>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ const CourseList = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 768 : false
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
   );
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const CourseList = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     // Observe all sections - but immediately show on mobile
@@ -553,7 +553,7 @@ const CourseList = () => {
                 <span className={styles.btnArrow}>→</span>
               </Link>
               <Link href="/about" className={styles.secondaryBtn}>
-                Learn More About Us
+                Learn More
               </Link>
             </div>
           </div>
