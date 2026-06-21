@@ -1,62 +1,67 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface HeroSectionProps {
-  onBrowseClick?: () => void
-  onEnrollClick?: () => void
+  onBrowseClick?: () => void;
+  onEnrollClick?: () => void;
 }
 
 const HERO_SLIDES = [
   {
-    title: 'Brainstorm Skills Academy',
+    title: "Brainstorm Academy Skills",
     description:
-      'Career-ready training in ICT, business, hospitality, and hands-on trades, built around real projects, mentorship, and certification pathways.',
-    ctaLink: '/courses',
-    mediaUrl: '/assets/hero_1.jpg',
-    eyebrow: 'Admissions open for practical skills cohorts',
+      "Career-ready training in ICT, business, hospitality, and hands-on trades, built around real projects, mentorship, and certification pathways.",
+    ctaLink: "/courses",
+    mediaUrl: "/assets/hero_2.webp",
+    eyebrow: "Admissions open for practical skills cohorts",
   },
   {
-    title: 'Learn With Tools, Projects, And Mentors',
+    title: "Learn With Tools, Projects, And Mentors",
     description:
-      'Move from lessons into supervised practice with instructors who understand the local job market and the standards employers expect.',
-    ctaLink: '/signup',
-    mediaUrl: '/assets/hero_2.JPG',
-    eyebrow: 'Blended training for ambitious learners',
+      "Move from lessons into supervised practice with instructors who understand the local job market and the standards employers expect.",
+    ctaLink: "/signup",
+    mediaUrl: "/assets/hero_3.webp",
+    eyebrow: "Blended training for ambitious learners",
   },
   {
-    title: 'Build Work You Can Show',
+    title: "Build Work You Can Show",
     description:
-      'Graduate with practical evidence of what you can do, from technical installations and digital products to service and creative portfolios.',
-    ctaLink: '/contact',
-    mediaUrl: '/assets/hero_3.jpg',
-    eyebrow: 'Portfolio-ready outcomes',
+      "Graduate with practical evidence of what you can do, from technical installations and digital products to service and creative portfolios.",
+    ctaLink: "/contact",
+    mediaUrl: "/assets/hero_1.webp",
+    eyebrow: "Portfolio-ready outcomes",
   },
-]
+];
 
-export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) {
-  const [activeIndex, setActiveIndex] = useState(0)
+export function HeroSection({
+  onBrowseClick,
+  onEnrollClick,
+}: HeroSectionProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % HERO_SLIDES.length)
-    }, 5000)
+      setActiveIndex((current) => (current + 1) % HERO_SLIDES.length);
+    }, 5000);
 
-    return () => window.clearInterval(interval)
-  }, [])
+    return () => window.clearInterval(interval);
+  }, []);
 
-  const activeSlide = useMemo(() => HERO_SLIDES[activeIndex], [activeIndex])
+  const activeSlide = useMemo(() => HERO_SLIDES[activeIndex], [activeIndex]);
 
   const handleNext = () => {
-    setActiveIndex((current) => (current + 1) % HERO_SLIDES.length)
-  }
+    setActiveIndex((current) => (current + 1) % HERO_SLIDES.length);
+  };
 
   const handlePrev = () => {
-    setActiveIndex((current) => (current - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)
-  }
+    setActiveIndex(
+      (current) => (current - 1 + HERO_SLIDES.length) % HERO_SLIDES.length,
+    );
+  };
 
   return (
     <section className="relative isolate min-h-[calc(100vh-72px)] overflow-hidden bg-slate-950 text-white">
@@ -119,11 +124,14 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
 
         <div className="mt-12 grid max-w-3xl gap-3 sm:grid-cols-3">
           {[
-            ['24+', 'Certified programs'],
-            ['98%', 'Career support rate'],
-            ['15K+', 'Learner community'],
+            ["24+", "Certified programs"],
+            ["98%", "Career support rate"],
+            ["15K+", "Learner community"],
           ].map(([value, label]) => (
-            <div key={label} className="border border-white/15 bg-white/10 p-4 backdrop-blur">
+            <div
+              key={label}
+              className="border border-white/15 bg-white/10 p-4 backdrop-blur"
+            >
               <p className="text-3xl font-semibold text-white">{value}</p>
               <p className="mt-1 text-sm text-slate-200">{label}</p>
             </div>
@@ -146,7 +154,9 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
                 type="button"
                 onClick={() => setActiveIndex(index)}
                 className={`h-2.5 rounded-full transition ${
-                  index === activeIndex ? 'w-8 bg-[#d4a873]' : 'w-2.5 bg-white/45'
+                  index === activeIndex
+                    ? "w-8 bg-[#d4a873]"
+                    : "w-2.5 bg-white/45"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -163,5 +173,5 @@ export function HeroSection({ onBrowseClick, onEnrollClick }: HeroSectionProps) 
         </div>
       </div>
     </section>
-  )
+  );
 }
