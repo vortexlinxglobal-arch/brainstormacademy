@@ -14,7 +14,7 @@ const HERO_SLIDES = [
   {
     title: "Brainstorm Academy Skills",
     description:
-      "Career-ready training in ICT, business, hospitality, and hands-on trades, built around real projects, mentorship, and certification pathways.",
+      "Career-ready training in hospitality and hands-on trades, built around real projects, mentorship, and certification pathways.",
     ctaLink: "/courses",
     mediaUrl: "/assets/hero_2.webp",
     eyebrow: "Admissions open for practical skills cohorts",
