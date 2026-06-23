@@ -280,33 +280,44 @@ const platformHighlights = [
 ];
 
 const workShowcase = [
-  {
-    id: "1",
-    title: "Electrical systems prototype",
-    caption: "A student-built wiring dashboard for real installations.",
-    image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
-  },
+  // {
+  //   id: "1",
+  //   title: "Electrical systems prototype",
+  //   caption: "A student-built wiring dashboard for real installations.",
+  //   image:
+  //     "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
+  // },
   {
     id: "2",
-    title: "Hospitality operations plan",
+    title: "Hospitality culinary service blueprint",
     caption: "A live service blueprint used in training cohorts.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&h=600&fit=crop",
+    image: "/assets/hospitality_portfolio.png",
   },
-  {
-    id: "3",
-    title: "Digital business case study",
-    caption: "A course capstone project aligned to employer needs.",
-    image:
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=600&fit=crop",
-  },
+  // {
+  //   id: "3",
+  //   title: "Networking & system security capstone",
+  //   caption: "A course capstone project aligned to employer needs.",
+  //   image:
+  //     "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&h=600&fit=crop",
+  // },
   {
     id: "4",
-    title: "Creative portfolio showcase",
+    title: "Painting and decoration portfolio",
     caption: "Student work that demonstrates real creative skills.",
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
+    image: "/assets/painting_portfolio.jpg",
+  },
+  // {
+  //   id: "4",
+  //   title: "Computer hardware repair showcase",
+  //   caption: "Student work that demonstrates real creative skills.",
+  //   image:
+  //     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
+  // },
+  {
+    id: "5",
+    title: "Fashion design portfolio",
+    caption: "Student work that demonstrates real creative skills.",
+    image: "/assets/fashion_design_portfolio.png",
   },
 ];
 
